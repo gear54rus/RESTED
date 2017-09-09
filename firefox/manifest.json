@@ -3,12 +3,6 @@
   "version": "0.0.1",
   "description": "A REST client for the rest of us, with APS features",
   "homepage_url": "https://github.com/gear54rus/RESTED-APS",
-  "contributors": [
-    "Espen Henriksen",
-    "Mostafa Mirmousavi",
-    "Tibor Katelbach"
-  ],
-  "license": "GPL-2.0",
   "manifest_version": 2,
   "applications": {
     "gecko": {
