@@ -18,7 +18,7 @@ module.exports = {
 
   output: {
     path: rootDir + '/dist',
-    filename: 'rested.js',
+    filename: 'rested-aps.js',
   },
 
   performance: { hints: false },

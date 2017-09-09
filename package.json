@@ -1,12 +1,12 @@
 {
-  "name": "rested",
-  "title": "RESTED",
-  "id": "rested@restedclient",
-  "homepage": "https://github.com/esphen/RESTED",
-  "description": "A REST client for the rest of us",
+  "name": "rested-aps",
+  "title": "RESTED APS",
+  "id": "rested-aps@restedclient",
+  "homepage": "https://github.com/gear54rus/RESTED-APS",
+  "description": "A REST client for the rest of us, with APS features",
   "author": "Espen Henriksen",
   "license": "MIT",
-  "version": "2.1.1",
+  "version": "0.0.1",
   "main": "./main.js",
   "permissions": {
     "multiprocess": true

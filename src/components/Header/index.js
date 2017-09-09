@@ -12,9 +12,9 @@ export function Header({ darkMode }) {
           className="logo"
           role="presentation"
           height="40"
-          src="img/rested-logo.png"
+          src="img/rested-aps-logo.png"
         />
-        <span>RESTED</span>
+        <span>RESTED APS</span>
       </h1>
     </StyledHeader>
   );
