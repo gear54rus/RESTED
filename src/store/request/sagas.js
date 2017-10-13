@@ -3,6 +3,7 @@ import UUID from 'uuid-js';
 import { initialize, change } from 'redux-form';
 import { call, apply, put, select, takeLatest, takeEvery } from 'redux-saga/effects';
 
+import { APS_TOKEN_HEADER } from 'constants/constants';
 import base64Encode from 'utils/base64';
 import buildRequestData from 'utils/buildRequestData';
 import { reMapHeaders, focusUrlField } from 'utils/requestUtils';
@@ -44,9 +45,16 @@ export function* createResource(request) {
   return yield call(prependHttp, resource);
 }
 
-export function* buildHeaders({ headers, basicAuth }) {
+export function* buildHeaders({ headers, basicAuth, apsToken }) {
   const parameters = yield call(getParameters);
   const requestHeaders = new Headers(reMapHeaders(headers, parameters));
+  if (apsToken && apsToken.send) {
+    requestHeaders.append(
+      APS_TOKEN_HEADER,
+      apsToken.value || '',
+    );
+  }
+
   if (basicAuth && basicAuth.username) {
     requestHeaders.append(
       'Authorization',

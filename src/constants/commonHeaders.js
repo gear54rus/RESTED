@@ -24,6 +24,7 @@ export default [
   'Alt-Used',
   'Alternates',
   'Apply-To-Redirect-Ref',
+  'APS-Token',
   'Authentication-Control',
   'Authentication-Info',
   'Authorization',

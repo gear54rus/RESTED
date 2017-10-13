@@ -8,6 +8,7 @@ import * as requestActions from 'store/request/actions';
 import * as collectionsActions from 'store/collections/actions';
 import { isEditMode } from 'store/config/selectors';
 import { DEFAULT_REQUEST } from 'constants/constants';
+import APSTokenField from 'components/APS/APSTokenField';
 
 import Titlebar from './Titlebar';
 import URLField from './URLField';
@@ -46,6 +47,10 @@ function Request(props) {
         <FieldArray
           name="headers"
           component={HeadersField}
+        />
+        <Fields
+          names={['apsToken.value', 'apsToken.send']}
+          component={APSTokenField}
         />
         <Fields
           names={['basicAuth.username', 'basicAuth.password']}
