@@ -50,4 +50,3 @@ if [ $SHRED == true ]; then
   shred -u $TMPFILE
   echo Shredded $TMPFILE
 fi
-
