@@ -216,3 +216,8 @@ export const PLACEHOLDER_URLS = [
   'http://visitnorway.com',
 ];
 
+/**
+ * APS token header name
+ */
+
+export const APS_TOKEN_HEADER = 'APS-Token';

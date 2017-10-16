@@ -9,10 +9,10 @@ exports[`Header renders correctly 1`] = `
       className="logo"
       height="40"
       role="presentation"
-      src="img/rested-logo.png"
+      src="img/rested-aps-logo.png"
     />
     <span>
-      RESTED
+      RESTED APS
     </span>
   </h1>
 </header>

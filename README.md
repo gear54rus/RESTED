@@ -1,12 +1,8 @@
-![RESTED](https://github.com/esphen/RESTED/raw/master/doc/images/rested-logo-full.png)
+![RESTED APS](https://github.com/gear54rus/RESTED-APS/raw/master/doc/images/rested-aps-logo-full.png)
 
 A REST client for the rest of us.
 
-_Note: This is the source code, the extension download is [here](https://addons.mozilla.org/en-US/firefox/addon/rested/?src=github)._
-
-[![Build Status](https://travis-ci.org/esphen/RESTED.svg?branch=next)](https://travis-ci.org/esphen/RESTED)
-[![Coverage Status](https://coveralls.io/repos/github/esphen/RESTED/badge.svg?branch=next)](https://coveralls.io/github/esphen/RESTED?branch=next)
-[![Join the chat at https://gitter.im/RESTEDclient](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/RESTEDclient?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+_Note: This is the source code, the extension download is [here](https://addons.mozilla.org/en-US/firefox/addon/rested-aps/?src=github)._
 
 **RESTED** is a new take on REST clients for browsers.
 
@@ -16,7 +12,9 @@ saving requests in your browser, and more.
 **RESTED** is built upon all the latest web technologies to make
 both the user's and developer's experience as great as possible. _Enjoy!_
 
-![Image of RESTED](https://github.com/esphen/RESTED/raw/master/doc/images/rested-app.png)
+![Image of RESTED](https://github.com/gear54rus/RESTED-APS/raw/master/doc/images/rested-aps-app.png)
+
+**RESTED APS** is a fork of **RESTED** with [APS](http://doc.apsstandard.org/7.2/) features.
 
 ## How to contribute
 You want to help out? Wow, that's so cool! Have a look at [the contribution
@@ -30,4 +28,3 @@ See also the [good first bug filter](issue-filter) for some tips on what are
 good first bugs.
 
 [issue-filter]: https://github.com/esphen/RESTED/issues?q=is%3Aopen+is%3Aissue+label%3A%22D+-+Good+First+Bug%22
-

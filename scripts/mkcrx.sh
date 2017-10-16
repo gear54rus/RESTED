@@ -20,7 +20,7 @@ fi
 
 dir=$1
 key=$2
-name=RESTED
+name=RESTED-APS
 crx="$name.crx"
 pub="$name.pub"
 sig="$name.sig"
