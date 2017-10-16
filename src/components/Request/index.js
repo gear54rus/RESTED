@@ -76,6 +76,9 @@ Request.propTypes = {
 
 const formOptions = {
   form: requestForm,
+  initialValues: {
+    'apsToken.send': true,
+  },
 };
 
 const mapStateToProps = state => ({
