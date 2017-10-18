@@ -8,12 +8,12 @@ import * as requestActions from 'store/request/actions';
 import * as collectionsActions from 'store/collections/actions';
 import { isEditMode } from 'store/config/selectors';
 import { DEFAULT_REQUEST } from 'constants/constants';
-import APSTokenField from 'components/APS/APSTokenField';
 
 import Titlebar from './Titlebar';
 import URLField from './URLField';
 import MethodField from './MethodField';
 import HeadersField from './HeadersField';
+import APSTokenField from './APSTokenField';
 import BasicAuthField from './BasicAuthField';
 import BodyField from './BodyField';
 
@@ -76,9 +76,6 @@ Request.propTypes = {
 
 const formOptions = {
   form: requestForm,
-  initialValues: {
-    'apsToken.send': true,
-  },
 };
 
 const mapStateToProps = state => ({

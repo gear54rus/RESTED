@@ -64,6 +64,10 @@ export const DEFAULT_REQUEST = {
     name: '',
     value: '',
   }],
+  apsToken: {
+    value: '',
+    send: true,
+  },
   formData: [{
     name: '',
     value: '',
