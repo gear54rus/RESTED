@@ -1,3 +1,4 @@
+.idea
 *.xpi
 install.rdf
 node_modules
