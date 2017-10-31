@@ -221,7 +221,19 @@ export const PLACEHOLDER_URLS = [
 ];
 
 /**
+ * This is the request used to initialize the
+ * APS request panel. This can be either on
+ * application load or on request reset.
+ */
+export const DEFAULT_APS_REQUEST = {
+  url: '',
+  type: 'account',
+  username: '',
+  password: '',
+  params: ['', ''],
+};
+
+/**
  * APS token header name
  */
-
 export const APS_TOKEN_HEADER = 'APS-Token';
