@@ -14,7 +14,7 @@
   "scripts": {
     "test": "jest --coverage",
     "test:watch": "jest --watchman --watchAll",
-    "test:snapshot": "jest --update-snapshot",
+    "test:snapshot": "jest --updateSnapshot",
     "test:debugger": "node --debug-brk --inspect ./node_modules/.bin/jest -i",
     "eslint": "eslint src test",
     "eslint:fix": "eslint --fix src test",
