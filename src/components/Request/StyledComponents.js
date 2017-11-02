@@ -74,6 +74,12 @@ export const SuggestWrapper = styled.div`
   }
 `;
 
+export const Suggestion = styled.div`
+  p {
+    margin: 0;
+  }
+`;
+
 export const SmallHelpBlock = styled(HelpBlock)`
   margin-bottom: 0px;
 `;

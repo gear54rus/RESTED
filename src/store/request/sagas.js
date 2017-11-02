@@ -12,6 +12,7 @@ import { pushHistory } from 'store/history/actions';
 import { getUrlVariables } from 'store/urlVariables/selectors';
 import { requestForm } from 'components/Request';
 import { updateOption } from 'store/options/actions';
+import { getIgnoreCache } from 'store/options/selectors';
 
 import { getPlaceholderUrl, getHeaders } from './selectors';
 import { executeRequest, receiveResponse } from './actions';
@@ -103,6 +104,7 @@ export function* fetchData({ request }) {
 
     const resource = yield call(createResource, request);
     const headers = yield call(buildHeaders, request);
+    const ignoreCache = yield select(getIgnoreCache);
 
     // Build body for requests that support it
     let body;
@@ -126,6 +128,7 @@ export function* fetchData({ request }) {
       body,
       headers,
       credentials: 'include', // Include cookies
+      cache: ignoreCache ? 'no-store' : 'default',
     });
 
     const millisPassed = yield call(getMillisPassed, beforeTime);
