@@ -7,7 +7,7 @@
   "applications": {
     "gecko": {
       "id": "rested-aps@restedclient",
-      "strict_min_version": "45.0"
+      "strict_min_version": "52.4.1"
     }
   },
   "icons": {
@@ -18,7 +18,7 @@
     "128": "dist/img/favicon/favicon-128x128.png"
   },
   "browser_action": {
-    "default_title": "RESTED APS",
+    "default_title": "Open RESTED APS tab",
     "default_icon": {
       "16": "dist/img/favicon/favicon-16x16.png",
       "32": "dist/img/favicon/favicon-32x32.png",

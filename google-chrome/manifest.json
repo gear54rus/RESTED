@@ -4,6 +4,7 @@
   "description": "A REST client for the rest of us, with APS features",
   "homepage_url": "https://github.com/gear54rus/RESTED-APS",
   "manifest_version": 2,
+  "minimum_chrome_version": "60.0",
   "icons": {
     "16": "dist/img/favicon/favicon-16x16.png",
     "32": "dist/img/favicon/favicon-32x32.png",
@@ -12,7 +13,7 @@
     "128": "dist/img/favicon/favicon-128x128.png"
   },
   "browser_action": {
-    "default_title": "RESTED APS",
+    "default_title": "Open RESTED APS tab",
     "default_icon": {
       "16": "dist/img/favicon/favicon-16x16.png",
       "32": "dist/img/favicon/favicon-32x32.png",
