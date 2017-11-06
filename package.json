@@ -19,8 +19,8 @@
     "eslint": "eslint src test",
     "eslint:fix": "eslint --fix src test",
     "start": "npm run dev",
-    "dev": "NODE_ENV=development webpack --progress --colors --watch",
-    "build": "NODE_ENV=production webpack -p --progress",
+    "dev": "webpack --progress --colors --watch --env",
+    "build": "webpack -p --progress --env.production",
     "precommit": "echo Please wait while tests run && npm run eslint && npm test"
   },
   "dependencies": {
