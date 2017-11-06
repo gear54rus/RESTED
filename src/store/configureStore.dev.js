@@ -1,17 +1,17 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { composeWithDevTools } from 'remote-redux-devtools';
+// Redux devtools. Is not a part of the prod bundle
 
-import DevTools from 'components/DevTools';
 import rootReducer from './';
 import sagas from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const enhancer = compose(
+const enhancer = composeWithDevTools(
   // Middleware
   applyMiddleware(sagaMiddleware),
-  // Enable Redux DevTools with the monitors you chose
-  DevTools.instrument(),
 );
 
 export default function configureStore(initialState) {

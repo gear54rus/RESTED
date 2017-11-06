@@ -78,9 +78,7 @@
     "react-addons-test-utils": "^15.4.2",
     "react-dnd-test-backend": "^2.3.0",
     "react-test-renderer": "^15.4.2",
-    "redux-devtools": "^3.3.2",
-    "redux-devtools-dock-monitor": "^1.1.1",
-    "redux-devtools-log-monitor": "^1.2.0",
+    "remote-redux-devtools": "^0.5.12",
     "webpack": "^3.4.0",
     "whatwg-fetch": "^2.0.3"
   }
