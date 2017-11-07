@@ -5,15 +5,22 @@ exports[`Header renders correctly 1`] = `
   className="cdHpBO"
 >
   <h1>
-    <img
-      className="logo"
-      height="40"
-      role="presentation"
-      src="img/rested-aps-logo.png"
-    />
-    <span>
-      RESTED APS
-    </span>
+    <a
+      className="gRAapk"
+      href="https://github.com/gear54rus/RESTED-APS"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <img
+        className="logo"
+        height="40"
+        role="presentation"
+        src="img/rested-aps-logo.png"
+      />
+      <span>
+        RESTED APS
+      </span>
+    </a>
   </h1>
 </header>
 `;

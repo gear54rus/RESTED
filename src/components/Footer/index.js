@@ -7,7 +7,7 @@ export default function Footer() {
     <StyledFooter>
       <small>
         <a
-          href="https://github.com/esphen/RESTED"
+          href="https://github.com/gear54rus/RESTED-APS"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -17,7 +17,7 @@ export default function Footer() {
       ·
       <small>
         <a
-          href="https://github.com/esphen/RESTED/issues"
+          href="https://github.com/gear54rus/RESTED-APS/issues"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -31,7 +31,7 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Chat
+          Chat (RESTED)
         </a>
       </small>
       ·
@@ -41,10 +41,9 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Licenses
+          Licenses (RESTED)
         </a>
       </small>
     </StyledFooter>
   );
 }
-
