@@ -3,17 +3,17 @@ import renderer from 'react-test-renderer';
 import { mount } from 'enzyme';
 
 /* eslint-disable import/no-unresolved */
-import { Collapsable } from 'components/Collapsable';
+import { Collapsible } from 'components/Collapsible';
 
 it('should render correctly', () => {
   const tree = renderer.create(
-    <Collapsable
+    <Collapsible
       id="test"
       title="Test"
       toggleCollapse={() => {}}
     >
       <h3>test</h3>
-    </Collapsable>,
+    </Collapsible>,
   ).toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -22,14 +22,14 @@ it('should call the toggleCollapse function when activated', () => {
   const toggleCollapse = jest.fn();
 
   let wrapper = mount(
-    <Collapsable
+    <Collapsible
       open={false}
       id="test"
       title="Test"
       toggleCollapse={toggleCollapse}
     >
       <h3>test</h3>
-    </Collapsable>,
+    </Collapsible>,
   );
 
   expect(toggleCollapse).not.toHaveBeenCalled();
@@ -40,14 +40,14 @@ it('should call the toggleCollapse function when activated', () => {
 
   toggleCollapse.mockClear();
   wrapper = mount(
-    <Collapsable
+    <Collapsible
       open
       id="test2"
       title="Test"
       toggleCollapse={toggleCollapse}
     >
       <h3>test</h3>
-    </Collapsable>,
+    </Collapsible>,
   );
 
   expect(toggleCollapse).not.toHaveBeenCalled();

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import Collapse from 'components/Collapsable';
+import Collapse from 'components/Collapsible';
 import base64 from 'utils/base64';
 import { PreviewContainer } from './StyledComponents';
 

@@ -8,7 +8,7 @@ import {
 } from 'react-bootstrap';
 
 import Fonticon from 'components/Fonticon';
-import Collapsable from 'components/Collapsable';
+import Collapsible from 'components/Collapsible';
 
 import HeaderNameAutosuggest from './HeaderNameAutosuggest';
 import { UnstyledButton, TrashButton } from './StyledComponents';
@@ -30,7 +30,7 @@ renderValueField.propTypes = {
 
 function HeadersField({ meta, fields }) {
   return (
-    <Collapsable
+    <Collapsible
       title="Headers"
       id="headers"
     >
@@ -80,7 +80,7 @@ function HeadersField({ meta, fields }) {
           </UnstyledButton>
         </Col>
       </Row>
-    </Collapsable>
+    </Collapsible>
   );
 }
 

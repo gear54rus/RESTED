@@ -4,7 +4,7 @@ import { Field, FieldArray } from 'redux-form';
 import { FormGroup, FormControl, Row, Col, ControlLabel } from 'react-bootstrap';
 
 import Fonticon from 'components/Fonticon';
-import Collapsable from 'components/Collapsable';
+import Collapsible from 'components/Collapsible';
 import IconButton from 'components/IconButton';
 import * as RequestActions from 'store/request/actions';
 import { getBodyType } from 'store/request/selectors';
@@ -162,14 +162,14 @@ function renderDataField(type) {
 
 export function BodyField({ bodyType, changeBodyType }) {
   return (
-    <Collapsable title="Request body" id="requestBody">
+    <Collapsible title="Request body" id="requestBody">
       <Field
         name="bodyType"
         component={renderBodyType}
         changeBodyType={changeBodyType}
       />
       {renderDataField(bodyType)}
-    </Collapsable>
+    </Collapsible>
   );
 }
 

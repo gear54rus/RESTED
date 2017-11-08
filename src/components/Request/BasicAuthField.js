@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Col, FormGroup, FormControl, Checkbox } from 'react-bootstrap';
 
-import Collapsable from 'components/Collapsable';
+import Collapsible from 'components/Collapsible';
 
 export class BasicAuthField extends React.Component {
   static propTypes = {
@@ -34,7 +34,7 @@ export class BasicAuthField extends React.Component {
     const { basicAuth } = this.props;
 
     return (
-      <Collapsable
+      <Collapsible
         title="Basic auth"
         id="basicAuth"
       >
@@ -62,7 +62,7 @@ export class BasicAuthField extends React.Component {
             </Checkbox>
           </Col>
         </FormGroup>
-      </Collapsable>
+      </Collapsible>
     );
   }
 }

@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 // import { fieldPropTypes } from 'redux-form'; for input proptypes
 import { Col, FormGroup, FormControl, Checkbox } from 'react-bootstrap';
 
-import Collapsable from 'components/Collapsable';
+import Collapsible from 'components/Collapsible';
 import { getTokenDescription, getLastTokenChangeTime } from 'store/aps/selectors';
 
 import { SmallHelpBlock } from './StyledComponents';
 
 function APSTokenField({ apsToken, description, lastFetchTime }) {
   return (
-    <Collapsable
+    <Collapsible
       title="APS Token"
       id="apsToken"
     >
@@ -37,7 +37,7 @@ function APSTokenField({ apsToken, description, lastFetchTime }) {
           </Checkbox>
         </Col>
       </FormGroup>
-    </Collapsable>
+    </Collapsible>
   );
 }
 
