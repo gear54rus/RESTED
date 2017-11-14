@@ -8,8 +8,15 @@ import {
 
 export const initialState = Immutable.fromJS({
   options: {},
+  urlHash: window.location.hash.slice(1),
   isFetching: false,
 });
+
+const newURL = document.createElement('a');
+
+newURL.href = window.location.href;
+newURL.hash = '';
+history.pushState(null, '', newURL.href);
 
 export default function (state = initialState, action) {
   switch (action.type) {
@@ -29,4 +36,3 @@ export default function (state = initialState, action) {
       return state;
   }
 }
-

@@ -7,11 +7,38 @@ import { requestForm } from 'components/Request';
 
 import { FETCH_REQUESTED, UPDATE_REQUESTED, UPDATE_OPTION } from './types';
 import { startFetch, receiveOptions } from './actions';
-import { getOptions, getBodyType } from './selectors';
+import { getOptions, getBodyType, getURLHash } from './selectors';
 
 function* updateLocalStorage() {
   const options = (yield select(getOptions)).toJS();
   yield call(localforage.setItem, 'options', options.options);
+}
+
+// Inspects the URL hash and configures the window
+function* initFromURL() {
+  const hash = yield select(getURLHash);
+
+  if (!hash) return;
+
+  let init;
+  let selectRequest = false;
+
+  try {
+    init = JSON.parse(hash);
+  } catch (e) {
+    init = hash;
+    selectRequest = true;
+  }
+
+  if (selectRequest) {
+    // select request from history by ID
+  } else {
+    const {
+      url,
+    } = init;
+
+    if (url) yield put(change(requestForm, 'url', url));
+  }
 }
 
 function* fetchOptionsSaga() {
@@ -30,6 +57,7 @@ function* fetchOptionsSaga() {
   // when we are done loading the initial options
   const bodyType = yield select(getBodyType);
   yield put(change(requestForm, 'bodyType', bodyType));
+  yield call(initFromURL);
 }
 
 function* updateOptionSaga({ option, value }) {

@@ -3,6 +3,11 @@ import { DARK_THEMES } from 'constants/constants';
 
 export const getOptions = state => state.options;
 
+export const getURLHash = createSelector(
+  [getOptions],
+  options => options && options.get('urlHash'),
+);
+
 export const getActiveTab = createSelector(
   [getOptions],
   options => options && options.getIn(['options', 'activeTab'], 'collections'),
