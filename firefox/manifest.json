@@ -28,11 +28,20 @@
     }
   },
   "background": {
-    "scripts": ["main.js"]
+    "scripts": ["dist/background.js"]
   },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "match_about_blank": false,
+      "js": ["dist/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "permissions": [
     "<all_urls>",
     "webRequest",
-    "storage"
+    "storage",
+    "tabs"
   ]
 }

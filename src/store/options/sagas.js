@@ -14,6 +14,17 @@ function* updateLocalStorage() {
   yield call(localforage.setItem, 'options', options.options);
 }
 
+function* initFromObject(object) {
+  const {
+    url,
+    aps,
+  } = object;
+
+  // util is object
+
+  if (url) yield put(change(requestForm, 'url', url));
+}
+
 // Inspects the URL hash and configures the window
 function* initFromURL() {
   const hash = yield select(getURLHash);
@@ -33,11 +44,7 @@ function* initFromURL() {
   if (selectRequest) {
     // select request from history by ID
   } else {
-    const {
-      url,
-    } = init;
-
-    if (url) yield put(change(requestForm, 'url', url));
+    yield call(initFromObject, init);
   }
 }
 

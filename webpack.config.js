@@ -12,14 +12,15 @@ module.exports = function getConfig(environment) {
   return {
     context: rootDir,
 
-    entry: [
-      'babel-polyfill',
-      './src/index.js',
-    ],
+    entry: {
+      'dist/rested-aps': ['babel-polyfill', './src/index.js'],
+      'dist/background': './src/background.js',
+      'dist/content': './src/content.js',
+    },
 
     output: {
-      path: rootDir + '/dist',
-      filename: 'rested-aps.js',
+      path: rootDir,
+      filename: '[name].js',
     },
 
     performance: {hints: false},
