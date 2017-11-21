@@ -237,3 +237,9 @@ export const DEFAULT_APS_REQUEST = {
  * APS token header name
  */
 export const APS_TOKEN_HEADER = 'APS-Token';
+
+/**
+ * Content script namespace
+ */
+
+export const CONTENT_SCRIPT_NS = '__RESTED_APS__';

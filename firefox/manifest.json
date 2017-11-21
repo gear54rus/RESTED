@@ -34,6 +34,7 @@
     {
       "matches": ["*://*/*"],
       "match_about_blank": false,
+      "all_frames": true,
       "js": ["dist/content.js"],
       "run_at": "document_idle"
     }
@@ -41,7 +42,6 @@
   "permissions": [
     "<all_urls>",
     "webRequest",
-    "storage",
-    "tabs"
+    "storage"
   ]
 }

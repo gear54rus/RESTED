@@ -17,7 +17,6 @@ function* updateLocalStorage() {
 function* initFromObject(object) {
   const {
     url,
-    aps,
   } = object;
 
   // util is object
