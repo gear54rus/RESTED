@@ -3,7 +3,11 @@ import localforage from 'localforage';
 import { select, put, call, takeEvery } from 'redux-saga/effects';
 import { change } from 'redux-form';
 
+import { OA_CP_TYPES } from 'constants/constants';
 import { requestForm } from 'components/Request';
+import { apsTokenCollapsibleID } from 'components/Request/APSTokenField';
+import { apsRequestForm } from 'components/APSRequest';
+import { expand } from 'store/config/actions';
 
 import { FETCH_REQUESTED, UPDATE_REQUESTED, UPDATE_OPTION } from './types';
 import { startFetch, receiveOptions } from './actions';
@@ -14,14 +18,47 @@ function* updateLocalStorage() {
   yield call(localforage.setItem, 'options', options.options);
 }
 
-function* initFromObject(object) {
+function* initFromObject(hashObject) {
   const {
+    page,
     url,
-  } = object;
+    data,
+  } = hashObject;
 
-  // util is object
+  const urlObject = new URL(url);
+  const apsBusURL = new URL(urlObject.origin);
+  const oaAPIURL = new URL(`http://${urlObject.hostname}`);
 
-  if (url) yield put(change(requestForm, 'url', url));
+  apsBusURL.pathname = '/aps/2/resources/';
+  yield put(change(requestForm, 'url', apsBusURL.href));
+
+  oaAPIURL.port = '8440';
+  yield put(change(apsRequestForm, 'url', oaAPIURL.href));
+
+  switch (page) {
+    case OA_CP_TYPES.PCP:
+    case OA_CP_TYPES.CCP1:
+    case OA_CP_TYPES.CCP2:
+      yield put(change(apsRequestForm, 'type', 'account'));
+      yield put(change(apsRequestForm, 'params[0]', data.accountID));
+
+      if ('subscriptionID' in data) {
+        yield put(change(apsRequestForm, 'params[1]', data.subscriptionID));
+      }
+      break;
+    case OA_CP_TYPES.MYCP1:
+    case OA_CP_TYPES.MYCP2:
+      yield put(change(apsRequestForm, 'type', 'user'));
+      yield put(change(apsRequestForm, 'params[0]', data.userID));
+      break;
+    default:
+      break;
+  }
+
+  if ('apsToken' in data) {
+    yield put(change(requestForm, 'apsToken.value', data.apsToken.value));
+    yield put(expand(apsTokenCollapsibleID));
+  }
 }
 
 // Inspects the URL hash and configures the window
@@ -31,18 +68,22 @@ function* initFromURL() {
   if (!hash) return;
 
   let init;
-  let selectRequest = false;
 
   try {
     init = JSON.parse(hash);
   } catch (e) {
     init = hash;
-    selectRequest = true;
   }
 
-  if (selectRequest) {
-    // select request from history by ID
+  if (typeof init === 'string') {
+    // select request from history
+    // yield call(selectRequest, init);
   } else {
+    const url = new URL(location);
+
+    url.hash = '';
+    history.pushState(null, '', url);
+
     yield call(initFromObject, init);
   }
 }

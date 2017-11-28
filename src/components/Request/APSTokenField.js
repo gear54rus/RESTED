@@ -8,11 +8,13 @@ import { getTokenDescription, getLastTokenChangeTime } from 'store/aps/selectors
 
 import { SmallHelpBlock } from './StyledComponents';
 
+export const apsTokenCollapsibleID = 'apsToken';
+
 function APSTokenField({ apsToken, description, lastFetchTime }) {
   return (
     <Collapsible
       title="APS Token"
-      id="apsToken"
+      id={apsTokenCollapsibleID}
     >
       <FormGroup>
         <Col xs={10}>
