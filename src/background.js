@@ -1,12 +1,5 @@
 const oaTabData = {};
 
-function getInitJSON(tabID) {
-  const oaData = oaTabData[tabID];
-  const result = { ...oaData }; // refine the data from tab and turn it into init object
-
-  return JSON.stringify(result);
-}
-
 chrome.runtime.onConnect.addListener(port => {
   port.onMessage.addListener(tabData => {
     const tabID = port.sender.tab.id;
@@ -28,6 +21,6 @@ chrome.runtime.onConnect.addListener(port => {
 
 chrome.browserAction.onClicked.addListener(({ id: tabID }) => {
   chrome.tabs.create({
-    url: chrome.extension.getURL(`dist/index.html${oaTabData[tabID] ? `#${getInitJSON(tabID)}` : ''}`),
+    url: chrome.extension.getURL(`dist/index.html${oaTabData[tabID] ? `#${JSON.stringify(oaTabData[tabID])}` : ''}`),
   });
 });

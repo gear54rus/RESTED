@@ -72,49 +72,57 @@ function getAPSData({ page }) { // the BS we are reduced to by the stupid WebExt
 }
 
 function getOAInfo() {
-  const result = {};
+  const result = {
+    versions: {},
+  };
   let temp;
 
   temp = [ // login page
-    'html > head > script[src^="/aps/2/ui/runtime/client/aps/aps.webgate.js"]',
-    'html > head > script[src^="/webgate/static/js/common_script.js"]',
-    'html > body.loginBody > div#login-page button#login[name="login"]', // CP1
-    'html > body.ccp-frame > div#ccp-login button#login[name="login"]', // CP2
+    ':root > head > script[src^="/aps/2/ui/runtime/client/aps/aps.webgate.js"]',
+    ':root > head > script[src^="/webgate/static/js/common_script.js"]',
+    ':root > body.loginBody > div#login-page button#login[name="login"]', // CP1
+    ':root > body.ccp-frame > div#ccp-login button#login[name="login"]', // CP2
   ].map($);
 
   if (temp[0] && temp[1] && (temp[2] ? !temp[3] : temp[3])) { // CP1 xor CP2
     result.page = temp[2] ? OA_CP_TYPES.LCP1 : OA_CP_TYPES.LCP2;
-    result.oaVersion = temp[1].getAttribute('src').split('?')[1];
-    result.runtimeVersion = temp[0].getAttribute('src').split('?')[1].slice(result.oaVersion.length);
+    result.versions.oa = temp[1].getAttribute('src').split('?')[1];
+    result.versions.runtime = temp[0].getAttribute('src').split('?')[1].slice(result.versions.oa.length);
 
     return result;
   }
 
   temp = [ // CP1 logged in
-    'html > head > script[src^="/pem/common/js/tools.js"]',
-    'html > head > script[src^="/pem/common/js/pem.js"]',
-    'html > frameset#master frame[name="topFrame"]',
-    'html > frameset#master frame[name="leftFrame"]',
-    'html > frameset#master frame[name="mainFrame"]',
+    ':root > head > script[src^="/pem/common/js/tools.js"]',
+    ':root > head > script[src^="/pem/common/js/pem.js"]',
+    ':root > frameset#master frame[name="topFrame"]',
+    ':root > frameset#master frame[name="leftFrame"]',
+    ':root > frameset#master frame[name="mainFrame"]',
   ].map($);
 
   if (temp[0] && temp[1] && temp[2] && temp[4]) {
-    result.page = temp[3] ? OA_CP_TYPES.PCP : OA_CP_TYPES.ANYCP1; // leave for topFrame to determine
-    result.oaVersion = temp[1].getAttribute('src').split('?')[1];
+    const url = new URL(location);
+
+    result.page = url.searchParams.get('cp') ? OA_CP_TYPES.PCP : OA_CP_TYPES.ANYCP1; // leave for topFrame to determine
+    result.versions.oa = temp[1].getAttribute('src').split('?')[1];
 
     return result;
   }
 
   temp = [ // CP2 logged in
-    'html > head > script[src^="/aps/2/ui/runtime/client/"]',
-    'html > body.ccp-frame > div#ccp-wrapper',
+    ':root > head > script[src^="/aps/2/ui/runtime/client/"]',
+    ':root > body.ccp-frame > div#ccp-wrapper',
     `div#ccp-sidebar ul#ccp-navigation li#${CSS.escape('http://www.parallels.com/ccp-dashboard#home-navigation')}:first-child`, // CCP
     `div#ccp-sidebar ul#ccp-navigation li#${CSS.escape('http://www.parallels.com/ccp-users#myprofile-navigation')}`, // MyCP
-  ].map($);
+  ];
+
+  temp[2] = `${temp[1]} > ${temp[2]}`; // append to CCP2 generic
+  temp[3] = `${temp[1]} > ${temp[3]}`;
+  temp = temp.map($);
 
   if (temp[0] && temp[1] && (temp[2] ? !temp[3] : temp[3])) { // CCP xor MyCP
     result.page = temp[2] ? OA_CP_TYPES.CCP2 : OA_CP_TYPES.MYCP2;
-    result.runtimeVersion = temp[0].getAttribute('src').split('?')[1].split('=')[1];
+    result.versions.runtime = temp[0].getAttribute('src').split('?')[1].split('=')[1];
 
     return result;
   }
@@ -123,6 +131,8 @@ function getOAInfo() {
 }
 
 function topWindow(globalData) {
+  globalData.send();
+
   if ([OA_CP_TYPES.CCP2, OA_CP_TYPES.MYCP2].includes(globalData.page)) {
     getAPSData(globalData).then(apsData => {
       Object.assign(globalData.data, apsData); // eslint-disable-line no-param-reassign
