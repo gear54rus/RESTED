@@ -22,5 +22,22 @@ exports[`Header renders correctly 1`] = `
       </span>
     </a>
   </h1>
+  <a
+    href="https://chrome.google.com/webstore/detail/rested-aps/omkndfeccmeplaimlpaefimnimmniccl"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    Also available for Google Chrome
+     
+    <img
+      alt="Chrome icon"
+      src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Chrome_icon_%28September_2014%29.svg"
+      style={
+        Object {
+          "height": "2em",
+        }
+      }
+    />
+  </a>
 </header>
 `;

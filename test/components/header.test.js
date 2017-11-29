@@ -15,7 +15,7 @@ test('Header contains the RESTED APS logo', () => {
   const tree = mount(
     <Header />,
   );
-  expect(tree.find('img').prop('src')).toBe('img/rested-aps-logo.png');
+  expect(tree.find('h1 img').prop('src')).toBe('img/rested-aps-logo.png');
 });
 
 test('Header contains the RESTED APS name', () => {
