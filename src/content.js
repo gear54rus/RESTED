@@ -8,14 +8,14 @@ function getAPSData({ page }) { // the BS we are reduced to by the stupid WebExt
 
   const pullAPSDataFromPage = (function () { // eslint-disable-line func-names
     const timeout = 250;
-    const cpTypes = JSON.parse('$CP_TYPES');
-    const cpType = '$CP_TYPE';
+    const cpTypes = JSON.parse('#CP_TYPES');
+    const cpType = '#CP_TYPE';
     const body = document.body;
     const transferNode = document.createElement('div');
     const data = {};
 
     transferNode.hidden = true;
-    transferNode.id = '$RANDOM_ID';
+    transferNode.id = '#RANDOM_ID';
 
     const interval = setInterval(() => { // no sooner than 250ms
       requestIdleCallback(() => {
@@ -44,17 +44,17 @@ function getAPSData({ page }) { // the BS we are reduced to by the stupid WebExt
         if (complete) {
           transferNode.textContent = JSON.stringify(data);
           body.appendChild(transferNode);
-          document.dispatchEvent(new Event('$EVENT_ID'));
+          document.dispatchEvent(new Event('#EVENT_ID'));
           body.removeChild(transferNode);
           clearInterval(interval);
         }
       }, { timeout }); // and no later than 500ms
     }, timeout);
   }).toString() // the only way to push code to page
-    .replace('$CP_TYPES', JSON.stringify(OA_CP_TYPES))
-    .replace('$CP_TYPE', page)
-    .replace('$RANDOM_ID', randomID)
-    .replace('$EVENT_ID', eventID);
+    .replace(/#CP_TYPES/g, JSON.stringify(OA_CP_TYPES).replace(/"/g, '\\"'))
+    .replace(/#CP_TYPE/g, page)
+    .replace(/#RANDOM_ID/g, randomID)
+    .replace(/#EVENT_ID/g, eventID);
 
   const body = document.body;
   const pageScript = document.createElement('script');
