@@ -8,7 +8,7 @@ import {
 
 export const initialState = Immutable.fromJS({
   options: {},
-  urlHash: window.location.hash.slice(1),
+  urlHash: decodeURIComponent(window.location.hash.slice(1)),
   isFetching: false,
 });
 
