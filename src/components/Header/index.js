@@ -22,22 +22,6 @@ export function Header({ darkMode }) {
           <span>RESTED APS</span>
         </BlackLink>
       </h1>
-      {window.browser && (window.navigator.vendor !== 'Google Inc.') && (
-        <a
-          href="https://chrome.google.com/webstore/detail/rested-aps/omkndfeccmeplaimlpaefimnimmniccl"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Also available for Google Chrome{' '}
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Chrome_icon_%28September_2014%29.svg"
-            style={{
-              height: '2em',
-            }}
-            alt="Chrome icon"
-          />
-        </a>
-      )}
     </StyledHeader>
   );
 }
