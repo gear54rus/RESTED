@@ -10,6 +10,7 @@ export default (state = {}) => createStore(
     collections: (initialState = collectionInitialState) => initialState,
     request: (initialState = {}) => initialState,
     config: (initialState = {}) => initialState,
+    aps: (initialState = {}) => initialState,
   }),
   state,
 );

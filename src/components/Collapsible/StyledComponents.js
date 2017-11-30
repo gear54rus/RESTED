@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 /* eslint-disable import/prefer-default-export */
-export const StyledCollapsable = styled.div`
+export const StyledCollapsible = styled.div`
   h4 {
     margin: 0;
   }

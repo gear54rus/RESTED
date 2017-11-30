@@ -3,6 +3,11 @@ import { DARK_THEMES } from 'constants/constants';
 
 export const getOptions = state => state.options;
 
+export const getURLHash = createSelector(
+  [getOptions],
+  options => options && options.get('urlHash'),
+);
+
 export const getActiveTab = createSelector(
   [getOptions],
   options => options && options.getIn(['options', 'activeTab'], 'collections'),
@@ -53,3 +58,12 @@ export const isDefaultCompact = createSelector(
   options => options && options.getIn(['options', 'defaultCompact'], false),
 );
 
+export const isHeaderDescriptionEnabled = createSelector(
+  [getOptions],
+  options => options && options.getIn(['options', 'headerDescriptionEnabled'], true),
+);
+
+export const getIgnoreCache = createSelector(
+  [getOptions],
+  options => options && options.getIn(['options', 'ignoreCache'], false),
+);

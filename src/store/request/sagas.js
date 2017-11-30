@@ -4,14 +4,14 @@ import { initialize, change } from 'redux-form';
 import { call, apply, put, select, takeLatest, takeEvery } from 'redux-saga/effects';
 
 import { APS_TOKEN_HEADER } from 'constants/constants';
-import base64Encode from 'utils/base64';
 import buildRequestData from 'utils/buildRequestData';
 import { reMapHeaders, focusUrlField } from 'utils/requestUtils';
-import { prependHttp, mapParameters } from 'utils/request';
+import { prependHttp, mapParameters, basicAuthHeader } from 'utils/request';
 import { pushHistory } from 'store/history/actions';
 import { getUrlVariables } from 'store/urlVariables/selectors';
 import { requestForm } from 'components/Request';
 import { updateOption } from 'store/options/actions';
+import { getIgnoreCache } from 'store/options/selectors';
 
 import { getPlaceholderUrl, getHeaders } from './selectors';
 import { executeRequest, receiveResponse } from './actions';
@@ -56,10 +56,7 @@ export function* buildHeaders({ headers, basicAuth, apsToken }) {
   }
 
   if (basicAuth && basicAuth.username) {
-    requestHeaders.append(
-      'Authorization',
-      `Basic ${base64Encode(`${basicAuth.username}:${basicAuth.password}`)}`,
-    );
+    requestHeaders.append(...basicAuthHeader(basicAuth.username, basicAuth.password));
   }
 
   return requestHeaders;
@@ -103,6 +100,7 @@ export function* fetchData({ request }) {
 
     const resource = yield call(createResource, request);
     const headers = yield call(buildHeaders, request);
+    const ignoreCache = yield select(getIgnoreCache);
 
     // Build body for requests that support it
     let body;
@@ -126,6 +124,7 @@ export function* fetchData({ request }) {
       body,
       headers,
       credentials: 'include', // Include cookies
+      cache: ignoreCache ? 'no-store' : 'default',
     });
 
     const millisPassed = yield call(getMillisPassed, beforeTime);

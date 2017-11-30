@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 /* eslint-disable import/no-unresolved */
 import Headers from 'components/Response/Headers';
-import Collapse from 'components/Collapsable';
+import Collapse from 'components/Collapsible';
 
 describe('Headers', () => {
   describe('when passed the expanded prop', () => {

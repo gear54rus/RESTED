@@ -24,3 +24,10 @@ export const StyledHeader = styled.header`
   `}
 `;
 
+export const BlackLink = styled.a`
+  color: black;
+  
+  &:hover {
+    color: black;
+  }
+`;

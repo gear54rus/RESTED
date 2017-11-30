@@ -7,9 +7,9 @@ import Fonticon from 'components/Fonticon';
 import * as Actions from 'store/config/actions';
 import { isOpen } from 'store/config/selectors';
 
-import { StyledCollapsable } from './StyledComponents';
+import { StyledCollapsible } from './StyledComponents';
 
-export function Collapsable(props) {
+export function Collapsible(props) {
   const {
     id,
     title,
@@ -20,7 +20,7 @@ export function Collapsable(props) {
     unmountOnExit,
   } = props;
   return (
-    <StyledCollapsable>
+    <StyledCollapsible>
       <Button
         bsStyle="link"
         onClick={e => {
@@ -49,17 +49,17 @@ export function Collapsable(props) {
           </Col>
         </Row>
       </Collapse>
-    </StyledCollapsable>
+    </StyledCollapsible>
   );
 }
 
-Collapsable.defaultProps = {
+Collapsible.defaultProps = {
   mountOnEnter: false,
   unmountOnExit: false,
   open: false,
 };
 
-Collapsable.propTypes = {
+Collapsible.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
@@ -73,5 +73,5 @@ const mapStateToProps = (state, props) => ({
   open: isOpen(state, props),
 });
 
-export default connect(mapStateToProps, Actions)(Collapsable);
+export default connect(mapStateToProps, Actions)(Collapsible);
 

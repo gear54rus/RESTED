@@ -6,7 +6,7 @@
   "description": "A REST client for the rest of us, with APS features",
   "author": "Espen Henriksen",
   "license": "MIT",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "main": "./main.js",
   "permissions": {
     "multiprocess": true
@@ -14,18 +14,19 @@
   "scripts": {
     "test": "jest --coverage",
     "test:watch": "jest --watchman --watchAll",
-    "test:snapshot": "jest --update-snapshot",
+    "test:snapshot": "jest --updateSnapshot",
     "test:debugger": "node --debug-brk --inspect ./node_modules/.bin/jest -i",
     "eslint": "eslint src test",
     "eslint:fix": "eslint --fix src test",
     "start": "npm run dev",
-    "dev": "NODE_ENV=development webpack --progress --colors --watch",
-    "build": "NODE_ENV=production webpack -p --progress",
+    "dev": "webpack --progress --colors --watch --env",
+    "build": "webpack -p --progress --env.production",
     "precommit": "echo Please wait while tests run && npm run eslint && npm test"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "classnames": "^2.2.5",
+    "fuzzysort": "^0.9.3",
     "immutable": "^3.8.1",
     "localforage": "^1.5.0",
     "localforage-webextensionstorage-driver": "^1.1.2",
@@ -77,9 +78,7 @@
     "react-addons-test-utils": "^15.4.2",
     "react-dnd-test-backend": "^2.3.0",
     "react-test-renderer": "^15.4.2",
-    "redux-devtools": "^3.3.2",
-    "redux-devtools-dock-monitor": "^1.1.1",
-    "redux-devtools-log-monitor": "^1.2.0",
+    "remote-redux-devtools": "^0.5.12",
     "webpack": "^3.4.0",
     "whatwg-fetch": "^2.0.3"
   }

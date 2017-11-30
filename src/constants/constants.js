@@ -237,3 +237,24 @@ export const DEFAULT_APS_REQUEST = {
  * APS token header name
  */
 export const APS_TOKEN_HEADER = 'APS-Token';
+
+/**
+ * Content script namespace
+ */
+
+export const CONTENT_SCRIPT_NS = '__RESTED_APS__';
+
+/**
+ * Odin Automation CP types
+ */
+
+export const OA_CP_TYPES = {
+  LCP1: 'LCPv1',
+  LCP2: 'LCPv2',
+  PCP: 'PCP',
+  ANYCP1: '*CPv1',
+  CCP1: 'CCPv1',
+  MYCP1: 'MyCPv1',
+  CCP2: 'CCPv2',
+  MYCP2: 'MyCPv2',
+};
