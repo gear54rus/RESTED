@@ -6,7 +6,7 @@ A REST HTTP client for the rest of us, with [APS features](https://doc.apsstanda
 
 ### Minimum browser versions:
 
-- Firefox: `52.4.1`
+- Firefox: `52.0`
 - Chrome: `60.0`
 
 # Addon downloads
