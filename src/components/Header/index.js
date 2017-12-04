@@ -9,7 +9,7 @@ export function Header({ darkMode }) {
     <StyledHeader darkMode={darkMode}>
       <h1>
         <BlackLink
-          href="https://github.com/gear54rus/RESTED-APS"
+          href="https://github.com/odin-public/RESTED-APS"
           target="_blank"
           rel="noopener noreferrer"
         >

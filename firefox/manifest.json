@@ -2,7 +2,7 @@
   "name": "RESTED APS",
   "version": "0.0.4",
   "description": "A REST client for the rest of us, with APS features",
-  "homepage_url": "https://github.com/gear54rus/RESTED-APS",
+  "homepage_url": "https://github.com/odin-public/RESTED-APS",
   "manifest_version": 2,
   "applications": {
     "gecko": {

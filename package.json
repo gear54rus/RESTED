@@ -2,7 +2,7 @@
   "name": "rested-aps",
   "title": "RESTED APS",
   "id": "rested-aps@restedclient",
-  "homepage": "https://github.com/gear54rus/RESTED-APS",
+  "homepage": "https://github.com/odin-public/RESTED-APS",
   "description": "A REST client for the rest of us, with APS features",
   "author": "Espen Henriksen",
   "license": "MIT",
