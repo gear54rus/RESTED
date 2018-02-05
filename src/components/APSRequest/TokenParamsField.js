@@ -2,11 +2,11 @@ import React from 'react';
 import { Field, fieldPropTypes } from 'redux-form';
 import { Col, Row, FormControl } from 'react-bootstrap';
 
-import { apsTokenTypes } from 'utils/aps';
+import { tokenTypes } from 'utils/aps';
 
 import TokenTypeParamsField from './TokenTypeParamsField';
 
-const apsTokenTypesArray = Object.entries(apsTokenTypes);
+const apsTokenTypesArray = Object.entries(tokenTypes);
 
 class TokenParamsField extends React.Component {
   static propTypes = fieldPropTypes;
@@ -59,7 +59,7 @@ class TokenParamsField extends React.Component {
           <Field
             name="params"
             component={TokenTypeParamsField}
-            fieldsConfig={apsTokenTypes[tokenType].payload.placeholders}
+            fieldsConfig={tokenTypes[tokenType].payload.placeholders}
           />
         </Col>
       </Row>

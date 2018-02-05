@@ -4,7 +4,7 @@ import {
 } from './types';
 
 export function tokenChanged() {
-  return { type: TOKEN_CHANGED, changeTime: new Date() };
+  return { type: TOKEN_CHANGED, changedTime: new Date() };
 }
 
 export function sendRequest(request) {

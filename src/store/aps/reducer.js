@@ -16,7 +16,7 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case TOKEN_CHANGED:
       return Object.assign({}, state, {
-        lastTokenChangedTime: action.changeTime,
+        lastTokenChangedTime: action.changedTime,
       });
 
     case EXECUTE_REQUEST:

@@ -32,6 +32,7 @@
     "localforage-webextensionstorage-driver": "^1.1.2",
     "lodash.flow": "^3.5.0",
     "md5": "^2.2.1",
+    "oauth-1.0a": "^2.2.3",
     "react": "^15.4.2",
     "react-autosuggest": "^9.0.0",
     "react-bootstrap": "^0.30.8",

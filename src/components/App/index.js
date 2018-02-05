@@ -7,7 +7,6 @@ import flow from 'lodash.flow';
 import Header from 'components/Header';
 import LeftPanel from 'components/LeftPanel';
 import Request from 'components/Request';
-import APSRequest from 'components/APSRequest';
 import Response from 'components/Response';
 import Footer from 'components/Footer';
 import Modal from 'components/Modal';
@@ -77,7 +76,6 @@ class App extends React.Component {
           >
             <main>
               <Request />
-              <APSRequest />
               <Response />
             </main>
           </RightCol>

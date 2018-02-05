@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
 
 import request from './request/reducer';
+import auth from './auth/reducer';
 import config from './config/reducer';
 import collections from './collections/reducer';
 import history from './history/reducer';
@@ -12,6 +13,7 @@ import aps from './aps/reducer';
 
 export default combineReducers({
   request,
+  auth,
   config,
   collections,
   history,

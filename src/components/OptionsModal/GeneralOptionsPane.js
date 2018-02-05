@@ -5,7 +5,7 @@ import Highlight from 'react-highlight';
 import { Col, Table, FormGroup, FormControl, ControlLabel, Checkbox } from 'react-bootstrap';
 
 import * as Actions from 'store/options/actions';
-import { THEMES, HIGHLIGHT_STYLES, DEFAULT_HISTORY_SIZE } from 'constants/constants';
+import { THEMES, HIGHLIGHT_STYLES, DEFAULT_HISTORY_SIZE, DEFAULT_APS_TOKEN_TTL } from 'constants/constants';
 
 import { StyledGeneralOptions } from './StyledComponents';
 
@@ -89,6 +89,23 @@ function GeneralOptionsPane({ options, updateOption }) {
                     value={options.get('historySize', DEFAULT_HISTORY_SIZE)}
                     onChange={e => {
                       updateOption('historySize', e.target.value);
+                    }}
+                  />
+                </FormGroup>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <FormGroup>
+                  <ControlLabel>
+                    APS token TTL (min)
+                  </ControlLabel>
+                  <FormControl
+                    type="number"
+                    value={options.get('apsTokenTTL', DEFAULT_APS_TOKEN_TTL)}
+                    onChange={e => {
+                      updateOption('apsTokenTTL', e.target.value);
                     }}
                   />
                 </FormGroup>

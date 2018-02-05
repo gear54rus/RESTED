@@ -1,7 +1,7 @@
 import { call, apply, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { change } from 'redux-form';
 
-import { apsTokenTypes } from 'utils/aps';
+import { tokenTypes } from 'utils/aps';
 import { basicAuthHeader } from 'utils/request';
 import { requestForm } from 'components/Request';
 
@@ -22,11 +22,11 @@ function buildHeaders({ username, password }) {
 }
 
 function generateBody({ type, params }) {
-  return apsTokenTypes[type].payload.generator(...params);
+  return tokenTypes[type].payload.generator(...params);
 }
 
 function getTokenDescription(type, params) {
-  const typeInfo = apsTokenTypes[type];
+  const typeInfo = tokenTypes[type];
 
   const typeCaption = typeInfo.caption;
   const paramCaptions = typeInfo.payload.placeholders
@@ -101,7 +101,7 @@ function* fetchToken({ request }) {
       fetchTime: new Date(),
     });
   } catch (error) {
-    yield put({ type: FETCH_ERROR, error });
+    yield put({ type: FETCH_ERROR, error: error.message });
   }
 }
 
