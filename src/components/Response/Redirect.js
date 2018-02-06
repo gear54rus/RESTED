@@ -8,7 +8,15 @@ function Titlebar({ url, time, onClick }) {
   return (
     <StyledHeader expandable onClick={onClick}>
       <h3>
-        Redirect ({(time / 1000).toFixed(3)}s) - <a href={url} className="text-muted">{url}</a>
+        Redirect ({(time / 1000).toFixed(3)}s) -{' '}
+        <a
+          className="text-muted"
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {url}
+        </a>
       </h3>
     </StyledHeader>
   );

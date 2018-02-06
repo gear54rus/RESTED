@@ -14,10 +14,13 @@ exports[`response component renders a result when given one 1`] = `
       <h3>
         Response (
         0.123s
-        ) - 
+        ) -
+         
         <a
           className="text-muted"
           href="http://example.com"
+          rel="noopener noreferrer"
+          target="_blank"
         >
           http://example.com
         </a>

@@ -18,7 +18,15 @@ function Titlebar({ url, time }) {
   return (
     <StyledHeader>
       <h3>
-        Response ({time}) - <a href={url} className="text-muted">{url}</a>
+        Response ({time}) -{' '}
+        <a
+          className="text-muted"
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {url}
+        </a>
       </h3>
     </StyledHeader>
   );

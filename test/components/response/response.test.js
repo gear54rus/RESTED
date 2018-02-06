@@ -89,7 +89,12 @@ describe('response component', () => {
     );
 
     const expectedLink = (
-      <a href="http://example.com" className="text-muted">
+      <a
+        href="http://example.com"
+        className="text-muted"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         http://example.com
       </a>
     );
