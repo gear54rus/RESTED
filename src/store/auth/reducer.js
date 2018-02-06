@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import {
+  APS_BROWSER_DATA_RECEIVED,
   APS_SET_AUTO_REFRESH,
   APS_TOKEN_REFRESH_START,
   APS_TOKEN_REFRESH_ERROR,
@@ -19,6 +20,19 @@ const apsTokenInitialState = {
 
 function apsToken(state = apsTokenInitialState, action) {
   switch (action.type) {
+    case APS_BROWSER_DATA_RECEIVED:
+      return action.token ? Object.assign({}, state, {
+        fetchedToken: {
+          time: action.token.time,
+          value: action.token.value,
+          type: action.token.type,
+          params: action.token.params,
+          origin: 'browser',
+          url: action.token.url,
+        },
+        tokenChangedTime: action.token.time,
+      }) : state;
+
     case APS_SET_AUTO_REFRESH:
       return Object.assign({}, state, {
         autoRefresh: action.autoRefresh,
@@ -45,6 +59,7 @@ function apsToken(state = apsTokenInitialState, action) {
           value: action.value,
           type: action.tokenType,
           params: action.params,
+          origin: 'api',
           url: action.url,
         },
         tokenChangedTime: action.time,
@@ -53,7 +68,7 @@ function apsToken(state = apsTokenInitialState, action) {
 
     case APS_TOKEN_CHANGED:
       return Object.assign({}, state, {
-        autoRefresh: state.fetchedToken.value === action.value,
+        autoRefresh: (state.fetchedToken && (state.fetchedToken.value === action.value)) || false,
         tokenChangedTime: action.time,
       });
 

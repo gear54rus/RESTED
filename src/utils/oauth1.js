@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-export const signatureMethods = {};
+export const signatureMethods = {}; // eslint-disable-line import/prefer-default-export
 
 signatureMethods['hmac-sha1'] = {
   caption: 'HMAC-SHA1',
@@ -9,7 +9,7 @@ signatureMethods['hmac-sha1'] = {
   },
 };
 
-signatureMethods['plaintext'] = {
+signatureMethods.plaintext = {
   caption: 'PLAINTEXT',
   hashFunction(baseString, key) {
     return key;

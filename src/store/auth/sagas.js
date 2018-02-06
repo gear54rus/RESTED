@@ -2,6 +2,8 @@ import oauth1 from 'oauth-1.0a';
 import { change } from 'redux-form';
 import { call, apply, put, select, takeLatest } from 'redux-saga/effects';
 
+import { authCollapsibleID } from 'components/Authentication';
+import { expand } from 'store/config/actions';
 import { requestForm } from 'components/Request';
 import { getRequest } from 'store/request/selectors';
 import { getUrl } from 'store/request/sagas';
@@ -11,12 +13,24 @@ import { BASIC_AUTH_HEADER, APS_TOKEN_HEADER } from 'constants/constants';
 import { tokenTypes as apsTokenTypes, oaAPIURL } from 'utils/aps';
 import { signatureMethods as oAuth1SignatureMethods } from 'utils/oauth1';
 
-import {APS_TOKEN_REFRESH_START, APS_TOKEN_REFRESH_ERROR, APS_TOKEN_REFRESH_END, APS_TOKEN_CHANGED} from './types';
+import {
+  APS_BROWSER_DATA_RECEIVED,
+  APS_TOKEN_REFRESH_START,
+  APS_TOKEN_REFRESH_ERROR,
+  APS_TOKEN_REFRESH_END,
+} from './types';
+
 
 function basicAuthTransform(fetchInput, { auth: { basic } }) {
   if (basic && basic.username) {
     fetchInput.headers.set(BASIC_AUTH_HEADER, `Basic ${base64Encode(`${basic.username}:${basic.password || ''}`)}`);
   }
+}
+
+function* apsFillTokenFromBrowser({ form }) {
+  yield put(change(requestForm, 'url', form.url));
+  yield put(change(requestForm, 'auth', form.auth));
+  yield put(expand(authCollapsibleID));
 }
 
 function* apsGetAPIURL({ url }, request) {
@@ -36,9 +50,9 @@ function* apsGetTokenFromResponse(response) {
   if (response.status !== 200) {
     switch (response.status) {
       case 401:
-        throw new Error(`Authorization required`);
+        throw new Error('Authorization required');
       case 403:
-        throw new Error(`Wrong credentials supplied`);
+        throw new Error('Wrong credentials supplied');
       default:
         throw new Error(`HTTP code ${response.status} received`);
     }
@@ -46,22 +60,17 @@ function* apsGetTokenFromResponse(response) {
 
   const body = yield apply(response, response.text);
 
-  const regex = {
-    faultString: /<member><name>faultString<\/name><value><string>([^<]+)<\/string><\/value><\/member>/,
-    error: /<member><name>error_message<\/name><value><string>([^<]+)<\/string><\/value><\/member>/,
-    token: /<member><name>aps_token<\/name><value><string>([^<]+)<\/string><\/value><\/member>/,
+  const matches = {
+    token: /<member><name>aps_token<\/name><value><string>([^<]+)<\/string><\/value><\/member>/.exec(body),
+    faultString: /<member><name>faultString<\/name><value><string>([^<]+)<\/string><\/value><\/member>/.exec(body),
+    error: /<member><name>error_message<\/name><value><string>([^<]+)<\/string><\/value><\/member>/.exec(body),
   };
 
-  let match;
   let errorMessage;
 
-  if (match = regex.faultString.exec(body)) {
-    errorMessage = match[1];
-  } else if (match = regex.error.exec(body)) {
-    errorMessage = match[1];
-  } else if (match = regex.token.exec(body)) {
-    return match[1];
-  }
+  if (matches.token) return matches.token[1];
+  if (matches.faultString) errorMessage = matches.faultString[1];
+  if (matches.error) errorMessage = matches.error[1];
 
   if (errorMessage) {
     throw new Error(`OA API error: ${errorMessage}`);
@@ -97,7 +106,7 @@ export function* apsTokenRefresh() {
 
     const url = yield call(apsGetAPIURL, apsValues.api, request);
 
-    basicAuthTransform(fetchInput, { auth: { basic: apsValues.api }});
+    basicAuthTransform(fetchInput, { auth: { basic: apsValues.api } });
 
     const response = yield call(fetch, url, fetchInput);
     const token = yield call(apsGetTokenFromResponse, response);
@@ -117,7 +126,7 @@ export function* apsTokenRefresh() {
   }
 }
 
-function* apsTokenTransform({ headers }, { auth: { apsToken }}) {
+function* apsTokenTransform({ headers }, { auth: { apsToken } }) {
   const tokenExpired = yield select(apsGetTokenExpired);
   const autoRefresh = yield select(apsGetAutoRefresh);
 
@@ -138,7 +147,8 @@ function oAuth1Transform({ url, method, headers }, fields) {
     secret: '',
   }, oAuthValues.consumer);
 
-  oAuthValues.signatureMethod = oAuthValues.signatureMethod || Object.keys(oAuth1SignatureMethods)[0];
+  oAuthValues.signatureMethod = oAuthValues.signatureMethod
+    || Object.keys(oAuth1SignatureMethods)[0];
 
   const oauth = oauth1({
     consumer: { ...oAuthValues.consumer },
@@ -160,5 +170,6 @@ export const authTypes = {
 };
 
 export default function* rootSaga() {
+  yield takeLatest(APS_BROWSER_DATA_RECEIVED, apsFillTokenFromBrowser);
   yield takeLatest(APS_TOKEN_REFRESH_START, apsTokenRefresh);
 }

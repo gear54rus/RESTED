@@ -4,6 +4,7 @@ import { tokenTypes as apsTokenTypes } from 'utils/aps';
 
 const apsTokenTypeKeys = Object.keys(apsTokenTypes);
 
+// eslint-disable-next-line import/prefer-default-export
 export const apsFetchedTokenShape = {
   time: PropTypes.number.isRequired,
   value: PropTypes.string.isRequired,

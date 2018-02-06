@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field, Fields, FieldArray, FormSection, getFormValues } from 'redux-form';
+import { reduxForm, Field, FieldArray, FormSection, getFormValues } from 'redux-form';
 import { Panel, Form } from 'react-bootstrap';
 import flow from 'lodash.flow';
 
@@ -14,7 +14,6 @@ import Titlebar from './Titlebar';
 import URLField from './URLField';
 import MethodField from './MethodField';
 import HeadersField from './HeadersField';
-import BasicAuthField from './BasicAuthField';
 import BodyField from './BodyField';
 
 export const requestForm = 'request';
@@ -51,10 +50,6 @@ function Request(props) {
         <FormSection
           name="auth"
           component={AuthField}
-        />
-        <Fields
-          names={['basicAuth.username', 'basicAuth.password']}
-          component={BasicAuthField}
         />
         {!['GET', 'HEAD'].includes(formValues.method) && (
           <BodyField />

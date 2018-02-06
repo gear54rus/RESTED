@@ -23,16 +23,16 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
           if (context._token) { // eslint-disable-line no-underscore-dangle
             data.apsToken = {
               value: context._token, // eslint-disable-line no-underscore-dangle
-              receivedAt: Date.now(), // no 'new Date()', everything needs to be serializable
+              receivedAt: performance.timing.responseEnd,
             };
           } else { complete = false; }
 
           if ([oaCPTypes.CCP2, oaCPTypes.MYCP2].includes(page)) {
             if (context.user) {
-              data.userID = context.user.userId;
+              data.userID = String(context.user.userId);
 
               if (page === oaCPTypes.CCP2) {
-                data.accountID = context.user.memberId;
+                data.accountID = String(context.user.memberId);
               }
             } else { complete = false; }
           }

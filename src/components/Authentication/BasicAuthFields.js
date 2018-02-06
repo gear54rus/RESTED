@@ -17,6 +17,7 @@ function RowOrFormGroup({ useRow, children }) {
 
 RowOrFormGroup.propTypes = {
   useRow: PropTypes.bool,
+  children: PropTypes.node.isRequired,
 };
 
 class BasicAuthFields extends React.Component {

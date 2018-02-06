@@ -1,5 +1,5 @@
 function padTime(number) {
-  return number < 10 ? '0' + number : number;
+  return String(number < 10 ? `0${number}` : number);
 }
 
 export function secondsToHM(seconds) {

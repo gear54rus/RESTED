@@ -1,19 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HeadersField should match the previous snapshot 1`] = `
-<div
-  className="hNpSwj"
->
+<div>
   <button
-    className="btn btn-link"
+    className="diHGTo btn btn-link"
     disabled={false}
     onClick={[Function]}
     type="button"
   >
-    <h4>
+    <h4
+      className="dQgEds"
+    >
       Headers
       <i
-        className="fa fa-angle-right"
+        className="fa fa-angle-right fWoLNy"
         role="presentation"
       />
     </h4>

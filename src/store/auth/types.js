@@ -1,3 +1,4 @@
+export const APS_BROWSER_DATA_RECEIVED = 'auth/aps/BROWSER_TOKEN_RECEIVED';
 export const APS_SET_AUTO_REFRESH = 'auth/aps/SET_AUTO_REFRESH';
 export const APS_TOKEN_REFRESH_START = 'auth/aps/TOKEN_REFRESH_START';
 export const APS_TOKEN_REFRESH_ERROR = 'auth/aps/TOKEN_REFRESH_ERROR';

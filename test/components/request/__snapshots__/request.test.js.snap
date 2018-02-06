@@ -225,19 +225,19 @@ exports[`should render correctly 1`] = `
           </button>
         </div>
       </div>
-      <div
-        className="hNpSwj"
-      >
+      <div>
         <button
-          className="btn btn-link"
+          className="diHGTo btn btn-link"
           disabled={false}
           onClick={[Function]}
           type="button"
         >
-          <h4>
+          <h4
+            className="dQgEds"
+          >
             Headers
             <i
-              className="fa fa-angle-right"
+              className="fa fa-angle-right fWoLNy"
               role="presentation"
             />
           </h4>
@@ -273,19 +273,19 @@ exports[`should render correctly 1`] = `
           </div>
         </div>
       </div>
-      <div
-        className="hNpSwj"
-      >
+      <div>
         <button
-          className="btn btn-link"
+          className="diHGTo btn btn-link"
           disabled={false}
           onClick={[Function]}
           type="button"
         >
-          <h4>
-            APS Token
+          <h4
+            className="dQgEds"
+          >
+            Authentication
             <i
-              className="fa fa-angle-right"
+              className="fa fa-angle-right fWoLNy"
               role="presentation"
             />
           </h4>
@@ -300,147 +300,67 @@ exports[`should render correctly 1`] = `
             <div
               className="form-group"
             >
-              <div
-                className="col-xs-10"
+              <label
+                className="col-xs-2 control-label"
+                htmlFor="auth"
               >
-                <input
+                Type
+              </label>
+              <div
+                className="col-xs-8"
+              >
+                <select
                   className="form-control"
-                  id={undefined}
-                  name="apsToken.value"
+                  id="auth"
+                  name="auth.type"
                   onBlur={[Function]}
                   onChange={[Function]}
-                  onDragStart={undefined}
-                  onDrop={undefined}
+                  onDragStart={[Function]}
+                  onDrop={[Function]}
                   onFocus={[Function]}
-                  placeholder="APS Token in base64 format"
-                  type="text"
-                  value=""
-                />
-              </div>
-              <div
-                className="col-xs-2"
-              >
-                <div
-                  className="checkbox"
-                  style={undefined}
+                  placeholder="Authentication type"
+                  type={undefined}
+                  value="disabled"
                 >
-                  <label>
-                    <input
-                      checked=""
-                      disabled={false}
-                      name="apsToken.send"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onDragStart={undefined}
-                      onDrop={undefined}
-                      onFocus={[Function]}
-                      type="checkbox"
-                      value=""
-                    />
-                    Send APS Token?
-                  </label>
-                </div>
+                  <option
+                    value="disabled"
+                  >
+                    Disabled
+                  </option>
+                  <option
+                    value="basic"
+                  >
+                    Basic
+                  </option>
+                  <option
+                    value="apsToken"
+                  >
+                    APS Token
+                  </option>
+                  <option
+                    value="oauth1"
+                  >
+                    OAuth 1.0a
+                  </option>
+                </select>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div
-        className="hNpSwj"
-      >
+      <div>
         <button
-          className="btn btn-link"
+          className="diHGTo btn btn-link"
           disabled={false}
           onClick={[Function]}
           type="button"
         >
-          <h4>
-            Basic auth
-            <i
-              className="fa fa-angle-right"
-              role="presentation"
-            />
-          </h4>
-        </button>
-        <div
-          aria-expanded={null}
-          className="collapse row"
-        >
-          <div
-            className="col-xs-12"
+          <h4
+            className="dQgEds"
           >
-            <div
-              className="form-group"
-            >
-              <div
-                className="col-xs-5"
-              >
-                <input
-                  className="form-control"
-                  id="method"
-                  name="basicAuth.username"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onDragStart={undefined}
-                  onDrop={undefined}
-                  onFocus={[Function]}
-                  placeholder="Username"
-                  type="text"
-                  value=""
-                />
-              </div>
-              <div
-                className="col-xs-5"
-              >
-                <input
-                  className="form-control"
-                  id="method"
-                  name="basicAuth.password"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onDragStart={undefined}
-                  onDrop={undefined}
-                  onFocus={[Function]}
-                  placeholder="Password"
-                  type="password"
-                  value=""
-                />
-              </div>
-              <div
-                className="col-xs-2"
-              >
-                <div
-                  className="checkbox"
-                  style={undefined}
-                >
-                  <label>
-                    <input
-                      checked={false}
-                      disabled={false}
-                      onChange={[Function]}
-                      type="checkbox"
-                    />
-                    Show password?
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        className="hNpSwj"
-      >
-        <button
-          className="btn btn-link"
-          disabled={false}
-          onClick={[Function]}
-          type="button"
-        >
-          <h4>
             Request body
             <i
-              className="fa fa-angle-right"
+              className="fa fa-angle-right fWoLNy"
               role="presentation"
             />
           </h4>

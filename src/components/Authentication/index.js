@@ -12,6 +12,8 @@ import BasicFields from './BasicAuthFields';
 import APSTokenFields from './APSTokenFields';
 import OAuth1Fields from './OAuth1Fields';
 
+export const authCollapsibleID = 'auth';
+
 function AuthTypeField({ input }) {
   return (
     <FormGroup controlId="auth">
@@ -63,7 +65,7 @@ function Authentication({ authType }) {
   return (
     <Collapsible
       title="Authentication"
-      id="auth"
+      id={authCollapsibleID}
     >
       <Field
         name="type"

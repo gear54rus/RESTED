@@ -84,7 +84,7 @@ function createUUID() {
   return UUID.create().toString();
 }
 
-function* addAuth(fetchInput, fields) {
+export function* addAuth(fetchInput, fields) {
   const type = fields.auth.type;
 
   if (type in authTypes) {

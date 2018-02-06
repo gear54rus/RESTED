@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Field, FormSection } from 'redux-form';
-import { Col, Row, FormGroup, FormControl, Button, Checkbox, Alert, Label } from 'react-bootstrap';
+import { Col, Row, FormGroup, FormControl, Button, Checkbox, Alert } from 'react-bootstrap';
 
-import { textFieldShape } from 'propTypes/field';
+import { textFieldShape, selectFieldShape } from 'propTypes/field';
 import { apsFetchedTokenShape as fetchedTokenShape } from 'propTypes/auth';
 import { getURL, getAPSTokenType } from 'store/request/selectors';
 import { getAPSTokenTTL as getTokenTTL } from 'store/options/selectors';
@@ -17,12 +17,7 @@ import {
   apsGetTokenExpired as getTokenExpired,
 } from 'store/auth/selectors';
 
-import {
-  apsRefreshToken as refreshToken,
-  apsTokenChanged as tokenChanged,
-  apsSetTokenExpired as setTokenExpired,
-  apsSetAutoRefresh as setAutoRefresh,
-} from 'store/auth/actions';
+import * as authActions from 'store/auth/actions';
 import { secondsToHM, timeHMS } from 'utils/dateTime';
 import { tokenTypes, oaAPIURL } from 'utils/aps';
 
@@ -45,7 +40,7 @@ class TokenTTL extends React.Component {
     offset: 0,
   };
 
-  timer = null;
+  timer = null; // eslint-disable-line react/sort-comp
 
   updateBar(changedTime) {
     const {
@@ -58,7 +53,7 @@ class TokenTTL extends React.Component {
 
       this.setState({
         now: 0,
-        text: 'NO TOKEN',
+        text: '',
       });
 
       return;
@@ -150,7 +145,7 @@ class TokenTTL extends React.Component {
               // bar width sometimes returned incorrectly
               // so we calculate it manually
 
-              const margin = ADDITIONAL_MARGIN * 2 + width.text;
+              const margin = (ADDITIONAL_MARGIN * 2) + width.text;
               const newOffset = (width.top - width.bar) > margin
                 ? -(width.text + ADDITIONAL_MARGIN)
                 : ADDITIONAL_MARGIN;
@@ -168,11 +163,11 @@ class TokenTTL extends React.Component {
   }
 }
 
-TokenTTL = connect(state => ({
+TokenTTL = connect(state => ({ // eslint-disable-line no-class-assign
   tokenTTL: getTokenTTL(state),
-}), { setTokenExpired })(TokenTTL);
+}), { setTokenExpired: authActions.apsSetTokenExpired })(TokenTTL);
 
-function renderValueField({ input, fetchedToken, tokenChangedTime, tokenChanged, a }) {
+function renderValueField({ input, fetchedToken, tokenChangedTime, tokenChanged }) {
   let description;
   let changedTime = null;
 
@@ -180,16 +175,19 @@ function renderValueField({ input, fetchedToken, tokenChangedTime, tokenChanged,
     description = 'No token';
   } else if (!fetchedToken || (fetchedToken.value !== input.value)) {
     changedTime = tokenChangedTime;
-    description = `Unknown manually entered token, changed at ${timeHMS(new Date(tokenChangedTime))}`
+    description = `Unknown manually entered token, changed at ${timeHMS(new Date(changedTime))}`;
   } else {
     const tokenType = tokenTypes[fetchedToken.type];
     const params = fetchedToken.params
       .map((param, index) => param && `${tokenType.placeholders[index]}: ${param}`)
       .join(', ');
     changedTime = fetchedToken.time;
+    const tokenURL = (new URL(fetchedToken.url)).origin;
+    const origin = (fetchedToken.origin === 'api') ? 'XML API' : 'browser tab';
     const fetchedAt = timeHMS(new Date(changedTime));
 
-    description = `${tokenType.caption} token (${params}) from '${fetchedToken.url}' fetched at ${fetchedAt}`;
+    description = `${tokenType.caption} token ${params.length ? `(${params})` : ''}` +
+      ` from ${origin} at '${tokenURL}' (${fetchedAt})`;
   }
 
   return (
@@ -218,12 +216,17 @@ renderValueField.propTypes = {
   tokenChanged: PropTypes.func.isRequired,
 };
 
-renderValueField = connect(state => ({
+renderValueField = connect(state => ({ // eslint-disable-line no-func-assign
   fetchedToken: getFetchedToken(state),
   tokenChangedTime: getTokenChangedTime(state),
-}), { tokenChanged })(renderValueField);
+}), { tokenChanged: authActions.apsTokenChanged })(renderValueField);
 
-class OAAPIURL extends React.Component {
+class OAAPIURL extends React.Component { // eslint-disable-line react/no-multi-comp
+  static propTypes = {
+    ...textFieldShape,
+    requestURL: PropTypes.string,
+  };
+
   updateURL(newProps) {
     const { input } = this.props;
     let apiURL;
@@ -232,7 +235,7 @@ class OAAPIURL extends React.Component {
     try {
       requestURL = new URL((newProps || this.props).requestURL);
       apiURL = new URL(input.value);
-    } catch(e) {
+    } catch (e) {
       if (!requestURL) {
         return;
       }
@@ -265,7 +268,7 @@ class OAAPIURL extends React.Component {
   }
 }
 
-OAAPIURL = connect(state => ({
+OAAPIURL = connect(state => ({ // eslint-disable-line no-class-assign
   requestURL: getURL(state),
 }))(OAAPIURL);
 
@@ -292,7 +295,7 @@ function renderTokenTypeField({ input }) {
       placeholder="APS token type"
       {...input}
     >
-      {Object.entries(tokenTypes).map(([ type, { caption }]) => (
+      {Object.entries(tokenTypes).map(([type, { caption }]) => (
         <option
           key={type}
           value={type}
@@ -304,8 +307,10 @@ function renderTokenTypeField({ input }) {
   );
 }
 
+renderTokenTypeField.propTypes = selectFieldShape;
+
 function renderTokenMetaFields({ tokenType }) {
-  const tokenTypeData = tokenTypes[tokenTypeKeys.includes(tokenType) ? tokenType : tokenTypeKeys[0]];
+  const tokenTypeData = tokenTypes[tokenType || tokenTypeKeys[0]];
 
   return (
     <Row>
@@ -331,7 +336,11 @@ function renderTokenMetaFields({ tokenType }) {
   );
 }
 
-renderTokenMetaFields = connect(state => ({
+renderTokenMetaFields.propTypes = {
+  tokenType: PropTypes.oneOf(tokenTypeKeys),
+};
+
+renderTokenMetaFields = connect(state => ({ // eslint-disable-line no-func-assign
   tokenType: getAPSTokenType(state),
 }))(renderTokenMetaFields);
 
@@ -362,11 +371,11 @@ TokenRefreshButton.propTypes = {
   refreshToken: PropTypes.func.isRequired,
 };
 
-TokenRefreshButton = connect(state => ({
+TokenRefreshButton = connect(state => ({ // eslint-disable-line no-func-assign
   loading: isLoading(state),
   autoRefresh: getAutoRefresh(state),
   tokenExpired: getTokenExpired(state),
-}), { refreshToken })(TokenRefreshButton);
+}), { refreshToken: authActions.apsRefreshToken })(TokenRefreshButton);
 
 function APSTokenFields({ error, autoRefresh, setAutoRefresh }) {
   return (
@@ -407,7 +416,13 @@ function APSTokenFields({ error, autoRefresh, setAutoRefresh }) {
   );
 }
 
+APSTokenFields.propTypes = {
+  error: PropTypes.string,
+  autoRefresh: PropTypes.bool.isRequired,
+  setAutoRefresh: PropTypes.func.isRequired,
+};
+
 export default connect(state => ({
   error: getError(state),
   autoRefresh: getAutoRefresh(state),
-}), { setAutoRefresh })(APSTokenFields);
+}), { setAutoRefresh: authActions.apsSetAutoRefresh })(APSTokenFields);

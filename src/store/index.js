@@ -9,7 +9,6 @@ import history from './history/reducer';
 import modal from './modal/reducer';
 import options from './options/reducer';
 import urlVariables from './urlVariables/reducer';
-import aps from './aps/reducer';
 
 export default combineReducers({
   request,
@@ -21,5 +20,4 @@ export default combineReducers({
   options,
   urlVariables,
   form,
-  aps,
 });

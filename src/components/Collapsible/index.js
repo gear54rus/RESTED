@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { Button, Collapse, Row, Col } from 'react-bootstrap';
+import { Collapse, Row, Col } from 'react-bootstrap';
 
 import * as Actions from 'store/config/actions';
 import { isOpen } from 'store/config/selectors';
 
-import { StyledCollapsible, CollapsibleButton, CollapsibleHeader, AnimatedIcon } from './StyledComponents';
+import { CollapsibleButton, CollapsibleHeader, AnimatedIcon } from './StyledComponents';
 
 export function Collapsible(props) {
   const {
