@@ -1,6 +1,6 @@
 {
   "name": "RESTED APS",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A REST client for the rest of us, with APS features",
   "homepage_url": "https://github.com/odin-public/RESTED-APS",
   "manifest_version": 2,
