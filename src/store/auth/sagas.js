@@ -10,6 +10,7 @@ import { getUrl } from 'store/request/sagas';
 import { apsGetAutoRefresh, apsGetTokenExpired } from 'store/auth/selectors';
 import base64Encode from 'utils/base64';
 import { BASIC_AUTH_HEADER, APS_TOKEN_HEADER } from 'constants/constants';
+import { prependHttp } from 'utils/request';
 import { tokenTypes as apsTokenTypes, oaAPIURL } from 'utils/aps';
 import { signatureMethods as oAuth1SignatureMethods } from 'utils/oauth1';
 
@@ -19,7 +20,6 @@ import {
   APS_TOKEN_REFRESH_ERROR,
   APS_TOKEN_REFRESH_END,
 } from './types';
-
 
 function basicAuthTransform(fetchInput, { auth: { basic } }) {
   if (basic && basic.username) {
@@ -33,17 +33,41 @@ function* apsFillTokenFromBrowser({ form }) {
   yield put(expand(authCollapsibleID));
 }
 
-function* apsGetAPIURL({ url }, request) {
-  if (url) {
-    return url.trim();
-  }
+function* apsChangeAPIURL(url) {
+  return yield put(change(requestForm, 'auth.apsToken.api.url', url));
+}
 
-  const requestUrl = yield call(getUrl, request);
-  const apiURL = yield call(oaAPIURL, requestUrl);
 
-  yield put(change(requestForm, 'auth.apsToken.api.url', apiURL));
+function* apsGetAPIURL(api, request) {
+  let url = String(api.url || '').trim();
 
-  return apiURL;
+  /* eslint-disable no-new, no-empty */
+  try {
+    new URL(url); // check URL validity
+
+    if (url !== api.url) {
+      yield apsChangeAPIURL(url);
+    }
+
+    return url;
+  } catch (e) {}
+
+  url = prependHttp(url);
+
+  try {
+    new URL(url);
+
+    yield apsChangeAPIURL(url);
+
+    return url;
+  } catch (e) {}
+  /* eslint-disable no-new, no-empty */
+
+  url = oaAPIURL(yield call(getUrl, request));
+
+  yield apsChangeAPIURL(url);
+
+  return url;
 }
 
 function* apsGetTokenFromResponse(response) {

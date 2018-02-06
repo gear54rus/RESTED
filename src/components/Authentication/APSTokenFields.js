@@ -227,13 +227,17 @@ class OAAPIURL extends React.Component { // eslint-disable-line react/no-multi-c
     requestURL: PropTypes.string,
   };
 
-  updateURL(newProps) {
+  updateURL(nextProps) {
     const { input } = this.props;
     let apiURL;
     let requestURL;
 
+    if (nextProps && (nextProps.requestURL === this.props.requestURL)) {
+      return; // update should not happen while user is typing
+    }
+
     try {
-      requestURL = new URL((newProps || this.props).requestURL);
+      requestURL = new URL((nextProps || this.props).requestURL);
       apiURL = new URL(input.value);
     } catch (e) {
       if (!requestURL) {

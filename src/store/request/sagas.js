@@ -17,15 +17,39 @@ import { getPlaceholderUrl, getHeaders } from './selectors';
 import { executeRequest, receiveResponse } from './actions';
 import { SEND_REQUEST, REQUEST_FAILED, SELECT_REQUESTED, CHANGE_BODY_TYPE } from './types';
 
-export function* getUrl(request) {
-  if (!request.url) {
-    const fallbackUrl = yield select(getPlaceholderUrl);
-    yield put(change(requestForm, 'url', fallbackUrl));
-    return fallbackUrl;
-  }
 
-  return request.url.trim();
+export function* getUrl({ url: requestURL }) {
+  let url = String(requestURL || '').trim();
+
+  /* eslint-disable no-new, no-empty */
+  try {
+    new URL(url); // check URL validity
+
+    if (url !== requestURL) {
+      yield put(change(requestForm, 'url', url));
+    }
+
+    return url;
+  } catch (e) {}
+
+  url = prependHttp(url);
+
+  try {
+    new URL(url);
+
+    yield put(change(requestForm, 'url', url));
+
+    return url;
+  } catch (e) {}
+  /* eslint-disable no-new, no-empty */
+
+  url = yield select(getPlaceholderUrl);
+
+  yield put(change(requestForm, 'url', url));
+
+  return url;
 }
+/* eslint-enable no-new, no-empty */
 
 export function* getParameters() {
   let parameters = yield select(getUrlVariables);
@@ -40,9 +64,8 @@ export function* getParameters() {
 export function* createResource(request) {
   const url = yield call(getUrl, request);
   const parameters = yield call(getParameters);
-  const resource = mapParameters(url, parameters);
 
-  return yield call(prependHttp, resource);
+  return mapParameters(url, parameters);
 }
 
 export function* buildHeaders({ headers }) {
