@@ -6,4 +6,3 @@
  * http://ecmanaut.blogspot.no/2006/07/encoding-decoding-utf8-in-javascript.html
  */
 export default str => window.btoa(unescape(encodeURIComponent(str)));
-

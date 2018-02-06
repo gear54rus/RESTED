@@ -59,9 +59,4 @@ ModalComponent.propTypes = {
   clearModalData: PropTypes.func.isRequired,
 };
 
-function mapStateToProps({ modal }) {
-  return { modal };
-}
-
-export default connect(mapStateToProps, Actions)(ModalComponent);
-
+export default connect(({ modal }) => ({ modal }), Actions)(ModalComponent);

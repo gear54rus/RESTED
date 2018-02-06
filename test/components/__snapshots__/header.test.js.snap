@@ -7,7 +7,7 @@ exports[`Header renders correctly 1`] = `
   <h1>
     <a
       className="gRAapk"
-      href="https://github.com/gear54rus/RESTED-APS"
+      href="https://github.com/odin-public/RESTED-APS"
       rel="noopener noreferrer"
       target="_blank"
     >

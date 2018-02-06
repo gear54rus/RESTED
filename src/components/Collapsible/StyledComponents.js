@@ -1,24 +1,23 @@
 import styled from 'styled-components';
+import { Button } from 'react-bootstrap';
 
-/* eslint-disable import/prefer-default-export */
-export const StyledCollapsible = styled.div`
-  h4 {
-    margin: 0;
-  }
-  i {
-    margin-left: 5px;
-    transition: .25s ease-in-out;
-  }
-  button {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  button:hover,
-  button:active {
-    text-decoration: none;
-  }
-  pre {
-    padding: 0;
-  }
+import Fonticon from 'components/Fonticon';
+
+export const CollapsibleHeader = styled.h4`
+  margin: 0;
 `;
 
+export const AnimatedIcon = styled(Fonticon)`
+  margin-left: 5px;
+  transition: .25s ease-in-out;
+`;
+
+export const CollapsibleButton = styled(Button)`
+  padding-left: 0;
+  padding-right: 0;
+  
+  &:hover,
+  &:active {
+    text-decoration: none;
+  }
+`;

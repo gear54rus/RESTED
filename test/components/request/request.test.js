@@ -21,6 +21,7 @@ it('should render correctly', () => {
       request: {
         values: {
           bodyType: 'json',
+          auth: { type: 'disabled' },
         },
       },
     },

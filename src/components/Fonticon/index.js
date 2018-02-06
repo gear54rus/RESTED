@@ -16,4 +16,3 @@ Fonticon.propTypes = {
 };
 
 export default Fonticon;
-

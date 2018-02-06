@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field, Fields, FieldArray, getFormValues } from 'redux-form';
+import { reduxForm, Field, FieldArray, FormSection, getFormValues } from 'redux-form';
 import { Panel, Form } from 'react-bootstrap';
 import flow from 'lodash.flow';
 
@@ -8,13 +8,12 @@ import * as requestActions from 'store/request/actions';
 import * as collectionsActions from 'store/collections/actions';
 import { isEditMode } from 'store/config/selectors';
 import { DEFAULT_REQUEST } from 'constants/constants';
+import AuthField from 'components/Authentication';
 
 import Titlebar from './Titlebar';
 import URLField from './URLField';
 import MethodField from './MethodField';
 import HeadersField from './HeadersField';
-import APSTokenField from './APSTokenField';
-import BasicAuthField from './BasicAuthField';
 import BodyField from './BodyField';
 
 export const requestForm = 'request';
@@ -48,13 +47,9 @@ function Request(props) {
           name="headers"
           component={HeadersField}
         />
-        <Fields
-          names={['apsToken.value', 'apsToken.send']}
-          component={APSTokenField}
-        />
-        <Fields
-          names={['basicAuth.username', 'basicAuth.password']}
-          component={BasicAuthField}
+        <FormSection
+          name="auth"
+          component={AuthField}
         />
         {!['GET', 'HEAD'].includes(formValues.method) && (
           <BodyField />
@@ -71,7 +66,6 @@ Request.propTypes = {
   sendRequest: PropTypes.func.isRequired,
   updateRequest: PropTypes.func.isRequired,
   editMode: PropTypes.bool.isRequired,
-
 };
 
 const formOptions = {

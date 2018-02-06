@@ -7,7 +7,7 @@ export default function Footer() {
     <StyledFooter>
       <small>
         <a
-          href="https://github.com/gear54rus/RESTED-APS"
+          href="https://github.com/odin-public/RESTED-APS"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -17,7 +17,7 @@ export default function Footer() {
       ·
       <small>
         <a
-          href="https://github.com/gear54rus/RESTED-APS/issues"
+          href="https://github.com/odin-public/RESTED-APS/issues"
           target="_blank"
           rel="noopener noreferrer"
         >

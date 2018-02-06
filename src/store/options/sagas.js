@@ -5,9 +5,7 @@ import { change } from 'redux-form';
 
 import { OA_CP_TYPES } from 'constants/constants';
 import { requestForm } from 'components/Request';
-import { apsTokenCollapsibleID } from 'components/Request/APSTokenField';
-import { apsRequestForm } from 'components/APSRequest';
-import { expand } from 'store/config/actions';
+import { APS_BROWSER_DATA_RECEIVED } from 'store/auth/types';
 
 import { FETCH_REQUESTED, UPDATE_REQUESTED, UPDATE_OPTION } from './types';
 import { startFetch, receiveOptions } from './actions';
@@ -25,40 +23,64 @@ function* initFromObject(hashObject) {
     data,
   } = hashObject;
 
-  const urlObject = new URL(url);
-  const apsBusURL = new URL(urlObject.origin);
-  const oaAPIURL = new URL(`http://${urlObject.hostname}`);
+  const action = {
+    type: APS_BROWSER_DATA_RECEIVED,
+    form: {
+      auth: {
+        type: 'apsToken',
+        apsToken: {},
+      },
+    },
+    token: null,
+  };
+
+  const apsBusURL = new URL(new URL(url).origin);
 
   apsBusURL.pathname = '/aps/2/resources/';
-  yield put(change(requestForm, 'url', apsBusURL.href));
-
-  oaAPIURL.port = '8440';
-  yield put(change(apsRequestForm, 'url', oaAPIURL.href));
+  action.form.url = String(apsBusURL);
 
   switch (page) {
     case OA_CP_TYPES.PCP:
     case OA_CP_TYPES.CCP1:
     case OA_CP_TYPES.CCP2:
-      yield put(change(apsRequestForm, 'type', 'account'));
-      yield put(change(apsRequestForm, 'params[0]', data.accountID));
+      action.form.auth.apsToken.token = {
+        type: 'account',
+        params: [data.accountID],
+      };
 
       if ('subscriptionID' in data) {
-        yield put(change(apsRequestForm, 'params[1]', data.subscriptionID));
+        action.form.auth.apsToken.token.params.push(data.subscriptionID);
       }
+
       break;
     case OA_CP_TYPES.MYCP1:
     case OA_CP_TYPES.MYCP2:
-      yield put(change(apsRequestForm, 'type', 'user'));
-      yield put(change(apsRequestForm, 'params[0]', data.userID));
+      action.form.auth.apsToken.token = {
+        type: 'user',
+        params: [data.userID],
+      };
+
       break;
     default:
       break;
   }
 
   if ('apsToken' in data) {
-    yield put(change(requestForm, 'apsToken.value', data.apsToken.value));
-    yield put(expand(apsTokenCollapsibleID));
+    action.token = {
+      value: data.apsToken.value,
+      time: data.apsToken.receivedAt,
+      ...action.form.auth.apsToken.token,
+      url,
+    };
+
+    const { token } = action.form.auth.apsToken;
+
+    if (token) {
+      token.value = data.apsToken.value;
+    }
   }
+
+  yield put(action);
 }
 
 // Inspects the URL hash and configures the window

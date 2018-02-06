@@ -1,19 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BodyField should match the previous snapshot when !useFormData 1`] = `
-<div
-  className="hNpSwj"
->
+<div>
   <button
-    className="btn btn-link"
+    className="diHGTo btn btn-link"
     disabled={false}
     onClick={[Function]}
     type="button"
   >
-    <h4>
+    <h4
+      className="dQgEds"
+    >
       Request body
       <i
-        className="fa fa-angle-right"
+        className="fa fa-angle-right fWoLNy"
         role="presentation"
       />
     </h4>
@@ -100,19 +100,19 @@ exports[`BodyField should match the previous snapshot when !useFormData 1`] = `
 `;
 
 exports[`BodyField should match the previous snapshot when bodyType is json 1`] = `
-<div
-  className="hNpSwj"
->
+<div>
   <button
-    className="btn btn-link"
+    className="diHGTo btn btn-link"
     disabled={false}
     onClick={[Function]}
     type="button"
   >
-    <h4>
+    <h4
+      className="dQgEds"
+    >
       Request body
       <i
-        className="fa fa-angle-right"
+        className="fa fa-angle-right fWoLNy"
         role="presentation"
       />
     </h4>
@@ -203,19 +203,19 @@ exports[`BodyField should match the previous snapshot when bodyType is json 1`] 
 `;
 
 exports[`BodyField should match the previous snapshot when bodyType is multipart 1`] = `
-<div
-  className="hNpSwj"
->
+<div>
   <button
-    className="btn btn-link"
+    className="diHGTo btn btn-link"
     disabled={false}
     onClick={[Function]}
     type="button"
   >
-    <h4>
+    <h4
+      className="dQgEds"
+    >
       Request body
       <i
-        className="fa fa-angle-right"
+        className="fa fa-angle-right fWoLNy"
         role="presentation"
       />
     </h4>
@@ -306,19 +306,19 @@ exports[`BodyField should match the previous snapshot when bodyType is multipart
 `;
 
 exports[`BodyField should match the previous snapshot when bodyType is urlencoded 1`] = `
-<div
-  className="hNpSwj"
->
+<div>
   <button
-    className="btn btn-link"
+    className="diHGTo btn btn-link"
     disabled={false}
     onClick={[Function]}
     type="button"
   >
-    <h4>
+    <h4
+      className="dQgEds"
+    >
       Request body
       <i
-        className="fa fa-angle-right"
+        className="fa fa-angle-right fWoLNy"
         role="presentation"
       />
     </h4>

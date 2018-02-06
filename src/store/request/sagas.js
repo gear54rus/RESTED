@@ -3,15 +3,15 @@ import UUID from 'uuid-js';
 import { initialize, change } from 'redux-form';
 import { call, apply, put, select, takeLatest, takeEvery } from 'redux-saga/effects';
 
-import { APS_TOKEN_HEADER } from 'constants/constants';
 import buildRequestData from 'utils/buildRequestData';
 import { reMapHeaders, focusUrlField } from 'utils/requestUtils';
-import { prependHttp, mapParameters, basicAuthHeader } from 'utils/request';
+import { prependHttp, mapParameters } from 'utils/request';
 import { pushHistory } from 'store/history/actions';
 import { getUrlVariables } from 'store/urlVariables/selectors';
 import { requestForm } from 'components/Request';
 import { updateOption } from 'store/options/actions';
 import { getIgnoreCache } from 'store/options/selectors';
+import { authTypes } from 'store/auth/sagas';
 
 import { getPlaceholderUrl, getHeaders } from './selectors';
 import { executeRequest, receiveResponse } from './actions';
@@ -45,19 +45,9 @@ export function* createResource(request) {
   return yield call(prependHttp, resource);
 }
 
-export function* buildHeaders({ headers, basicAuth, apsToken }) {
+export function* buildHeaders({ headers }) {
   const parameters = yield call(getParameters);
   const requestHeaders = new Headers(reMapHeaders(headers, parameters));
-  if (apsToken && apsToken.send) {
-    requestHeaders.append(
-      APS_TOKEN_HEADER,
-      apsToken.value || '',
-    );
-  }
-
-  if (basicAuth && basicAuth.username) {
-    requestHeaders.append(...basicAuthHeader(basicAuth.username, basicAuth.password));
-  }
 
   return requestHeaders;
 }
@@ -94,6 +84,14 @@ function createUUID() {
   return UUID.create().toString();
 }
 
+export function* addAuth(fetchInput, fields) {
+  const type = fields.auth.type;
+
+  if (type in authTypes) {
+    yield call(authTypes[type].transform, fetchInput, fields);
+  }
+}
+
 export function* fetchData({ request }) {
   try {
     yield put(executeRequest());
@@ -110,6 +108,18 @@ export function* fetchData({ request }) {
         : request.data;
     }
 
+    const fetchInput = {
+      method: request.method,
+      url: resource,
+      redirect: 'follow',
+      body,
+      headers,
+      credentials: 'include', // Include cookies
+      cache: ignoreCache ? 'no-store' : 'default',
+    };
+
+    yield call(addAuth, fetchInput, request);
+
     const historyEntry = Immutable.fromJS(request)
       .set('url', resource)
       .set('id', createUUID());
@@ -117,16 +127,7 @@ export function* fetchData({ request }) {
     yield put(pushHistory(historyEntry));
 
     const beforeTime = yield call(getBeforeTime);
-
-    const response = yield call(fetch, resource, {
-      method: request.method,
-      redirect: 'follow',
-      body,
-      headers,
-      credentials: 'include', // Include cookies
-      cache: ignoreCache ? 'no-store' : 'default',
-    });
-
+    const response = yield call(fetch, fetchInput.url, fetchInput);
     const millisPassed = yield call(getMillisPassed, beforeTime);
 
     const responseHeaders = buildResponseHeaders(response);

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { DARK_THEMES } from 'constants/constants';
+import { DARK_THEMES, DEFAULT_HISTORY_SIZE, DEFAULT_APS_TOKEN_TTL } from 'constants/constants';
 
 export const getOptions = state => state.options;
 
@@ -35,7 +35,12 @@ export const getCollectionsMinimized = createSelector(
 
 export const getHistorySize = createSelector(
   [getOptions],
-  options => options && options.getIn(['options', 'historySize'], 10),
+  options => options && options.getIn(['options', 'historySize'], DEFAULT_HISTORY_SIZE),
+);
+
+export const getAPSTokenTTL = createSelector(
+  [getOptions],
+  options => options && options.getIn(['options', 'apsTokenTTL'], DEFAULT_APS_TOKEN_TTL),
 );
 
 export const getBodyType = createSelector(

@@ -54,6 +54,12 @@ export const DEFAULT_SELECTED_COLLECTION = '0';
 export const DEFAULT_HISTORY_SIZE = 10;
 
 /**
+ * Default time in minutes after which an APS
+ * token is considered to be expired.
+ */
+export const DEFAULT_APS_TOKEN_TTL = 25;
+
+/**
  * This is the request used to initialize the
  * request panel. This can be either on
  * application load or on request reset.
@@ -64,9 +70,8 @@ export const DEFAULT_REQUEST = {
     name: '',
     value: '',
   }],
-  apsToken: {
-    value: '',
-    send: true,
+  auth: {
+    type: 'disabled',
   },
   formData: [{
     name: '',
@@ -74,6 +79,16 @@ export const DEFAULT_REQUEST = {
   }],
   cache: false,
 };
+
+/**
+ * HTTP authorization header name
+ */
+export const BASIC_AUTH_HEADER = 'Authorization';
+
+/**
+ * APS token header name
+ */
+export const APS_TOKEN_HEADER = 'APS-Token';
 
 /**
  * Holds the different types of requests
@@ -219,24 +234,6 @@ export const PLACEHOLDER_URLS = [
   'http://bojackhorseman.com',
   'http://visitnorway.com',
 ];
-
-/**
- * This is the request used to initialize the
- * APS request panel. This can be either on
- * application load or on request reset.
- */
-export const DEFAULT_APS_REQUEST = {
-  url: '',
-  type: 'account',
-  username: '',
-  password: '',
-  params: ['', ''],
-};
-
-/**
- * APS token header name
- */
-export const APS_TOKEN_HEADER = 'APS-Token';
 
 /**
  * Content script namespace
