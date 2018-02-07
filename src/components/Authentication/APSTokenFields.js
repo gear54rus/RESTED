@@ -27,6 +27,7 @@ import BasicAuthFields from './BasicAuthFields';
 
 const tokenTypeKeys = Object.keys(tokenTypes);
 
+/* eslint-disable react/sort-comp */
 class TokenTTL extends React.Component {
   static propTypes = {
     changedTime: PropTypes.number,
@@ -36,13 +37,15 @@ class TokenTTL extends React.Component {
 
   state = {
     now: 0,
-    text: '',
+    label: '',
     offset: 0,
   };
 
-  timer = null; // eslint-disable-line react/sort-comp
+  timer = null;
+  animateBackground = false;
+  backgroundAnimation = null;
 
-  updateBar(changedTime) {
+  updateBar(changedTime, firstUpdate) {
     const {
       tokenTTL,
       setTokenExpired,
@@ -53,7 +56,7 @@ class TokenTTL extends React.Component {
 
       this.setState({
         now: 0,
-        text: '',
+        label: '',
       });
 
       return;
@@ -66,27 +69,33 @@ class TokenTTL extends React.Component {
     if (secondsLeft > 0) {
       this.setState({
         now: (secondsLeft / ttlSeconds) * 100,
-        text: secondsToHM(secondsLeft),
+        label: secondsToHM(secondsLeft),
       });
     } else {
       clearInterval(this.timer);
       setTokenExpired(true);
 
+      if (!firstUpdate) {
+        this.animateBackground = true;
+      }
+
       this.setState({
         now: 0,
-        text: 'TOKEN EXPIRED!',
+        label: 'TOKEN EXPIRED',
       });
     }
   }
 
   setUpdating(newTime) {
     clearInterval(this.timer);
-    this.updateBar(newTime);
 
     if (newTime) {
       this.props.setTokenExpired(false);
+      this.animateBackground = false;
       this.timer = setInterval(() => this.updateBar(newTime), 1000);
     }
+
+    this.updateBar(newTime, true);
   }
 
   manageUpdating(nextProps) {
@@ -103,6 +112,25 @@ class TokenTTL extends React.Component {
     }
   }
 
+  flashBackground(background) {
+    const {
+      animateBackground,
+      backgroundAnimation,
+    } = this;
+
+    if (!animateBackground) return;
+
+    if (backgroundAnimation) {
+      backgroundAnimation.cancel();
+    }
+
+    this.animateBackground = false;
+    this.backgroundAnimation = background.animate({
+      backgroundColor: ['#d9534f', window.getComputedStyle(background).backgroundColor],
+      color: ['#fff', window.getComputedStyle(background).color],
+    }, 1500);
+  }
+
   componentWillMount() {
     this.manageUpdating();
   }
@@ -116,20 +144,23 @@ class TokenTTL extends React.Component {
   }
 
   render() {
-    const { now, offset, text } = this.state;
+    const { now, offset, label } = this.state;
 
     return (
       <SmallProgressWithOffsetText
+        bsStyle="info"
         now={now}
+        className={offset < 0 ? 'label-right' : ''}
         label={(
           <div
-            className="text"
-            style={{
-              right: offset,
-              color: offset > 0 ? 'white' : 'black',
-            }}
-            ref={textDiv => { // calculate the placement of text
-              if (!textDiv) return;
+            className="offset-label"
+            style={{ right: offset }}
+            ref={ref => { // calculate the placement of label
+              if (!ref) return;
+
+              const background = ref.parentElement.parentElement;
+
+              this.flashBackground(background);
 
               function getWidth(element) {
                 return parseFloat(window.getComputedStyle(element).width);
@@ -137,17 +168,17 @@ class TokenTTL extends React.Component {
 
               const ADDITIONAL_MARGIN = 5;
               const width = {
-                text: getWidth(textDiv),
-                top: getWidth(textDiv.parentElement.parentElement),
+                label: getWidth(ref),
+                background: getWidth(background),
               };
 
-              width.bar = width.top * (now / 100);
+              width.bar = width.background * (now / 100);
               // bar width sometimes returned incorrectly
               // so we calculate it manually
 
-              const margin = (ADDITIONAL_MARGIN * 2) + width.text;
-              const newOffset = (width.top - width.bar) > margin
-                ? -(width.text + ADDITIONAL_MARGIN)
+              const margin = (ADDITIONAL_MARGIN * 2) + width.label;
+              const newOffset = (width.background - width.bar) > margin
+                ? -(width.label + ADDITIONAL_MARGIN)
                 : ADDITIONAL_MARGIN;
 
               if (offset !== newOffset) {
@@ -155,71 +186,110 @@ class TokenTTL extends React.Component {
               }
             }}
           >
-            {text}
+            {label}
           </div>
         )}
       />
     );
   }
 }
+/* eslint-enable react/sort-comp */
 
 TokenTTL = connect(state => ({ // eslint-disable-line no-class-assign
   tokenTTL: getTokenTTL(state),
 }), { setTokenExpired: authActions.apsSetTokenExpired })(TokenTTL);
 
-function renderValueField({ input, fetchedToken, tokenChangedTime, tokenChanged }) {
-  let description;
-  let changedTime = null;
+class ValueField extends React.Component { // eslint-disable-line react/no-multi-comp
+  static propTypes = {
+    ...textFieldShape,
+    fetchedToken: PropTypes.shape(fetchedTokenShape),
+    tokenChangedTime: PropTypes.number,
+    tokenChanged: PropTypes.func.isRequired,
+  };
 
-  if (!input.value) {
-    description = 'No token';
-  } else if (!fetchedToken || (fetchedToken.value !== input.value)) {
-    changedTime = tokenChangedTime;
-    description = `Unknown manually entered token, changed at ${timeHMS(new Date(changedTime))}`;
-  } else {
-    const tokenType = tokenTypes[fetchedToken.type];
-    const params = fetchedToken.params
-      .map((param, index) => param && `${tokenType.placeholders[index]}: ${param}`)
-      .join(', ');
-    changedTime = fetchedToken.time;
-    const tokenURL = (new URL(fetchedToken.url)).origin;
-    const origin = (fetchedToken.origin === 'api') ? 'XML API' : 'browser tab';
-    const fetchedAt = timeHMS(new Date(changedTime));
+  animateInput = false;
+  inputAnimation = null;
 
-    description = `${tokenType.caption} token ${params.length ? `(${params})` : ''}` +
-      ` from ${origin} at '${tokenURL}' (${fetchedAt})`;
+  flashInput(input) {
+    const {
+      animateInput,
+      inputAnimation,
+    } = this;
+
+    if (!animateInput) return;
+
+    if (inputAnimation) {
+      inputAnimation.cancel();
+    }
+
+    this.animateInput = false;
+    this.inputAnimation = input.animate({
+      backgroundColor: ['#5cb85c', window.getComputedStyle(input).backgroundColor],
+      color: ['#fff', window.getComputedStyle(input).color],
+    }, 1500);
   }
 
-  return (
-    <FormGroup>
-      <Col xs={12}>
-        <FormControl
-          type="text"
-          placeholder="APS token"
-          {...input}
-          onChange={event => {
-            tokenChanged(event.target.value);
-            input.onChange(event);
-          }}
-        />
-        <SmallHelpBlock>{description}</SmallHelpBlock>
-        <TokenTTL changedTime={changedTime} />
-      </Col>
-    </FormGroup>
-  );
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.fetchedToken !== this.props.fetchedToken) {
+      this.animateInput = true;
+    }
+  }
+
+  render() {
+    const {
+      input,
+      fetchedToken,
+      tokenChangedTime,
+      tokenChanged,
+    } = this.props;
+
+    let description;
+    let changedTime = null;
+
+    if (!input.value) {
+      description = 'No token';
+    } else if (!fetchedToken || (fetchedToken.value !== input.value)) {
+      changedTime = tokenChangedTime;
+      description = `Unknown manually entered token, changed at ${timeHMS(new Date(changedTime))}`;
+    } else {
+      const tokenType = tokenTypes[fetchedToken.type];
+      const params = fetchedToken.params
+        .map((param, index) => param && `${tokenType.placeholders[index]}: ${param}`)
+        .join(', ');
+      changedTime = fetchedToken.time;
+      const tokenURL = (new URL(fetchedToken.url)).origin;
+      const origin = (fetchedToken.origin === 'api') ? 'XML API' : 'browser tab';
+      const fetchedAt = timeHMS(new Date(changedTime));
+
+      description = `${tokenType.caption} token ${params.length ? `(${params})` : ''}` +
+        ` from ${origin} at '${tokenURL}' (${fetchedAt})`;
+    }
+
+    return (
+      <FormGroup>
+        <Col xs={12}>
+          <FormControl
+            type="text"
+            placeholder="APS token"
+            {...input}
+            onChange={event => {
+              tokenChanged(event.target.value);
+              input.onChange(event);
+            }}
+            inputRef={ref => ref && this.flashInput(ref)}
+          />
+          <SmallHelpBlock>{description}</SmallHelpBlock>
+          <TokenTTL changedTime={changedTime} />
+        </Col>
+      </FormGroup>
+    );
+  }
 }
 
-renderValueField.propTypes = {
-  ...textFieldShape,
-  fetchedToken: PropTypes.shape(fetchedTokenShape),
-  tokenChangedTime: PropTypes.number,
-  tokenChanged: PropTypes.func.isRequired,
-};
-
-renderValueField = connect(state => ({ // eslint-disable-line no-func-assign
+ValueField = connect(state => ({ // eslint-disable-line no-class-assign
   fetchedToken: getFetchedToken(state),
   tokenChangedTime: getTokenChangedTime(state),
-}), { tokenChanged: authActions.apsTokenChanged })(renderValueField);
+}), { tokenChanged: authActions.apsTokenChanged })(ValueField);
 
 class OAAPIURL extends React.Component { // eslint-disable-line react/no-multi-comp
   static propTypes = {
@@ -352,7 +422,7 @@ function TokenRefreshButton({ loading, autoRefresh, tokenExpired, refreshToken }
   return (
     <Button
       onClick={refreshToken}
-      bsStyle={(tokenExpired && autoRefresh) ? 'success' : 'primary'}
+      bsStyle={(tokenExpired && autoRefresh) ? 'warning' : 'primary'}
     >
       Refresh token
       {loading && (
@@ -386,7 +456,7 @@ function APSTokenFields({ error, autoRefresh, setAutoRefresh }) {
     <div>
       <Field
         name="token.value"
-        component={renderValueField}
+        component={ValueField}
       />
       <FormSection
         name="api"
