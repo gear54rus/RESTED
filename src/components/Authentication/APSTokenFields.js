@@ -124,10 +124,12 @@ class TokenTTL extends React.Component {
       backgroundAnimation.cancel();
     }
 
+    const style = window.getComputedStyle(background);
+
     this.animateBackground = false;
     this.backgroundAnimation = background.animate({
-      backgroundColor: ['#d9534f', window.getComputedStyle(background).backgroundColor],
-      color: ['#fff', window.getComputedStyle(background).color],
+      backgroundColor: ['#d9534f', style.backgroundColor],
+      color: ['#fff', style.color],
     }, 1500);
   }
 
@@ -222,10 +224,13 @@ class ValueField extends React.Component { // eslint-disable-line react/no-multi
       inputAnimation.cancel();
     }
 
+    const style = window.getComputedStyle(input);
+
     this.animateInput = false;
     this.inputAnimation = input.animate({
-      backgroundColor: ['#5cb85c', window.getComputedStyle(input).backgroundColor],
-      color: ['#fff', window.getComputedStyle(input).color],
+      borderColor: ['#66afe9', style.borderColor],
+      outline: ['0', style.outline],
+      boxShadow: [`${style.boxShadow}, #66afe999 0px 0px 15px 10px, #66afe999 0px 0px 8px 4px inset`, style.boxShadow],
     }, 1500);
   }
 
