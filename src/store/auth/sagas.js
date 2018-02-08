@@ -145,21 +145,27 @@ export function* apsTokenRefresh() {
       params: apsValues.token.params,
       url,
     });
+
+    return token;
   } catch (error) {
     yield put({ type: APS_TOKEN_REFRESH_ERROR, error: error.message });
   }
+
+  return undefined;
 }
 
 function* apsTokenTransform({ headers }, { auth: { apsToken } }) {
   const tokenExpired = yield select(apsGetTokenExpired);
   const autoRefresh = yield select(apsGetAutoRefresh);
 
+  let token = apsToken && apsToken.token && apsToken.token.value;
+
   if (tokenExpired && autoRefresh) {
-    yield call(apsTokenRefresh);
+    token = yield call(apsTokenRefresh);
   }
 
-  if (apsToken && apsToken.token && apsToken.token.value) {
-    headers.set(APS_TOKEN_HEADER, apsToken.token.value);
+  if (token) {
+    headers.set(APS_TOKEN_HEADER, token);
   }
 }
 
