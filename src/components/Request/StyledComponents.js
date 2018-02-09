@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import IconButton from 'components/IconButton';
-import { Clearfix, Button, HelpBlock } from 'react-bootstrap';
+import { Clearfix, Button } from 'react-bootstrap';
 
 export const StyledHeader = styled(Clearfix)`
   h2 {
@@ -78,8 +78,4 @@ export const Suggestion = styled.div`
   p {
     margin: 0;
   }
-`;
-
-export const SmallHelpBlock = styled(HelpBlock)`
-  margin-bottom: 0px;
 `;

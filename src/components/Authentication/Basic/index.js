@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Col, Row, FormGroup, Checkbox } from 'react-bootstrap';
 
-import TextFieldCol from './TextFieldCol';
+import TextFieldCol from 'components/TextFieldCol';
 
 function RowOrFormGroup({ useRow, children }) {
   return useRow ? (

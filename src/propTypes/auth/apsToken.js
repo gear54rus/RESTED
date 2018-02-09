@@ -1,11 +1,10 @@
 import { PropTypes } from 'react';
 
-import { tokenTypes as apsTokenTypes } from 'utils/aps';
+import { tokenTypes } from 'utils/aps';
 
-const apsTokenTypeKeys = Object.keys(apsTokenTypes);
+const apsTokenTypeKeys = Object.keys(tokenTypes);
 
-// eslint-disable-next-line import/prefer-default-export
-export const apsFetchedTokenShape = {
+export const fetchedTokenShape = { // eslint-disable-line import/prefer-default-export
   time: PropTypes.number.isRequired,
   value: PropTypes.string.isRequired,
   type: PropTypes.oneOf(apsTokenTypeKeys).isRequired,

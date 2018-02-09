@@ -8,9 +8,9 @@ import Collapsible from 'components/Collapsible';
 import { authTypes } from 'store/auth/sagas';
 import { getAuthType } from 'store/request/selectors';
 
-import BasicFields from './BasicAuthFields';
-import APSTokenFields from './APSTokenFields';
-import OAuth1Fields from './OAuth1Fields';
+import BasicFields from './Basic';
+import APSTokenFields from './APSToken';
+import OAuth1Fields from './OAuth1';
 
 export const authCollapsibleID = 'auth';
 

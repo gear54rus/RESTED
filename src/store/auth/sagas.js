@@ -1,171 +1,15 @@
 import oauth1 from 'oauth-1.0a';
-import { change } from 'redux-form';
-import { call, apply, put, select, takeLatest } from 'redux-saga/effects';
+import { fork } from 'redux-saga/effects';
 
-import { authCollapsibleID } from 'components/Authentication';
-import { expand } from 'store/config/actions';
-import { requestForm } from 'components/Request';
-import { getRequest } from 'store/request/selectors';
-import { getUrl } from 'store/request/sagas';
-import { apsGetAutoRefresh, apsGetTokenExpired } from 'store/auth/selectors';
 import base64Encode from 'utils/base64';
-import { BASIC_AUTH_HEADER, APS_TOKEN_HEADER } from 'constants/constants';
-import { prependHttp } from 'utils/request';
-import { tokenTypes as apsTokenTypes, oaAPIURL } from 'utils/aps';
+import { BASIC_AUTH_HEADER } from 'constants/constants';
 import { signatureMethods as oAuth1SignatureMethods } from 'utils/oauth1';
 
-import {
-  APS_BROWSER_DATA_RECEIVED,
-  APS_TOKEN_REFRESH_START,
-  APS_TOKEN_REFRESH_ERROR,
-  APS_TOKEN_REFRESH_END,
-} from './types';
+import apsTokenSaga, { transform as apsTokenTransform } from './apsToken/sagas';
 
-function basicAuthTransform(fetchInput, { auth: { basic } }) {
+export function basicAuthTransform(fetchInput, { auth: { basic } }) {
   if (basic && basic.username) {
     fetchInput.headers.set(BASIC_AUTH_HEADER, `Basic ${base64Encode(`${basic.username}:${basic.password || ''}`)}`);
-  }
-}
-
-function* apsFillTokenFromBrowser({ form }) {
-  yield put(change(requestForm, 'url', form.url));
-  yield put(change(requestForm, 'auth', form.auth));
-  yield put(expand(authCollapsibleID));
-}
-
-function* apsChangeAPIURL(url) {
-  return yield put(change(requestForm, 'auth.apsToken.api.url', url));
-}
-
-
-function* apsGetAPIURL(api, request) {
-  let url = String(api.url || '').trim();
-
-  /* eslint-disable no-new, no-empty */
-  try {
-    new URL(url); // check URL validity
-
-    if (url !== api.url) {
-      yield apsChangeAPIURL(url);
-    }
-
-    return url;
-  } catch (e) {}
-
-  url = prependHttp(url);
-
-  try {
-    new URL(url);
-
-    yield apsChangeAPIURL(url);
-
-    return url;
-  } catch (e) {}
-  /* eslint-disable no-new, no-empty */
-
-  url = oaAPIURL(yield call(getUrl, request));
-
-  yield apsChangeAPIURL(url);
-
-  return url;
-}
-
-function* apsGetTokenFromResponse(response) {
-  if (response.status !== 200) {
-    switch (response.status) {
-      case 401:
-        throw new Error('Authorization required');
-      case 403:
-        throw new Error('Wrong credentials supplied');
-      default:
-        throw new Error(`HTTP code ${response.status} received`);
-    }
-  }
-
-  const body = yield apply(response, response.text);
-
-  const matches = {
-    token: /<member><name>aps_token<\/name><value><string>([^<]+)<\/string><\/value><\/member>/.exec(body),
-    faultString: /<member><name>faultString<\/name><value><string>([^<]+)<\/string><\/value><\/member>/.exec(body),
-    error: /<member><name>error_message<\/name><value><string>([^<]+)<\/string><\/value><\/member>/.exec(body),
-  };
-
-  let errorMessage;
-
-  if (matches.token) return matches.token[1];
-  if (matches.faultString) errorMessage = matches.faultString[1];
-  if (matches.error) errorMessage = matches.error[1];
-
-  if (errorMessage) {
-    throw new Error(`OA API error: ${errorMessage}`);
-  } else {
-    throw new Error('Unable to parse OA API response');
-  }
-}
-
-export function* apsTokenRefresh() {
-  try {
-    const request = yield select(getRequest);
-    const apsValues = request.auth.apsToken || {};
-
-    apsValues.api = Object.assign({
-      url: '',
-      username: '',
-      password: '',
-    }, apsValues.api);
-
-    apsValues.token = Object.assign({
-      value: '',
-      type: Object.keys(apsTokenTypes)[0],
-      params: [''],
-    }, apsValues.token);
-
-    const fetchInput = {
-      method: 'POST',
-      credentials: 'omit',
-      redirect: 'error',
-      headers: new Headers(),
-      body: apsTokenTypes[apsValues.token.type].generator(...apsValues.token.params),
-    };
-
-    const url = yield call(apsGetAPIURL, apsValues.api, request);
-
-    basicAuthTransform(fetchInput, { auth: { basic: apsValues.api } });
-
-    const response = yield call(fetch, url, fetchInput);
-    const token = yield call(apsGetTokenFromResponse, response);
-
-    yield put(change(requestForm, 'auth.apsToken.token.value', token));
-
-    yield put({
-      type: APS_TOKEN_REFRESH_END,
-      time: (new Date()).getTime(),
-      value: token,
-      tokenType: apsValues.token.type,
-      params: apsValues.token.params,
-      url,
-    });
-
-    return token;
-  } catch (error) {
-    yield put({ type: APS_TOKEN_REFRESH_ERROR, error: error.message });
-  }
-
-  return undefined;
-}
-
-function* apsTokenTransform({ headers }, { auth: { apsToken } }) {
-  const tokenExpired = yield select(apsGetTokenExpired);
-  const autoRefresh = yield select(apsGetAutoRefresh);
-
-  let token = apsToken && apsToken.token && apsToken.token.value;
-
-  if (tokenExpired && autoRefresh) {
-    token = yield call(apsTokenRefresh);
-  }
-
-  if (token) {
-    headers.set(APS_TOKEN_HEADER, token);
   }
 }
 
@@ -200,6 +44,5 @@ export const authTypes = {
 };
 
 export default function* rootSaga() {
-  yield takeLatest(APS_BROWSER_DATA_RECEIVED, apsFillTokenFromBrowser);
-  yield takeLatest(APS_TOKEN_REFRESH_START, apsTokenRefresh);
+  yield fork(apsTokenSaga);
 }
