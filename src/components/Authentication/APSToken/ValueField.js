@@ -69,9 +69,15 @@ class ValueField extends React.Component {
       description = `Unknown manually entered token, changed at ${timeHMS(new Date(changedTime))}`;
     } else {
       const tokenType = tokenTypes[fetchedToken.type];
-      const params = fetchedToken.params
-        .map((param, index) => param && `${tokenType.placeholders[index]}: ${param}`)
+      const params = tokenType.placeholders
+        .map((placeholder, index) => {
+          const param = fetchedToken.params[index];
+
+          return param && `${placeholder}: ${param}`;
+        })
+        .filter(value => value) // remove falsy values
         .join(', ');
+
       changedTime = fetchedToken.time;
       const tokenURL = (new URL(fetchedToken.url)).origin;
       const origin = (fetchedToken.origin === 'api') ? 'XML API' : 'browser tab';
