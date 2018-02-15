@@ -1,10 +1,11 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 function Fonticon({ icon, className }) {
   return (
     <i
-      className={classNames('fa', `fa-${icon}`, className)}
+      className={classNames('fas', `fa-${icon}`, className)}
       role="presentation"
     />
   );

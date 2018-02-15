@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Alert } from 'react-bootstrap';
+import { Alert, Panel } from 'react-bootstrap';
 import Highlight from 'react-highlight';
 import formatXml from 'xml-formatter';
 
@@ -33,7 +34,7 @@ function Titlebar({ url, time }) {
 }
 
 Titlebar.propTypes = {
-  url: responseShape.url,
+  url: responseShape.url, // eslint-disable-line react/no-typos
   time: PropTypes.node.isRequired,
 };
 
@@ -85,41 +86,52 @@ export function Response(props) {
   return (
     <StyledResponse
       wrapResponse={wrapResponse}
-      header={<Titlebar method={method} url={url} time={time} />}
     >
-      <h3>
-        <Status
-          green={response.status >= 200 && response.status < 300}
-          red={response.status >= 400 && response.status < 600}
-        >
-          {response.status}
-        </Status>
-        <small> {response.statusText}</small>
-      </h3>
+      <Panel.Heading>
+        <Panel.Title
+          componentClass={Titlebar}
+          method={method}
+          url={url}
+          time={time}
+        />
+      </Panel.Heading>
+      <Panel.Body>
+        <h3>
+          <Status
+            green={response.status >= 200 && response.status < 300}
+            red={response.status >= 400 && response.status < 600}
+          >
+            {response.status}
+          </Status>
+          <small> {response.statusText}</small>
+        </h3>
 
-      <Headers headers={interceptedResponse.responseHeaders} />
-      {type.html && <RenderedResponse html={body} />}
+        <Headers headers={interceptedResponse.responseHeaders} />
+        {type.html && <RenderedResponse html={body} />}
 
-      {!highlightingDisabled && contentSize < 20000
-        ? (
-          <Highlight>
-            {body}
-          </Highlight>
-        ) : (
-          <span>
-            {contentSize >= 20000 && (
-              <Alert bsStyle="warning">
-                The size of the response is greater than 20KB, syntax
-                highlighting has been disabled for performance reasons.
-              </Alert>
-            )}
-
-            <code><pre>
+        {!highlightingDisabled && contentSize < 20000
+          ? (
+            <Highlight>
               {body}
-            </pre></code>
-          </span>
-        )
-      }
+            </Highlight>
+          ) : (
+            <span>
+              {contentSize >= 20000 && (
+                <Alert bsStyle="warning">
+                  The size of the response is greater than 20KB, syntax
+                  highlighting has been disabled for performance reasons.
+                </Alert>
+              )}
+
+              <code>
+                <pre>
+                  {body}
+                </pre>
+              </code>
+            </span>
+          )
+        }
+      </Panel.Body>
     </StyledResponse>
   );
 }

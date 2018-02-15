@@ -1,10 +1,12 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Panel } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import IconButton from 'components/IconButton';
 import * as Actions from 'store/history/actions';
 
-import { Panel } from './StyledComponents';
+import { StyledPanel } from './StyledComponents';
 import HistoryList from './HistoryList';
 
 function Titlebar({ clearHistory }) {
@@ -26,9 +28,17 @@ Titlebar.propTypes = {
 
 function History({ clearHistory }) {
   return (
-    <Panel header={<Titlebar clearHistory={clearHistory} />}>
-      <HistoryList />
-    </Panel>
+    <StyledPanel>
+      <Panel.Heading>
+        <Panel.Title
+          componentClass={Titlebar}
+          clearHistory={clearHistory}
+        />
+      </Panel.Heading>
+      <Panel.Body>
+        <HistoryList />
+      </Panel.Body>
+    </StyledPanel>
   );
 }
 

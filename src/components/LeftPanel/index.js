@@ -1,13 +1,14 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { NavItem } from 'react-bootstrap';
+import { Panel, NavItem } from 'react-bootstrap';
 
 import Collections from 'components/Collections';
 import History from 'components/History';
 import { updateOption } from 'store/options/actions';
 import { getActiveTab } from 'store/options/selectors';
 
-import { Panel, StyledTitlebar } from './StyledComponents';
+import { StyledPanel, StyledTitlebar } from './StyledComponents';
 
 function Titlebar(props) {
   return (
@@ -20,10 +21,19 @@ function Titlebar(props) {
 
 function LeftPanel({ activeTab, setActiveTab }) {
   return (
-    <Panel header={<Titlebar activeKey={activeTab} onSelect={setActiveTab} />}>
-      {activeTab === 'collections' && <Collections />}
-      {activeTab === 'history' && <History />}
-    </Panel>
+    <StyledPanel>
+      <Panel.Heading>
+        <Panel.Title
+          componentClass={Titlebar}
+          activeKey={activeTab}
+          onSelect={setActiveTab}
+        />
+      </Panel.Heading>
+      <Panel.Body>
+        {activeTab === 'collections' && <Collections />}
+        {activeTab === 'history' && <History />}
+      </Panel.Body>
+    </StyledPanel>
   );
 }
 
@@ -39,4 +49,3 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   setActiveTab: value => updateOption('activeTab', value),
 })(LeftPanel);
-

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
@@ -146,11 +147,16 @@ class ImportPane extends React.Component {
             This means you can do a request you would like
             to recreate or alter at a later date, and import
             it to your collected requests. See
+            {' '}
             <a
               href="https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor#CopySave_All_As_HAR"
               target="_blank"
               rel="noopener noreferrer"
-            > this link</a> for details.
+            >
+              this link
+            </a>
+            {' '}
+            for details.
           </p>
           <p>
             An option to import data from Postman (Chrome extension)

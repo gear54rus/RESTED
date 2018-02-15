@@ -7,10 +7,9 @@ export default function Loading() {
   return (
     <Col xs={12} className="text-center">
       <LoadingSpinner
-        icon="gear"
-        className="fa-spin"
+        icon="circle-notch"
+        className="fa-spin fa-9x"
       />
     </Col>
   );
 }
-

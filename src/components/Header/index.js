@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isDarkTheme } from 'store/options/selectors';
 
@@ -14,8 +15,8 @@ export function Header({ darkMode }) {
           rel="noopener noreferrer"
         >
           <img
+            alt="RESTED APS"
             className="logo"
-            role="presentation"
             height="40"
             src="img/rested-aps-logo.png"
           />

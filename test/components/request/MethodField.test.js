@@ -54,9 +54,8 @@ describe('MethodField', () => {
     );
 
     const options = tree.find('option');
-    const amountOfOptions = options.reduce(prev => prev + 1, 0);
 
-    expect(amountOfOptions).toBe(8);
+    expect(options.length).toBe(8);
 
     // Assert all options are part of the REQUEST_METHODS set
     options.forEach(option => {

@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { fieldPropTypes, fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form';
 
 const { shape } = PropTypes;

@@ -3,17 +3,17 @@
 exports[`should render correctly 1`] = `
 <div>
   <button
-    className="diHGTo btn btn-link"
+    className="sc-htpNat iPErUs btn btn-link"
     disabled={false}
     onClick={[Function]}
     type="button"
   >
     <h4
-      className="dQgEds"
+      className="sc-bdVaJa bcSwbK"
     >
       Test
       <i
-        className="fa fa-angle-right fWoLNy"
+        className="fas fa-angle-right sc-bwzfXH dSpMtd"
         role="presentation"
       />
     </h4>

@@ -108,7 +108,7 @@ function createUUID() {
 }
 
 export function* addAuth(fetchInput, fields) {
-  const type = fields.auth.type;
+  const { type } = fields.auth;
 
   if (type in authTypes) {
     yield call(authTypes[type].transform, fetchInput, fields);

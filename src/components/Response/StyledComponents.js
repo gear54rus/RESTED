@@ -11,6 +11,7 @@ export const StyledResponse = styled(PrunedPanel)`
   pre {
     padding: 0;
   }
+
   pre, code {
     ${props => props.wrapResponse && 'white-space: pre-wrap;'};
   }
@@ -18,7 +19,7 @@ export const StyledResponse = styled(PrunedPanel)`
 
 export const LoadingSpinner = styled(Fonticon)`
   padding: 40px 0 40px;
-  font-size: 3em;
+  font-size: 5em;
   opacity: 0.9;
 `;
 
@@ -32,7 +33,7 @@ export const StyledHeader = styled.div`
 `;
 
 export const Status = styled.span`
-  fontSize: 32px;
+  font-size: 32px;
   color: orange;
   ${props => props.green && 'color: green;'}
   ${props => props.red && 'color: red;'}
@@ -49,4 +50,3 @@ export const PreviewContainer = styled(Panel)`
     height: 600px;
   }
 `;
-

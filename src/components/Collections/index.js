@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Panel } from 'react-bootstrap';
 
@@ -26,8 +27,16 @@ Titlebar.propTypes = {
 
 function Collections({ addCollection }) {
   return (
-    <Panel header={<Titlebar addCollection={addCollection} />}>
-      <CollectionList />
+    <Panel>
+      <Panel.Heading>
+        <Panel.Title
+          componentClass={Titlebar}
+          addCollection={addCollection}
+        />
+      </Panel.Heading>
+      <Panel.Body>
+        <CollectionList />
+      </Panel.Body>
     </Panel>
   );
 }

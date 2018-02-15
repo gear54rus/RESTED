@@ -2,7 +2,7 @@
 
 exports[`Fonticon matches the previous snapshot 1`] = `
 <i
-  className="fa fa-cog"
+  className="fas fa-cog"
   role="presentation"
 />
 `;

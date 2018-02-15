@@ -17,24 +17,23 @@ Promise.all([
   localforage.defineDriver(localDriver),
   localforage.defineDriver(syncDriver),
 ])
-.then(() => localforage.setDriver('webExtensionLocalStorage'))
-.then(() => localforage.getItem('options'))
-.then(options => {
-  if (options && options.sync) {
-    return localforage.setDriver('webExtensionSyncStorage');
-  }
+  .then(() => localforage.setDriver('webExtensionLocalStorage'))
+  .then(() => localforage.getItem('options'))
+  .then(options => {
+    if (options && options.sync) {
+      return localforage.setDriver('webExtensionSyncStorage');
+    }
 
-  return null;
-})
-.then(() => {
-  const store = configureStore.default();
-  initializeInterceptors(store);
+    return null;
+  })
+  .then(() => {
+    const store = configureStore.default();
+    initializeInterceptors(store);
 
-  ReactDOM.render(
-    <Provider store={store}>
-      <Root.default />
-    </Provider>,
-    document.getElementById('app'),
-  );
-});
-
+    ReactDOM.render(
+      <Provider store={store}>
+        <Root.default />
+      </Provider>,
+      document.getElementById('app'),
+    );
+  });

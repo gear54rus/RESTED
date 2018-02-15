@@ -17,7 +17,7 @@ describe('Fonticon', () => {
     const tree = mount(
       <Fonticon icon="cog" />,
     );
-    expect(tree.find('i').prop('className')).toBe('fa fa-cog');
+    expect(tree.find('i').prop('className')).toBe('fas fa-cog');
   });
 
   it('has the role "presentation" for a11y', () => {
@@ -31,7 +31,7 @@ describe('Fonticon', () => {
     const tree = mount(
       <Fonticon icon="cog" className="test" />,
     );
-    expect(tree.find('i').prop('className')).toBe('fa fa-cog test');
+    expect(tree.find('i').prop('className')).toBe('fas fa-cog test');
   });
 });
 

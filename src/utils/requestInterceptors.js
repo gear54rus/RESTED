@@ -12,7 +12,7 @@ const blacklistedUrls = [
 
 const beforeRedirectInterceptor = ({ getState, dispatch }) => response => {
   const state = getState();
-  const lastRequestTime = state.request.lastRequestTime;
+  const { lastRequestTime } = state.request;
 
   dispatch(pushRedirectChain({
     ...response,
@@ -28,7 +28,7 @@ const completedInterceptor = ({ getState, dispatch }) => response => {
   }
 
   const state = getState();
-  const lastRequestTime = state.request.lastRequestTime;
+  const { lastRequestTime } = state.request;
 
   dispatch(receiveInterceptedResponse({
     ...response,

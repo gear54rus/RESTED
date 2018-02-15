@@ -101,10 +101,10 @@ function* initFromURL() {
     // select request from history
     // yield call(selectRequest, init);
   } else {
-    const url = new URL(location);
+    const url = new URL(window.location);
 
     url.hash = '';
-    history.pushState(null, '', url);
+    window.history.pushState(null, '', url);
 
     yield call(initFromObject, init);
   }
@@ -116,7 +116,7 @@ function* fetchOptionsSaga() {
 
   // v1 -> v2 migration
   if (options && options.length && options[0].options) {
-    options = options[0].options;
+    ([{ options }] = options);
   }
 
   options = Immutable.fromJS(options) || Immutable.Map();

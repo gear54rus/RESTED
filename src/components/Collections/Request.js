@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { DragSource, DropTarget } from 'react-dnd';
 import { ListGroup } from 'react-bootstrap';
@@ -165,7 +166,7 @@ class Request extends React.Component {
                 {!compact && (
                   <IconButton
                     tooltip="Toggle edit"
-                    icon="cog"
+                    icon="pencil-alt"
                     onClick={this.toggleEdit}
                   />
                 )}

@@ -18,7 +18,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
           if (!(window.aps && window.aps.context)) { return; } // Context not loaded yet
 
           let complete = true; // is another run required?
-          const context = window.aps.context;
+          const { context } = window.aps;
 
           if (context._token) { // eslint-disable-line no-underscore-dangle
             data.apsToken = {
@@ -61,7 +61,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
 
     if (temp[0] && temp[1] && (temp[2] ? !temp[3] : temp[3])) { // CP1 xor CP2
       result.page = temp[2] ? oaCPTypes.LCP1 : oaCPTypes.LCP2;
-      result.versions.oa = temp[1].getAttribute('src').split('?')[1];
+      [result.versions.oa] = temp[1].getAttribute('src').split('?');
       result.versions.runtime = temp[0].getAttribute('src').split('?')[1].slice(result.versions.oa.length);
 
       return result;
@@ -76,10 +76,10 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
     ].map($);
 
     if (temp[0] && temp[1] && temp[2] && temp[4]) {
-      const url = new URL(location);
+      const url = new URL(window.location);
 
       result.page = url.searchParams.get('cp') ? oaCPTypes.PCP : oaCPTypes.ANYCP1; // leave for topFrame to determine
-      result.versions.oa = temp[1].getAttribute('src').split('?')[1];
+      [result.versions.oa] = temp[1].getAttribute('src').split('?');
 
       return result;
     }
@@ -97,7 +97,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
 
     if (temp[0] && temp[1] && (temp[2] ? !temp[3] : temp[3])) { // CCP xor MyCP
       result.page = temp[2] ? oaCPTypes.CCP2 : oaCPTypes.MYCP2;
-      result.versions.runtime = temp[0].getAttribute('src').split('?')[1].split('=')[1];
+      [result.versions.runtime] = temp[0].getAttribute('src').split('?')[1].split('=');
 
       return result;
     }
@@ -123,7 +123,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
 
       if (subscriptionSelector) {
         globalData.page = oaCPTypes.CCP1;
-        globalData.data.accountID = /.* \(Account ID: (\d+)\)/.exec(userInfo)[1];
+        [globalData.data.accountID] = /.* \(Account ID: (\d+)\)/.exec(userInfo);
 
         if (subscriptionSelector.value === '0') { // 'All Domains' or whatever
           delete globalData.data.subscriptionID;
@@ -132,7 +132,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
         }
       } else {
         globalData.page = oaCPTypes.MYCP1;
-        globalData.data.userID = /.* \(User ID: (\d+)\)/.exec(userInfo)[1];
+        [globalData.data.userID] = /.* \(User ID: (\d+)\)/.exec(userInfo);
       }
     }
 
@@ -153,7 +153,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
   (() => { // detect where we are
     let globalData;
 
-    if (top === window) { // we're top window, check where we are and setup env
+    if (window.top === window) { // we're top window, check where we are and setup env
       const transferNode = document.getElementById(transferNodeID);
       const oaInfo = getOAInfo();
 
@@ -170,13 +170,13 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
       }
 
       objectAssign(globalData, oaInfo, {
-        url: location.href,
+        url: window.location.href,
         data: {},
       });
 
       window[contentScriptNS] = globalData; // OA found, run child frame handlers too
       topWindow(globalData);
-    } else if (top[contentScriptNS]) { // not top but OA window
+    } else if (window.top[contentScriptNS]) { // not top but OA window
       const frameHandlers = {
         topFrame,
         'aps-ui-0': apsUI0,
@@ -184,7 +184,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
       };
 
       if (window.name in frameHandlers) {
-        frameHandlers[window.name](top[contentScriptNS]);
+        frameHandlers[window.name](window.top[contentScriptNS]);
       }
     } // and can't find our env, cease operation
   })();

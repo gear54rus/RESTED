@@ -18,6 +18,7 @@ export const StyledHeader = styled.header`
     h1 {
       color: white;
     }
+    
     img {
       filter: invert(100%);
     }

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { Panel as UnstyledPanel, Nav } from 'react-bootstrap';
+import { Panel, Nav } from 'react-bootstrap';
 
-export const Panel = styled(UnstyledPanel)`
+export const StyledPanel = styled(Panel)`
   > .panel-body {
     padding: 0;
   }

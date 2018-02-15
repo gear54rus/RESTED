@@ -3,17 +3,17 @@
 exports[`BodyField should match the previous snapshot when !useFormData 1`] = `
 <div>
   <button
-    className="diHGTo btn btn-link"
+    className="sc-htpNat iPErUs btn btn-link"
     disabled={false}
     onClick={[Function]}
     type="button"
   >
     <h4
-      className="dQgEds"
+      className="sc-bdVaJa bcSwbK"
     >
       Request body
       <i
-        className="fa fa-angle-right fWoLNy"
+        className="fas fa-angle-right sc-bwzfXH dSpMtd"
         role="presentation"
       />
     </h4>
@@ -102,17 +102,17 @@ exports[`BodyField should match the previous snapshot when !useFormData 1`] = `
 exports[`BodyField should match the previous snapshot when bodyType is json 1`] = `
 <div>
   <button
-    className="diHGTo btn btn-link"
+    className="sc-htpNat iPErUs btn btn-link"
     disabled={false}
     onClick={[Function]}
     type="button"
   >
     <h4
-      className="dQgEds"
+      className="sc-bdVaJa bcSwbK"
     >
       Request body
       <i
-        className="fa fa-angle-right fWoLNy"
+        className="fas fa-angle-right sc-bwzfXH dSpMtd"
         role="presentation"
       />
     </h4>
@@ -173,7 +173,7 @@ exports[`BodyField should match the previous snapshot when bodyType is json 1`] 
         </div>
       </div>
       <div
-        className="eWjddY"
+        className="sc-iwsKbI cEAaLD"
       >
         <div
           className="row"
@@ -182,14 +182,14 @@ exports[`BodyField should match the previous snapshot when bodyType is json 1`] 
             className="col-xs-12"
           >
             <button
-              className="hvMBRh btn btn-link"
+              className="sc-htoDjs lagtJi btn btn-link"
               disabled={false}
               id="addParameter"
               onClick={[Function]}
               type="button"
             >
               <i
-                className="fa fa-plus"
+                className="fas fa-plus"
                 role="presentation"
               />
               Add parameter
@@ -205,17 +205,17 @@ exports[`BodyField should match the previous snapshot when bodyType is json 1`] 
 exports[`BodyField should match the previous snapshot when bodyType is multipart 1`] = `
 <div>
   <button
-    className="diHGTo btn btn-link"
+    className="sc-htpNat iPErUs btn btn-link"
     disabled={false}
     onClick={[Function]}
     type="button"
   >
     <h4
-      className="dQgEds"
+      className="sc-bdVaJa bcSwbK"
     >
       Request body
       <i
-        className="fa fa-angle-right fWoLNy"
+        className="fas fa-angle-right sc-bwzfXH dSpMtd"
         role="presentation"
       />
     </h4>
@@ -276,7 +276,7 @@ exports[`BodyField should match the previous snapshot when bodyType is multipart
         </div>
       </div>
       <div
-        className="eWjddY"
+        className="sc-iwsKbI cEAaLD"
       >
         <div
           className="row"
@@ -285,14 +285,14 @@ exports[`BodyField should match the previous snapshot when bodyType is multipart
             className="col-xs-12"
           >
             <button
-              className="hvMBRh btn btn-link"
+              className="sc-htoDjs lagtJi btn btn-link"
               disabled={false}
               id="addParameter"
               onClick={[Function]}
               type="button"
             >
               <i
-                className="fa fa-plus"
+                className="fas fa-plus"
                 role="presentation"
               />
               Add parameter
@@ -308,17 +308,17 @@ exports[`BodyField should match the previous snapshot when bodyType is multipart
 exports[`BodyField should match the previous snapshot when bodyType is urlencoded 1`] = `
 <div>
   <button
-    className="diHGTo btn btn-link"
+    className="sc-htpNat iPErUs btn btn-link"
     disabled={false}
     onClick={[Function]}
     type="button"
   >
     <h4
-      className="dQgEds"
+      className="sc-bdVaJa bcSwbK"
     >
       Request body
       <i
-        className="fa fa-angle-right fWoLNy"
+        className="fas fa-angle-right sc-bwzfXH dSpMtd"
         role="presentation"
       />
     </h4>
@@ -379,7 +379,7 @@ exports[`BodyField should match the previous snapshot when bodyType is urlencode
         </div>
       </div>
       <div
-        className="eWjddY"
+        className="sc-iwsKbI cEAaLD"
       >
         <div
           className="row"
@@ -388,14 +388,14 @@ exports[`BodyField should match the previous snapshot when bodyType is urlencode
             className="col-xs-12"
           >
             <button
-              className="hvMBRh btn btn-link"
+              className="sc-htoDjs lagtJi btn btn-link"
               disabled={false}
               id="addParameter"
               onClick={[Function]}
               type="button"
             >
               <i
-                className="fa fa-plus"
+                className="fas fa-plus"
                 role="presentation"
               />
               Add parameter

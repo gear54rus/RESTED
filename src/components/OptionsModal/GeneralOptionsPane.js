@@ -1,8 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import Highlight from 'react-highlight';
-import { Col, Table, FormGroup, FormControl, ControlLabel, Checkbox } from 'react-bootstrap';
+import { Col, Table, FormGroup, FormControl, ControlLabel, Checkbox, InputGroup } from 'react-bootstrap';
 
 import * as Actions from 'store/options/actions';
 import { THEMES, HIGHLIGHT_STYLES, DEFAULT_HISTORY_SIZE, DEFAULT_APS_TOKEN_TTL } from 'constants/constants';
@@ -66,13 +67,13 @@ function GeneralOptionsPane({ options, updateOption }) {
               <td>
                 <FormGroup>
                   <Highlight className="json">
-                    {`
-              {
-                example: "json",
-                soThatYouCan: 7357,
-                your: "HIGHLIGHT_STYLE"
-              }
-                    `}
+{ // eslint-disable-line react/jsx-indent
+`{
+  "example": "json",
+  "soThatYouCan": 7357,
+  "your": "HIGHLIGHT_STYLE"
+}`
+}
                   </Highlight>
                 </FormGroup>
               </td>
@@ -99,15 +100,18 @@ function GeneralOptionsPane({ options, updateOption }) {
               <td>
                 <FormGroup>
                   <ControlLabel>
-                    APS token TTL (min)
+                    APS token TTL
                   </ControlLabel>
-                  <FormControl
-                    type="number"
-                    value={options.get('apsTokenTTL', DEFAULT_APS_TOKEN_TTL)}
-                    onChange={e => {
-                      updateOption('apsTokenTTL', e.target.value);
-                    }}
-                  />
+                  <InputGroup>
+                    <FormControl
+                      type="number"
+                      value={options.get('apsTokenTTL', DEFAULT_APS_TOKEN_TTL)}
+                      onChange={e => {
+                        updateOption('apsTokenTTL', e.target.value);
+                      }}
+                    />
+                    <InputGroup.Addon>minutes</InputGroup.Addon>
+                  </InputGroup>
                 </FormGroup>
               </td>
             </tr>

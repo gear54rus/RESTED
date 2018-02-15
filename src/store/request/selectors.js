@@ -14,7 +14,7 @@ export const getAuthType = state => getValues(state).auth.type;
 export const getBodyType = state => getValues(state).bodyType;
 
 export const getAPSTokenType = state => {
-  const apsToken = getValues(state).auth.apsToken;
+  const { apsToken } = getValues(state).auth;
 
   return apsToken && apsToken.token && apsToken.token.type;
 };

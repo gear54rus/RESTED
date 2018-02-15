@@ -19,9 +19,10 @@ export default function configureStore(initialState) {
 
   // Hot reload reducers
   if (module.hot) {
-    module.hot.accept('./', () =>
+    module.hot.accept(
+      './',
       // eslint-disable-next-line global-require
-      store.replaceReducer(require('./').default),
+      () => store.replaceReducer(require('./').default),
     );
   }
 

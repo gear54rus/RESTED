@@ -129,7 +129,7 @@ describe('BodyField', () => {
     let i = 0;
     initialValues.formData.forEach(header => {
       const nameField = inputs.at(i++); // eslint-disable-line no-plusplus
-      const valField = inputs.at(i++);  // eslint-disable-line no-plusplus
+      const valField = inputs.at(i++); // eslint-disable-line no-plusplus
 
       expect(nameField.prop('placeholder')).toBe('Name');
       expect(valField.prop('placeholder')).toBe('Value');

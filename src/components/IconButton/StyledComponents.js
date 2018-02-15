@@ -6,23 +6,23 @@ const iconSize = 16;
 
 export const StyledButton = styled.button`
   border: 10px none;
-  boxSizing: border-box;
+  box-sizing: border-box;
   overflow: visible;
   width: ${iconSize * 2}px;
   height: ${iconSize * 1.5}px;
-  fontSize: 0;
-  backgroundColor: transparent;
+  font-size: 0;
+  background-color: transparent;
 
   display: inline-block;
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
-  textDecoration: none;
+  text-decoration: none;
   margin: 0;
   outline: none;
   position: relative;
-  zIndex: 1;
+  z-index: 1;
 
-  .fa {
-    fontSize: ${iconSize}px;
+  .fas {
+    font-size: ${iconSize}px;
   }
 `;
 
@@ -34,21 +34,21 @@ const containerWhenShown = css`
 `;
 
 const rippleWhenShown = css`
-  backgroundColor: rgb(97, 97, 97);
-  transition: 45ms width ${ease} 0ms, 450ms height ${ease} 0ms, 450ms backgroundColor ${ease} 0ms;
+  background-color: rgb(97, 97, 97);
+  transition: 45ms width ${ease} 0ms, 450ms height ${ease} 0ms, 450ms background-color ${ease} 0ms;
 `;
 
 export const TooltipContainer = styled.div`
   position: absolute;
-  fontSize: 12px;
-  lineHeight: 25px;
+  font-size: 12px;
+  line-height: 25px;
   padding: 0 10px;
-  zIndex: 200;
+  z-index: 200;
   color: white;
   overflow: hidden;
   top: -10000px;
-  borderRadius: 2px;
-  userSelect: none;
+  border-radius: 2px;
+  user-select: none;
   opacity: 0;
   left: ${props => ((props.offsetWidth - (iconSize * 2)) / 2) * -1}px;
 
@@ -62,16 +62,15 @@ export const Ripple = styled.div`
   left: 50%;
   top: 0;
   transform: translate(-50%, -50%);
-  borderRadius: 50%;
+  border-radius: 50%;
   color: black;
-  backgroundColor: transparent;
-  transition: 0ms width ${ease} 450ms, 0ms height ${ease} 450ms, 450ms backgroundColor ${ease} 0ms;
+  background-color: transparent;
+  transition: 0ms width ${ease} 450ms, 0ms height ${ease} 450ms, 450ms background-color ${ease} 0ms;
 
   ${props => props.show && rippleWhenShown}
 `;
 
 export const TooltipLabel = styled.span`
   position: relative;
-  whiteSpace: nowrap;
+  white-space: nowrap;
 `;
-

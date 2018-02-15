@@ -2,19 +2,19 @@
 
 exports[`Header renders correctly 1`] = `
 <header
-  className="cdHpBO"
+  className="sc-bdVaJa hUwptM"
 >
   <h1>
     <a
-      className="gRAapk"
+      className="sc-bwzfXH bFhyne"
       href="https://github.com/odin-public/RESTED-APS"
       rel="noopener noreferrer"
       target="_blank"
     >
       <img
+        alt="RESTED APS"
         className="logo"
         height="40"
-        role="presentation"
         src="img/rested-aps-logo.png"
       />
       <span>

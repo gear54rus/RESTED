@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
@@ -89,7 +90,7 @@ function Titlebar(props) {
       <IconButton
         onClick={() => showOptionsModal(props)}
         tooltip="Options"
-        icon="cog"
+        icon="cogs"
         className="pull-right"
       />
       <IconButton

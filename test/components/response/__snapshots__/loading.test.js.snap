@@ -5,7 +5,7 @@ exports[`Loading matches the previous snapshot 1`] = `
   className="text-center col-xs-12"
 >
   <i
-    className="fa fa-gear fa-spin iKhhRu"
+    className="fas fa-circle-notch fa-spin fa-9x sc-bwzfXH giRnEj"
     role="presentation"
   />
 </div>
