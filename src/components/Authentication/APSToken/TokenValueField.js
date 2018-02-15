@@ -13,7 +13,7 @@ import { tokenTypes } from 'utils/aps';
 import { SmallHelpBlock } from './StyledComponents';
 import TokenTTL from './TokenTTL';
 
-class ValueField extends React.Component {
+class TokenValueField extends React.Component {
   static propTypes = {
     ...textFieldShape,
     fetchedToken: PropTypes.shape(fetchedTokenShape),
@@ -113,4 +113,4 @@ class ValueField extends React.Component {
 export default connect(state => ({
   fetchedToken: getFetchedToken(state),
   tokenChangedTime: getTokenChangedTime(state),
-}), { tokenChanged: actions.tokenChanged })(ValueField);
+}), { tokenChanged: actions.tokenChanged })(TokenValueField);

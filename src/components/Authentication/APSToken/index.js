@@ -11,8 +11,8 @@ import {
 } from 'store/auth/apsToken/selectors';
 import * as actions from 'store/auth/apsToken/actions';
 
-import OAAPIURL from './OAAPIURL';
-import ValueField from './ValueField';
+import OAAPIURLField from './OAAPIURLField';
+import TokenValueField from './TokenValueField';
 import TokenMetaFields from './TokenMetaFields';
 import TokenRefreshButton from './TokenRefreshButton';
 
@@ -22,7 +22,7 @@ function renderAPIFields() {
       <Col xs={5}>
         <Field
           name="url"
-          component={OAAPIURL}
+          component={OAAPIURLField}
         />
       </Col>
       <Col xs={7}>
@@ -37,7 +37,7 @@ function APSTokenFields({ error, autoRefresh, setAutoRefresh }) {
     <div>
       <Field
         name="token.value"
-        component={ValueField}
+        component={TokenValueField}
       />
       <FormSection
         name="api"

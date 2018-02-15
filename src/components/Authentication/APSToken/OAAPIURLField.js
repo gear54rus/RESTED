@@ -7,7 +7,7 @@ import { oaAPIURL } from 'utils/aps';
 import { textFieldShape } from 'propTypes/field';
 import { getURL } from 'store/request/selectors';
 
-class OAAPIURL extends React.Component { // eslint-disable-line react/no-multi-comp
+class OAAPIURLField extends React.Component { // eslint-disable-line react/no-multi-comp
   static propTypes = {
     ...textFieldShape,
     requestURL: PropTypes.string,
@@ -60,4 +60,4 @@ class OAAPIURL extends React.Component { // eslint-disable-line react/no-multi-c
 
 export default connect(state => ({
   requestURL: getURL(state),
-}))(OAAPIURL);
+}))(OAAPIURLField);
