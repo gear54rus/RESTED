@@ -43,12 +43,13 @@ class ValueField extends React.Component {
     }
 
     const style = window.getComputedStyle(input);
+    const oldBoxShadow = style.boxShadow === 'none' ? '' : `${style.boxShadow}, `;
 
     this.animateInput = false;
     this.inputAnimation = input.animate({
       borderColor: ['#66afe9', style.borderColor],
       outline: ['0', style.outline],
-      boxShadow: [`${style.boxShadow}, #66afe999 0px 0px 15px 10px, #66afe999 0px 0px 8px 4px inset`, style.boxShadow],
+      boxShadow: [`${oldBoxShadow}#66afe999 0px 0px 15px 10px, #66afe999 0px 0px 8px 4px inset`, style.boxShadow],
     }, 1500);
   }
 
