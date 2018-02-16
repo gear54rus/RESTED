@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isDarkTheme } from 'store/options/selectors';
 
-import { StyledHeader, BlackLink } from './StyledComponents';
+import { StyledHeader } from './StyledComponents';
 
 export function Header({ darkMode }) {
   return (
     <StyledHeader darkMode={darkMode}>
       <h1>
-        <BlackLink
+        <a
           href="https://github.com/odin-public/RESTED-APS"
           target="_blank"
           rel="noopener noreferrer"
@@ -21,7 +21,7 @@ export function Header({ darkMode }) {
             src="img/rested-aps-logo.png"
           />
           <span>RESTED APS</span>
-        </BlackLink>
+        </a>
       </h1>
     </StyledHeader>
   );

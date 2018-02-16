@@ -10,12 +10,12 @@ export const StyledHeader = styled.header`
     margin-right: 10px;
   }
 
-  h1 {
+  h1, a {
     color: black;
   }
 
   ${props => props.darkMode && css`
-    h1 {
+    h1, a {
       color: white;
     }
     
@@ -23,12 +23,4 @@ export const StyledHeader = styled.header`
       filter: invert(100%);
     }
   `}
-`;
-
-export const BlackLink = styled.a`
-  color: black;
-  
-  &:hover {
-    color: black;
-  }
 `;

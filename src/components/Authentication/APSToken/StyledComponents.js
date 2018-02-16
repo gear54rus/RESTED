@@ -22,7 +22,6 @@ export const SmallProgressWithOffsetText = styled(ProgressBar)`
 
   div.offset-label {
     position: absolute;
-    font-size: 14px;
     font-weight: bold;
   }
 `;
