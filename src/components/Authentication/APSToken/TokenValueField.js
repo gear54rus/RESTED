@@ -47,8 +47,7 @@ class TokenValueField extends React.Component {
 
     this.animateInput = false;
     this.inputAnimation = input.animate({
-      borderColor: ['#66afe9', style.borderColor],
-      outline: ['0', style.outline],
+      borderColor: ['#66afe9', style.borderTopColor], // top because firefox is crap
       boxShadow: [`${oldBoxShadow}#66afe999 0px 0px 15px 10px, #66afe999 0px 0px 8px 4px inset`, style.boxShadow],
     }, 1500);
   }
