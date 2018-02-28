@@ -3,13 +3,12 @@
 exports[`should render correctly 1`] = `
 <div
   className="panel panel-default"
-  id={undefined}
 >
   <div
     className="panel-heading"
   >
     <div
-      className="nUMqf clearfix"
+      className="sc-gZMcBi kWnQrH clearfix"
     >
       <h2
         className="pull-left"
@@ -17,71 +16,71 @@ exports[`should render correctly 1`] = `
         Request
       </h2>
       <button
-        className="pull-right hidden-xs exyKyC"
+        className="pull-right hidden-xs sc-bZQynM jYuQaZ"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <div
-          className="eMVcPd"
+          className="sc-gzVnrw jkZMEg"
         >
           <div
-            className="ddxWyy"
+            className="sc-htoDjs iTnqOg"
           />
           <span
-            className="jsYWMN"
+            className="sc-dnqmqq jGQnGF"
           >
             Add to collection
           </span>
         </div>
         <i
-          className="fa fa-plus"
+          className="fas fa-plus"
           role="presentation"
         />
       </button>
       <button
-        className="pull-right exyKyC"
+        className="pull-right sc-bZQynM jYuQaZ"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <div
-          className="eMVcPd"
+          className="sc-gzVnrw jkZMEg"
         >
           <div
-            className="ddxWyy"
+            className="sc-htoDjs iTnqOg"
           />
           <span
-            className="jsYWMN"
+            className="sc-dnqmqq jGQnGF"
           >
             Options
           </span>
         </div>
         <i
-          className="fa fa-cog"
+          className="fas fa-cogs"
           role="presentation"
         />
       </button>
       <button
-        className="pull-right hidden-xs exyKyC"
+        className="pull-right hidden-xs sc-bZQynM jYuQaZ"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <div
-          className="eMVcPd"
+          className="sc-gzVnrw jkZMEg"
         >
           <div
-            className="ddxWyy"
+            className="sc-htoDjs iTnqOg"
           />
           <span
-            className="jsYWMN"
+            className="sc-dnqmqq jGQnGF"
           >
             Hide collections
           </span>
         </div>
         <i
-          className="fa fa-expand"
+          className="fas fa-expand"
           role="presentation"
         />
       </button>
@@ -227,17 +226,17 @@ exports[`should render correctly 1`] = `
       </div>
       <div>
         <button
-          className="diHGTo btn btn-link"
+          className="sc-htpNat iPErUs btn btn-link"
           disabled={false}
           onClick={[Function]}
           type="button"
         >
           <h4
-            className="dQgEds"
+            className="sc-bdVaJa bcSwbK"
           >
             Headers
             <i
-              className="fa fa-angle-right fWoLNy"
+              className="fas fa-angle-right sc-bwzfXH dSpMtd"
               role="presentation"
             />
           </h4>
@@ -256,14 +255,14 @@ exports[`should render correctly 1`] = `
                 className="col-xs-12"
               >
                 <button
-                  className="hvMBRh btn btn-link"
+                  className="sc-gqjmRU ivCeJB btn btn-link"
                   disabled={false}
                   id="addHeaderButton"
                   onClick={[Function]}
                   type="button"
                 >
                   <i
-                    className="fa fa-plus"
+                    className="fas fa-plus"
                     role="presentation"
                   />
                   Add header
@@ -275,17 +274,17 @@ exports[`should render correctly 1`] = `
       </div>
       <div>
         <button
-          className="diHGTo btn btn-link"
+          className="sc-htpNat iPErUs btn btn-link"
           disabled={false}
           onClick={[Function]}
           type="button"
         >
           <h4
-            className="dQgEds"
+            className="sc-bdVaJa bcSwbK"
           >
             Authentication
             <i
-              className="fa fa-angle-right fWoLNy"
+              className="fas fa-angle-right sc-bwzfXH dSpMtd"
               role="presentation"
             />
           </h4>
@@ -350,17 +349,17 @@ exports[`should render correctly 1`] = `
       </div>
       <div>
         <button
-          className="diHGTo btn btn-link"
+          className="sc-htpNat iPErUs btn btn-link"
           disabled={false}
           onClick={[Function]}
           type="button"
         >
           <h4
-            className="dQgEds"
+            className="sc-bdVaJa bcSwbK"
           >
             Request body
             <i
-              className="fa fa-angle-right fWoLNy"
+              className="fas fa-angle-right sc-bwzfXH dSpMtd"
               role="presentation"
             />
           </h4>
@@ -421,7 +420,7 @@ exports[`should render correctly 1`] = `
               </div>
             </div>
             <div
-              className="eWjddY"
+              className="sc-jTzLTM gveISI"
             >
               <div
                 className="row"
@@ -430,14 +429,14 @@ exports[`should render correctly 1`] = `
                   className="col-xs-12"
                 >
                   <button
-                    className="hvMBRh btn btn-link"
+                    className="sc-gqjmRU ivCeJB btn btn-link"
                     disabled={false}
                     id="addParameter"
                     onClick={[Function]}
                     type="button"
                   >
                     <i
-                      className="fa fa-plus"
+                      className="fas fa-plus"
                       role="presentation"
                     />
                     Add parameter

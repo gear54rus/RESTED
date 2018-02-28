@@ -5,5 +5,4 @@ module.exports = {
   "setupTestFrameworkScriptFile": "./test/setupTestFramework.js",
   "snapshotSerializers": ["enzyme-to-json/serializer"],
   "verbose": true
-}
-
+};

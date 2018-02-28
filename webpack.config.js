@@ -1,17 +1,21 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
 
-const rootDir = resolve(__dirname);
+module.exports = (env = {}) => {
+  const rootDir = resolve(__dirname);
+  const isProduction = Boolean(env.production);
 
-module.exports = function getConfig(environment) {
-  const env = environment || {};
-  const {
-    production,
-  } = env;
+  const plugins = [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
+    }),
+  ];
+
+  if (isProduction) {
+    plugins.push(new webpack.optimize.UglifyJsPlugin());
+  }
 
   return {
-    context: rootDir,
-
     entry: {
       'dist/rested-aps': ['babel-polyfill', './src/index.js'],
       'dist/background': './src/background.js',
@@ -23,26 +27,6 @@ module.exports = function getConfig(environment) {
       filename: '[name].js',
     },
 
-    performance: {hints: false},
-    devtool: production ? undefined : 'inline-source-map',
-
-    // Compiler plugins. See https://github.com/webpack/docs/wiki/list-of-plugins
-    plugins: [
-      new webpack.LoaderOptionsPlugin({
-        minimize: true,
-        debug: !production,
-        options: {
-          eslint: {
-            failOnWarning: production,
-            failOnError: production,
-          }
-        }
-      }),
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development'),
-      }),
-    ],
-
     module: {
       rules: [
         {
@@ -51,6 +35,8 @@ module.exports = function getConfig(environment) {
           loader: 'eslint-loader',
           include: resolve(rootDir, 'src'),
           options: {
+            failOnWarning: isProduction,
+            failOnError: isProduction,
             cache: false,
           }
         },
@@ -58,9 +44,7 @@ module.exports = function getConfig(environment) {
           test: /\.js/,
           include: resolve(rootDir, 'src'),
           loader: 'babel-loader',
-          options: {
-            cacheDirectory: !production,
-          }
+          options: { cacheDirectory: !isProduction },
         }
       ]
     },
@@ -70,6 +54,11 @@ module.exports = function getConfig(environment) {
         resolve(rootDir, 'src'),
         'node_modules',
       ],
-    }
-  }
+    },
+
+    performance: { hints: false },
+    devtool: isProduction ? false : 'inline-source-map',
+    context: rootDir,
+    plugins,
+  };
 };

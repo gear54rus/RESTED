@@ -12,6 +12,7 @@ const hoverStyle = css`
   > div {
     border-left-width: 0;
   }
+
   h4 {
     color: gray;
   }
@@ -47,9 +48,11 @@ export const StyledCollectionHeader = styled.span`
     display: inline;
     cursor: pointer;
   }
+
   input {
     width: 130px;
   }
+
   ${props => props.minimized && css`
     h3 {
       font-style: italic;
@@ -101,4 +104,3 @@ export const MainContentDiv = styled.div`
     text-overflow: ellipsis;
   `}
 `;
-

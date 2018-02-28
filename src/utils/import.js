@@ -74,7 +74,7 @@ export function fromHAR(har) {
     return {};
   }
 
-  const entries = har.log.entries;
+  const { entries } = har.log;
   const result = [];
 
   entries.forEach(entry => {

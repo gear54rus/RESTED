@@ -1,11 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import {
-  FormGroup,
-  FormControl,
-  Row,
-  Col,
-} from 'react-bootstrap';
+import { FormGroup, FormControl, Row, Col } from 'react-bootstrap';
 
 import Fonticon from 'components/Fonticon';
 import Collapsible from 'components/Collapsible';

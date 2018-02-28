@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 import UUID from 'uuid-js';
 
- // Checks whether the collection name is taken
+// Checks whether the collection name is taken
 function isUnique(name, collections) {
   return collections.every(item => (
     item.name.trim() !== name.trim()

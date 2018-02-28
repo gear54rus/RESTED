@@ -2,6 +2,7 @@ import { CONTENT_SCRIPT_NS, OA_CP_TYPES } from 'constants/constants';
 
 function randomID() { return Math.random().toString(36).substring(7); }
 
+/* eslint-disable */
 function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTypesJSON) {
   const oaCPTypes = JSON.parse(oaCPTypesJSON);
   const objectAssign = window.Object.assign;
@@ -18,7 +19,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
           if (!(window.aps && window.aps.context)) { return; } // Context not loaded yet
 
           let complete = true; // is another run required?
-          const context = window.aps.context;
+          const { context } = window.aps;
 
           if (context._token) { // eslint-disable-line no-underscore-dangle
             data.apsToken = {
@@ -76,7 +77,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
     ].map($);
 
     if (temp[0] && temp[1] && temp[2] && temp[4]) {
-      const url = new URL(location);
+      const url = new URL(window.location);
 
       result.page = url.searchParams.get('cp') ? oaCPTypes.PCP : oaCPTypes.ANYCP1; // leave for topFrame to determine
       result.versions.oa = temp[1].getAttribute('src').split('?')[1];
@@ -153,7 +154,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
   (() => { // detect where we are
     let globalData;
 
-    if (top === window) { // we're top window, check where we are and setup env
+    if (window.top === window) { // we're top window, check where we are and setup env
       const transferNode = document.getElementById(transferNodeID);
       const oaInfo = getOAInfo();
 
@@ -170,13 +171,13 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
       }
 
       objectAssign(globalData, oaInfo, {
-        url: location.href,
+        url: window.location.href,
         data: {},
       });
 
       window[contentScriptNS] = globalData; // OA found, run child frame handlers too
       topWindow(globalData);
-    } else if (top[contentScriptNS]) { // not top but OA window
+    } else if (window.top[contentScriptNS]) { // not top but OA window
       const frameHandlers = {
         topFrame,
         'aps-ui-0': apsUI0,
@@ -184,11 +185,12 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
       };
 
       if (window.name in frameHandlers) {
-        frameHandlers[window.name](top[contentScriptNS]);
+        frameHandlers[window.name](window.top[contentScriptNS]);
       }
     } // and can't find our env, cease operation
   })();
 }
+/* eslint-enable */
 
 const port = chrome.runtime.connect();
 const injector = document.createElement('script');

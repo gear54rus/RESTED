@@ -1,14 +1,13 @@
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { REQUEST_METHODS } from 'constants/constants';
 
 const { string, oneOf, shape, arrayOf, number, bool } = PropTypes;
 
 export const redirectShape = {
-  documentUrl: string.isRequired,
   frameId: number.isRequired,
   fromCache: bool.isRequired,
   method: oneOf(REQUEST_METHODS).isRequired,
-  originUrl: string.isRequired,
+  originUrl: string,
   parentFrameId: number.isRequired,
   redirectUrl: string.isRequired,
   requestId: string.isRequired,

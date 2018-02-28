@@ -1,14 +1,24 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Panel } from 'react-bootstrap';
 import responsePropTypes, { redirectShape } from 'propTypes/redirect';
 
 import { StyledResponse, StyledHeader, Status } from './StyledComponents';
 import Headers from './Headers';
 
 function Titlebar({ url, time, onClick }) {
-  return (
+  return ( // if we don't pass onClick, collapse won't work
     <StyledHeader expandable onClick={onClick}>
       <h3>
-        Redirect ({(time / 1000).toFixed(3)}s) - <a href={url} className="text-muted">{url}</a>
+        Redirect ({(time / 1000).toFixed(3)}s) -{' '}
+        <a
+          className="text-muted"
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {url}
+        </a>
       </h3>
     </StyledHeader>
   );
@@ -24,8 +34,7 @@ function Redirect(props) {
   const {
     response,
     headers,
-    isExpanded,
-    setExpanded,
+    eventKey,
   } = props;
 
   if (!response || !headers) return null;
@@ -34,21 +43,29 @@ function Redirect(props) {
 
   return (
     <StyledResponse
-      collapsible
-      expanded={isExpanded}
-      header={<Titlebar method={method} url={url} time={time} onClick={setExpanded} />}
+      eventKey={eventKey}
     >
-      <h3>
-        <Status
-          green={response.statusCode >= 200 && response.statusCode < 300}
-          red={response.statusCode >= 400 && response.statusCode < 600}
-        >
-          {response.statusCode}
-        </Status>
-        <small> {response.statusLine && response.statusLine.replace(/.*\d{3} /, '')}</small>
-      </h3>
+      <Panel.Heading>
+        <Panel.Toggle // can't use title, collapse won't work
+          componentClass={Titlebar}
+          method={method}
+          url={url}
+          time={time}
+        />
+      </Panel.Heading>
+      <Panel.Body collapsible>
+        <h3>
+          <Status
+            green={response.statusCode >= 200 && response.statusCode < 300}
+            red={response.statusCode >= 400 && response.statusCode < 600}
+          >
+            {response.statusCode}
+          </Status>
+          <small> {response.statusLine && response.statusLine.replace(/.*\d{3} /, '')}</small>
+        </h3>
 
-      <Headers expanded headers={headers} />
+        <Headers expanded headers={headers} />
+      </Panel.Body>
     </StyledResponse>
   );
 }
@@ -56,8 +73,7 @@ function Redirect(props) {
 Redirect.propTypes = {
   response: responsePropTypes,
   headers: redirectShape.responseHeaders,
-  isExpanded: PropTypes.bool.isRequired,
-  setExpanded: PropTypes.func.isRequired,
+  eventKey: PropTypes.number.isRequired,
 };
 
 export default Redirect;

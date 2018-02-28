@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
@@ -122,8 +123,8 @@ function PanelHeader(props) {
             icon="check"
           />
         </form>
-      ) : (
-        <h3
+      ) : ( // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+        <h3 // eslint-disable-line jsx-a11y/click-events-have-key-events
           onClick={e => {
             e.preventDefault();
             toggleCollapsed(index);
@@ -133,12 +134,6 @@ function PanelHeader(props) {
         </h3>
       )}
 
-      <IconButton
-        tooltip="Change name"
-        icon="pencil"
-        className="pull-right"
-        onClick={toggleEdit}
-      />
       <IconButton
         tooltip="Delete"
         icon="trash"
@@ -157,6 +152,12 @@ function PanelHeader(props) {
             }],
           });
         }}
+      />
+      <IconButton
+        tooltip="Change name"
+        icon="pencil-alt"
+        className="pull-right"
+        onClick={toggleEdit}
       />
       <hr />
     </StyledCollectionHeader>

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { TooltipContainer, TooltipLabel, Ripple } from './StyledComponents';
 
 export default class Tooltip extends Component {
@@ -33,10 +34,9 @@ export default class Tooltip extends Component {
     const tooltipWidth = parseInt(tooltip.offsetWidth, 10) / 2;
     const tooltipHeight = parseInt(tooltip.offsetHeight, 10);
 
-    const rippleDiameter = Math.ceil((Math.sqrt(
-      (tooltipHeight ** 2) +
-      (tooltipWidth ** 2)) * 2
-    ));
+    const rippleDiameter = Math.ceil(
+      Math.sqrt((tooltipHeight ** 2) + (tooltipWidth ** 2)) * 2,
+    );
 
     if (this.props.show) {
       ripple.style.height = `${rippleDiameter}px`;

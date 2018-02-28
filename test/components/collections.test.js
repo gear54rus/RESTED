@@ -82,7 +82,7 @@ describe('Collection component', () => {
   });
 
   xit('should change the styles of dragged elements');
-    /*
+  /*
     const BoxedComponent = wrapInTestContext(Collection);
     const requests = mockCollections
       .getIn(['collections', 1, 'requests'])

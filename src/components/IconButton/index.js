@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Fonticon from 'components/Fonticon';
 
 import Tooltip from './Tooltip';
@@ -34,12 +35,10 @@ export default class IconButton extends React.Component {
 
   handleMouseEnter() {
     this.showTooltip();
-    this.setState({ hovered: true });
   }
 
   handleMouseLeave() {
     this.hideTooltip();
-    this.setState({ hovered: false });
   }
 
   render() {

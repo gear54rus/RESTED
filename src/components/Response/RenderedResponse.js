@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Collapse from 'components/Collapsible';
 import base64 from 'utils/base64';
@@ -23,6 +24,7 @@ function RenderedResponse({ html }) {
     >
       <PreviewContainer>
         <iframe
+          title="Response preview"
           src={`data:text/html;base64,${base64(html)}`}
           sandbox=""
           referrerPolicy="no-referrer"

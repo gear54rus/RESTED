@@ -25,16 +25,16 @@ class ExportPane extends React.Component {
 
   setSelectedCollection = event => {
     this.setState({ selectedCollection: event.target.value });
-  }
+  };
 
   submit = () => {
     const { exportMethod, selectedCollection } = this.state;
     const { collections } = this.props;
-    this.setState({ importFeedback: null });
+    this.setState({ exportFeedback: null });
 
     try {
       const collection = collections.get(selectedCollection).toJS();
-      const requests = collection.requests;
+      const { requests } = collection;
 
       let exportText;
       if (exportMethod === 'HAR') {

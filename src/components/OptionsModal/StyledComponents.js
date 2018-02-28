@@ -7,4 +7,3 @@ export const StyledGeneralOptions = styled(Clearfix)`
     padding: 0;
   }
 `;
-

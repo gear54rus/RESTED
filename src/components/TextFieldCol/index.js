@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Col, FormControl } from 'react-bootstrap';
 
@@ -22,7 +23,7 @@ renderFormControl.propTypes = {
   placeholder: PropTypes.string,
 };
 
-export default function TextFieldCol({ width, name, ...other }) {
+function TextFieldCol({ width, name, ...other }) {
   return (
     <Col xs={width}>
       <Field
@@ -38,3 +39,5 @@ TextFieldCol.propTypes = {
   width: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
 };
+
+export default TextFieldCol;

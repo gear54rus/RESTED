@@ -2,10 +2,9 @@ import React from 'react';
 import { Field, FormSection } from 'redux-form';
 import { Row, Col, FormControl, FormGroup } from 'react-bootstrap';
 
+import TextFieldCol from 'components/TextFieldCol';
 import { signatureMethods } from 'utils/oauth1';
 import { selectFieldShape } from 'propTypes/field';
-
-import TextFieldCol from './TextFieldCol';
 
 function renderSignatureMethod({ input }) {
   return (

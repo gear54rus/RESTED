@@ -5,7 +5,7 @@ import { change } from 'redux-form';
 
 import { OA_CP_TYPES } from 'constants/constants';
 import { requestForm } from 'components/Request';
-import { APS_BROWSER_DATA_RECEIVED } from 'store/auth/types';
+import { apsToken } from 'store/auth/types';
 
 import { FETCH_REQUESTED, UPDATE_REQUESTED, UPDATE_OPTION } from './types';
 import { startFetch, receiveOptions } from './actions';
@@ -24,7 +24,7 @@ function* initFromObject(hashObject) {
   } = hashObject;
 
   const action = {
-    type: APS_BROWSER_DATA_RECEIVED,
+    type: apsToken.BROWSER_DATA_RECEIVED,
     form: {
       auth: {
         type: 'apsToken',
@@ -101,10 +101,10 @@ function* initFromURL() {
     // select request from history
     // yield call(selectRequest, init);
   } else {
-    const url = new URL(location);
+    const url = new URL(window.location);
 
     url.hash = '';
-    history.pushState(null, '', url);
+    window.history.pushState(null, '', url);
 
     yield call(initFromObject, init);
   }
@@ -116,7 +116,7 @@ function* fetchOptionsSaga() {
 
   // v1 -> v2 migration
   if (options && options.length && options[0].options) {
-    options = options[0].options;
+    ([{ options }] = options);
   }
 
   options = Immutable.fromJS(options) || Immutable.Map();

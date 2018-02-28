@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { Panel as UnstyledPanel } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 
-export const Panel = styled(UnstyledPanel)`
+export const StyledPanel = styled(Panel)`
   border-radius: 0;
 `;
 
@@ -14,4 +14,3 @@ export const ListGroupItem = styled.li`
   border-radius: 0 !important;
   cursor: pointer;
 `;
-

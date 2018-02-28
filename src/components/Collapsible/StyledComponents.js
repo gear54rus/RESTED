@@ -15,7 +15,7 @@ export const AnimatedIcon = styled(Fonticon)`
 export const CollapsibleButton = styled(Button)`
   padding-left: 0;
   padding-right: 0;
-  
+
   &:hover,
   &:active {
     text-decoration: none;

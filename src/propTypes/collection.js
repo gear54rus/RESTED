@@ -1,5 +1,5 @@
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import requestPropType, { immutableRequestShape } from './request';
 
 const { string, shape, arrayOf, bool } = PropTypes;

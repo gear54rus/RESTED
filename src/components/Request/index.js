@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm, Field, FieldArray, FormSection, getFormValues } from 'redux-form';
 import { Panel, Form } from 'react-bootstrap';
@@ -29,32 +30,37 @@ function Request(props) {
   } = props;
 
   return (
-    <Panel header={<Titlebar />}>
-      <Form
-        horizontal
-        onSubmit={handleSubmit(editMode ? updateRequest : sendRequest)}
-      >
-        <Field
-          name="url"
-          component={URLField}
-          placeholderUrl={placeholderUrl}
-        />
-        <Field
-          name="method"
-          component={MethodField}
-        />
-        <FieldArray
-          name="headers"
-          component={HeadersField}
-        />
-        <FormSection
-          name="auth"
-          component={AuthField}
-        />
-        {!['GET', 'HEAD'].includes(formValues.method) && (
-          <BodyField />
-        )}
-      </Form>
+    <Panel>
+      <Panel.Heading>
+        <Panel.Title componentClass={Titlebar} />
+      </Panel.Heading>
+      <Panel.Body>
+        <Form
+          horizontal
+          onSubmit={handleSubmit(editMode ? updateRequest : sendRequest)}
+        >
+          <Field
+            name="url"
+            component={URLField}
+            placeholderUrl={placeholderUrl}
+          />
+          <Field
+            name="method"
+            component={MethodField}
+          />
+          <FieldArray
+            name="headers"
+            component={HeadersField}
+          />
+          <FormSection
+            name="auth"
+            component={AuthField}
+          />
+          {!['GET', 'HEAD'].includes(formValues.method) && (
+            <BodyField />
+          )}
+        </Form>
+      </Panel.Body>
     </Panel>
   );
 }

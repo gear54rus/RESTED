@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
@@ -19,7 +20,6 @@ import { THEMES, HIGHLIGHT_STYLES } from 'constants/constants';
 import './GlobalStyles';
 
 import { Wrapper, MainContent, LeftCol, RightCol } from './StyledComponents';
-
 
 /*
  * This must be a React.Component because DragDropContext

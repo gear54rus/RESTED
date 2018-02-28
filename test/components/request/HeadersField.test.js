@@ -94,7 +94,7 @@ describe('HeadersField', () => {
     let i = 0;
     headers.forEach(header => {
       const nameField = inputs.at(i++); // eslint-disable-line no-plusplus
-      const valField = inputs.at(i++);  // eslint-disable-line no-plusplus
+      const valField = inputs.at(i++); // eslint-disable-line no-plusplus
 
       expect(nameField.prop('placeholder')).toBe('Name');
       expect(valField.prop('placeholder')).toBe('Value');
@@ -116,7 +116,7 @@ describe('HeadersField', () => {
 
     expect(props.fields.push).not.toHaveBeenCalled();
 
-    tree.find('#addHeaderButton').simulate('click');
+    tree.find('button#addHeaderButton').simulate('click');
     expect(props.fields.push).toHaveBeenCalledWith({});
   });
 
@@ -133,7 +133,7 @@ describe('HeadersField', () => {
 
     expect(props.fields.remove).not.toHaveBeenCalled();
 
-    tree.find('#removeHeaderButton0').simulate('click');
+    tree.find('button#removeHeaderButton0').simulate('click');
     expect(props.fields.remove).toHaveBeenCalledWith(0);
   });
 });

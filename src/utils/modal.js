@@ -4,12 +4,12 @@ import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import ModalBody from 'components/OptionsModal';
 
 export function showOptionsModal({ setModalData }) {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     setModalData({
       title: 'Options',
       body: <ModalBody />,
       visible: true,
-      cancelClick: reject,
+      cancelClick: resolve,
       actions: [],
     });
   });

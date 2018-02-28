@@ -10,7 +10,6 @@ import { getPlaceholderUrl, getHeaders } from 'store/request/selectors';
 import { updateOption } from 'store/options/actions';
 import { pushHistory } from 'store/history/actions';
 import * as types from 'store/request/types';
-import { prependHttp } from 'utils/request';
 
 const mockRequest = {
   method: 'POST',
@@ -90,10 +89,13 @@ describe('fetchData saga', () => {
 
   it('should push the history', () => {
     expect(iterator.next().value).toEqual(
-      put(pushHistory(Immutable.fromJS(mockRequest)
-        .set('url', 'foo')
-        .set('id', 'test-UUID'),
-      )),
+      put(
+        pushHistory(
+          Immutable.fromJS(mockRequest)
+            .set('url', 'foo')
+            .set('id', 'test-UUID'),
+        ),
+      ),
     );
   });
 
@@ -159,7 +161,7 @@ describe('fetchData saga', () => {
 
 describe('createResource saga', () => {
   const iterator = createResource(mockRequest);
-  const mockUrl = 'foo.com/{{foo}}';
+  const mockUrl = 'http://foo.com/{{foo}}';
   const mockUrlVariables = {
     foo: 'bar',
   };
@@ -176,14 +178,8 @@ describe('createResource saga', () => {
     );
   });
 
-  it('should call prependHttp on the url', () => {
-    expect(iterator.next(mockUrlVariables).value).toEqual(
-      call(prependHttp, 'foo.com/bar'),
-    );
-  });
-
   it('should return the resulting resource', () => {
-    expect(iterator.next('http://foo.com/bar').value).toBe(
+    expect(iterator.next(mockUrlVariables).value).toBe(
       'http://foo.com/bar',
     );
   });
@@ -316,14 +312,28 @@ describe('changeBodyTypeSaga saga', () => {
 
 describe('getUrl saga', () => {
   const iterator = getUrl({});
+  const mockRequestNoProtocol = { url: 'foo.bar' };
   const fallbackUrl = 'http://test.com';
 
-  it('should return the URL on the request if present', () => {
+  it('should return the URL on the request if present and exit', () => {
     const iterator2 = getUrl(mockRequest);
+
     expect(iterator2.next().value).toBe(mockRequest.url);
+    expect(iterator2.next().done).toEqual(true);
   });
 
-  it('should getch the placeholderUrl from the store', () => {
+  it('should try to prepend HTTP and return if the URL is valid and exit', () => {
+    const iterator3 = getUrl(mockRequestNoProtocol);
+
+    expect(iterator3.next().value).toEqual(
+      put(change(requestForm, 'url', `http://${mockRequestNoProtocol.url}`)),
+    );
+
+    expect(iterator3.next().value).toBe(`http://${mockRequestNoProtocol.url}`);
+    expect(iterator3.next().done).toEqual(true);
+  });
+
+  it('should get the placeholderUrl from the store', () => {
     expect(iterator.next().value).toEqual(
       select(getPlaceholderUrl),
     );

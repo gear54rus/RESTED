@@ -1,5 +1,5 @@
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { REQUEST_METHODS } from 'constants/constants';
 
 const { string, oneOf, shape, arrayOf, bool } = PropTypes;

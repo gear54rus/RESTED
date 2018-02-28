@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 
@@ -50,7 +51,7 @@ function ModalComponent({ modal, removeModal, clearModalData }) {
 ModalComponent.propTypes = {
   modal: PropTypes.oneOfType([
     modalPropTypes.isRequired, // Visible state
-    PropTypes.shape({          // Hidden state
+    PropTypes.shape({ // Hidden state
       // eslint-disable-next-line react/no-unused-prop-types
       visible: PropTypes.oneOf([false]).isRequired,
     }).isRequired,
