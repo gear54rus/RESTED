@@ -84,8 +84,8 @@ function* getTokenFromResponse(response) {
   let errorMessage;
 
   if (matches.token) return matches.token[1];
-  if (matches.faultString) [errorMessage] = matches.faultString;
-  if (matches.error) [errorMessage] = matches.error;
+  if (matches.faultString) [, errorMessage] = matches.faultString;
+  if (matches.error) [, errorMessage] = matches.error;
 
   if (errorMessage) {
     throw new Error(`OA API error: ${errorMessage}`);
