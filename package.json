@@ -6,7 +6,7 @@
   "description": "A REST client for the rest of us, with APS features",
   "author": "Espen Henriksen",
   "license": "MIT",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "./main.js",
   "permissions": {
     "multiprocess": true
