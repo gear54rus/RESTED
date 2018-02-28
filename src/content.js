@@ -2,6 +2,7 @@ import { CONTENT_SCRIPT_NS, OA_CP_TYPES } from 'constants/constants';
 
 function randomID() { return Math.random().toString(36).substring(7); }
 
+/* eslint-disable */
 function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTypesJSON) {
   const oaCPTypes = JSON.parse(oaCPTypesJSON);
   const objectAssign = window.Object.assign;
@@ -61,7 +62,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
 
     if (temp[0] && temp[1] && (temp[2] ? !temp[3] : temp[3])) { // CP1 xor CP2
       result.page = temp[2] ? oaCPTypes.LCP1 : oaCPTypes.LCP2;
-      [result.versions.oa] = temp[1].getAttribute('src').split('?');
+      result.versions.oa = temp[1].getAttribute('src').split('?')[1];
       result.versions.runtime = temp[0].getAttribute('src').split('?')[1].slice(result.versions.oa.length);
 
       return result;
@@ -79,7 +80,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
       const url = new URL(window.location);
 
       result.page = url.searchParams.get('cp') ? oaCPTypes.PCP : oaCPTypes.ANYCP1; // leave for topFrame to determine
-      [result.versions.oa] = temp[1].getAttribute('src').split('?');
+      result.versions.oa = temp[1].getAttribute('src').split('?')[1];
 
       return result;
     }
@@ -97,7 +98,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
 
     if (temp[0] && temp[1] && (temp[2] ? !temp[3] : temp[3])) { // CCP xor MyCP
       result.page = temp[2] ? oaCPTypes.CCP2 : oaCPTypes.MYCP2;
-      [result.versions.runtime] = temp[0].getAttribute('src').split('?')[1].split('=');
+      result.versions.runtime = temp[0].getAttribute('src').split('?')[1].split('=')[1];
 
       return result;
     }
@@ -123,7 +124,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
 
       if (subscriptionSelector) {
         globalData.page = oaCPTypes.CCP1;
-        [globalData.data.accountID] = /.* \(Account ID: (\d+)\)/.exec(userInfo);
+        globalData.data.accountID = /.* \(Account ID: (\d+)\)/.exec(userInfo)[1];
 
         if (subscriptionSelector.value === '0') { // 'All Domains' or whatever
           delete globalData.data.subscriptionID;
@@ -132,7 +133,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
         }
       } else {
         globalData.page = oaCPTypes.MYCP1;
-        [globalData.data.userID] = /.* \(User ID: (\d+)\)/.exec(userInfo);
+        globalData.data.userID = /.* \(User ID: (\d+)\)/.exec(userInfo)[1];
       }
     }
 
@@ -189,6 +190,7 @@ function contentScript(contentScriptNS, transferNodeID, transferEventID, oaCPTyp
     } // and can't find our env, cease operation
   })();
 }
+/* eslint-enable */
 
 const port = chrome.runtime.connect();
 const injector = document.createElement('script');

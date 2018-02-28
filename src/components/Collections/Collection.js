@@ -135,12 +135,6 @@ function PanelHeader(props) {
       )}
 
       <IconButton
-        tooltip="Change name"
-        icon="pencil-alt"
-        className="pull-right"
-        onClick={toggleEdit}
-      />
-      <IconButton
         tooltip="Delete"
         icon="trash"
         className="pull-right"
@@ -158,6 +152,12 @@ function PanelHeader(props) {
             }],
           });
         }}
+      />
+      <IconButton
+        tooltip="Change name"
+        icon="pencil-alt"
+        className="pull-right"
+        onClick={toggleEdit}
       />
       <hr />
     </StyledCollectionHeader>

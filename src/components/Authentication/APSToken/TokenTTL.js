@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from 'store/auth/apsToken/actions';
 import { getAPSTokenTTL as getTokenTTL } from 'store/options/selectors';
 import { secondsToHM } from 'utils/dateTime';
-import { rgbStringToArray, isColorDark } from 'utils/color';
+import { rgbaStringToArray, isColorDark } from 'utils/color';
 
 import { SmallProgressWithOffsetText } from './StyledComponents';
 
@@ -175,7 +175,7 @@ class TokenTTL extends React.Component {
               }
 
               const newColor = isColorDark(
-                ...rgbStringToArray(
+                ...rgbaStringToArray(
                   getStyle(newOffset < 0 ? background : bar).backgroundColor,
                 ),
               ) ? 'white' : 'black';

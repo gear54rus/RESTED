@@ -26,11 +26,11 @@ exports[`Collection component should match the previous snapshot 1`] = `
           <span
             className="sc-bxivhb kOilMN"
           >
-            Change name
+            Delete
           </span>
         </div>
         <i
-          className="fas fa-pencil-alt"
+          className="fas fa-trash"
           role="presentation"
         />
       </button>
@@ -49,11 +49,11 @@ exports[`Collection component should match the previous snapshot 1`] = `
           <span
             className="sc-bxivhb kOilMN"
           >
-            Delete
+            Change name
           </span>
         </div>
         <i
-          className="fas fa-trash"
+          className="fas fa-pencil-alt"
           role="presentation"
         />
       </button>
@@ -210,11 +210,11 @@ exports[`Collections component should match the previous snapshot 1`] = `
                 <span
                   className="sc-bxivhb kOilMN"
                 >
-                  Change name
+                  Delete
                 </span>
               </div>
               <i
-                className="fas fa-pencil-alt"
+                className="fas fa-trash"
                 role="presentation"
               />
             </button>
@@ -233,11 +233,11 @@ exports[`Collections component should match the previous snapshot 1`] = `
                 <span
                   className="sc-bxivhb kOilMN"
                 >
-                  Delete
+                  Change name
                 </span>
               </div>
               <i
-                className="fas fa-trash"
+                className="fas fa-pencil-alt"
                 role="presentation"
               />
             </button>
@@ -353,11 +353,11 @@ exports[`Collections component should match the previous snapshot 1`] = `
                 <span
                   className="sc-bxivhb kOilMN"
                 >
-                  Change name
+                  Delete
                 </span>
               </div>
               <i
-                className="fas fa-pencil-alt"
+                className="fas fa-trash"
                 role="presentation"
               />
             </button>
@@ -376,11 +376,11 @@ exports[`Collections component should match the previous snapshot 1`] = `
                 <span
                   className="sc-bxivhb kOilMN"
                 >
-                  Delete
+                  Change name
                 </span>
               </div>
               <i
-                className="fas fa-trash"
+                className="fas fa-pencil-alt"
                 role="presentation"
               />
             </button>
