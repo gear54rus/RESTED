@@ -18,8 +18,8 @@ module.exports = (env = {}) => {
   return {
     entry: {
       'dist/rested-aps': ['babel-polyfill', './src/index.js'],
-      'dist/background': './src/background.js',
-      'dist/content': './src/content.js',
+      'dist/background': './src/webExtension/background.js',
+      'dist/content': './src/webExtension/content.js',
     },
 
     output: {
@@ -38,15 +38,16 @@ module.exports = (env = {}) => {
             failOnWarning: isProduction,
             failOnError: isProduction,
             cache: false,
-          }
+          },
         },
         {
-          test: /\.js/,
+          test: /\.js$/,
           include: resolve(rootDir, 'src'),
+          exclude: resolve(rootDir, 'src', 'webExtension', 'inject.js'),
           loader: 'babel-loader',
           options: { cacheDirectory: !isProduction },
-        }
-      ]
+        },
+      ],
     },
 
     resolve: {

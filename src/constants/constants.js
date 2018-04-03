@@ -242,7 +242,7 @@ export const PLACEHOLDER_URLS = [
 export const CONTENT_SCRIPT_NS = '__RESTED_APS__';
 
 /**
- * Odin Automation CP types
+ * Odin Automation control panel types
  */
 
 export const OA_CP_TYPES = {
