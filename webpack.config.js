@@ -1,6 +1,8 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
 
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
 module.exports = (env = {}) => {
   const rootDir = resolve(__dirname);
   const isProduction = Boolean(env.production);
@@ -12,7 +14,7 @@ module.exports = (env = {}) => {
   ];
 
   if (isProduction) {
-    plugins.push(new webpack.optimize.UglifyJsPlugin());
+    plugins.push(new UglifyJsPlugin());
   }
 
   return {
