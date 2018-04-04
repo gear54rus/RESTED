@@ -240,14 +240,13 @@ export default ((contentScriptNS, transferNodeID, transferEventID, oaCPTypesJSON
     const timeout = 250;
 
     (function getData() {
-      const handle = window.requestIdleCallback(getData, { timeout });
-      let complete = true; // unusual to set it to true, but boolean logic dictates it
+      globalData.update(data => {
+        const newData = data;
+        const handle = window.requestIdleCallback(getData, { timeout });
+        let complete = true; // unusual to set it to true, but boolean logic dictates it
 
-      if (window.aps && window.aps.context) {
-        const { context } = window.aps;
-
-        globalData.update(data => {
-          const newData = data;
+        if (window.aps && window.aps.context) {
+          const { context } = window.aps;
 
           if (context._token) { // eslint-disable-line no-underscore-dangle
             newData.data.apsToken = {
@@ -265,14 +264,14 @@ export default ((contentScriptNS, transferNodeID, transferEventID, oaCPTypesJSON
               }
             } else { complete = false; }
           }
-
-          return newData;
-        });
+        }
 
         if (complete) {
           window.cancelIdleCallback(handle);
         }
-      }
+
+        return newData;
+      });
     }());
   }
 
