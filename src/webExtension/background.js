@@ -1,5 +1,8 @@
 const oaTabData = {};
 
+// The color of CCPv2 header, are we stylish now?:D
+chrome.browserAction.setBadgeBackgroundColor({ color: '#343b59' });
+
 chrome.runtime.onConnect.addListener(port => {
   port.onMessage.addListener(tabData => {
     const tabID = port.sender.tab.id;
