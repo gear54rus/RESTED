@@ -257,11 +257,10 @@ export default ((contentScriptNS, transferNodeID, transferEventID, oaCPTypesJSON
 
           if ([oaCPTypes.CCP2, oaCPTypes.MYCP2].includes(data.page)) {
             if (context.user) {
-              newData.data.userID = String(context.user.userId);
-
-              if (data.page === oaCPTypes.CCP2) {
-                newData.data.accountID = String(context.user.memberId);
-              }
+              // userID is ID of staff member (in CCP) or service user (in MyCP)
+              newData.data.userID = String(
+                data.page === oaCPTypes.CCP2 ? context.user.memberId : context.user.userId,
+              );
             } else { complete = false; }
           }
         }
