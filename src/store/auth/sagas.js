@@ -14,26 +14,76 @@ export function basicAuthTransform(fetchInput, { auth: { basic } }) {
 }
 
 function oAuth1Transform({ url, method, headers }, fields) {
-  const oAuthValues = fields.auth.oauth1 || {};
+  let oAuthValues = fields.auth.oauth1 || {};
 
   oAuthValues.consumer = Object.assign({
     key: '',
     secret: '',
   }, oAuthValues.consumer);
 
-  oAuthValues.signatureMethod = oAuthValues.signatureMethod
-    || Object.keys(oAuth1SignatureMethods)[0];
+  oAuthValues.token = Object.assign({
+    key: '',
+    secret: '',
+  }, oAuthValues.token);
 
-  const oauth = oauth1({
+  oAuthValues = Object.assign({
+    signatureMethod: Object.keys(oAuth1SignatureMethods)[0],
+    timestamp: '',
+    nonce: '',
+    version: '1.0',
+    realm: '',
+  }, oAuthValues);
+
+  const init = {
     consumer: { ...oAuthValues.consumer },
     signature_method: oAuthValues.signatureMethod.toUpperCase(),
     hash_function: oAuth1SignatureMethods[oAuthValues.signatureMethod].hashFunction,
+    version: oAuthValues.version,
+  };
+
+  if (oAuthValues.realm) {
+    init.realm = oAuthValues.realm;
+  }
+
+  const oauth = oauth1(init);
+  const options = { url, method, data: {} };
+  let token = {};
+
+  ['timestamp', 'nonce'].forEach(name => {
+    if (oAuthValues[name]) {
+      options.data[`oauth_${name}`] = oAuthValues[name];
+    }
   });
 
-  headers.set(BASIC_AUTH_HEADER, Object.values(oauth.toHeader(oauth.authorize({
-    url,
-    method,
-  })))[0]);
+  if (oAuthValues.token.key) {
+    ({ token } = oAuthValues);
+  }
+
+  const oAuthData = oauth.authorize(options, token);
+  const toHeader = {};
+
+  // Authorize spits out everything for some reason, need to filter:
+  // https://github.com/ddo/oauth-1.0a/issues/70
+  [
+    'consumer_key',
+    'token',
+    'nonce',
+    'timestamp',
+    'signature',
+    'signature_method',
+    'version',
+  ].forEach(key => {
+    const actualKey = `oauth_${key}`;
+
+    if (actualKey in oAuthData) {
+      toHeader[actualKey] = oAuthData[actualKey];
+    }
+  });
+
+  headers.set(
+    BASIC_AUTH_HEADER,
+    Object.values(oauth.toHeader(toHeader))[0],
+  );
 }
 
 export const authTypes = {

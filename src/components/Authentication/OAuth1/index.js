@@ -31,12 +31,12 @@ function renderConsumerFields() {
   return (
     <FormGroup>
       <TextFieldCol
-        width={4}
+        width={5}
         name="key"
         placeholder="Consumer key"
       />
       <TextFieldCol
-        width={8}
+        width={7}
         name="secret"
         placeholder="Consumer secret"
       />
@@ -51,15 +51,11 @@ function renderTokenFields() {
         width={6}
         name="key"
         placeholder="Token key"
-        disabled
-        title="Not yet implemented"
       />
       <TextFieldCol
         width={6}
         name="secret"
         placeholder="Token secret"
-        disabled
-        title="Not yet implemented"
       />
     </Row>
   );
@@ -73,18 +69,40 @@ function OAuth1Fields() {
         component={renderConsumerFields}
       />
       <FormGroup>
-        <Col xs={8}>
+        <Col xs={9}>
           <FormSection
             name="token"
             component={renderTokenFields}
           />
         </Col>
-        <Col xs={4}>
+        <Col xs={3}>
           <Field
             name="signatureMethod"
             component={renderSignatureMethod}
           />
         </Col>
+      </FormGroup>
+      <FormGroup>
+        <TextFieldCol
+          width={3}
+          name="timestamp"
+          placeholder="Timestamp (auto)"
+        />
+        <TextFieldCol
+          width={3}
+          name="nonce"
+          placeholder="Nonce (auto)"
+        />
+        <TextFieldCol
+          width={2}
+          name="version"
+          placeholder="Version (1.0)"
+        />
+        <TextFieldCol
+          width={4}
+          name="realm"
+          placeholder="Realm (optional)"
+        />
       </FormGroup>
     </div>
   );
