@@ -2,7 +2,7 @@ import {
   SET_AUTO_REFRESH,
   TOKEN_CHANGED,
   SET_TOKEN_EXPIRED,
-  TOKEN_REFRESH_START,
+  TOKEN_REFRESH_REQUESTED,
 } from './types';
 
 export function setAutoRefresh(autoRefresh) {
@@ -18,6 +18,5 @@ export function setTokenExpired(tokenExpired) {
 }
 
 export function refreshToken() {
-  return { type: TOKEN_REFRESH_START };
+  return { type: TOKEN_REFRESH_REQUESTED };
 }
-

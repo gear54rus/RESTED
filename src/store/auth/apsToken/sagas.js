@@ -14,6 +14,7 @@ import { basicAuthTransform } from 'store/auth/sagas';
 import { getAutoRefresh, getTokenExpired } from './selectors';
 import {
   BROWSER_DATA_RECEIVED,
+  TOKEN_REFRESH_REQUESTED,
   TOKEN_REFRESH_START,
   TOKEN_REFRESH_ERROR,
   TOKEN_REFRESH_END,
@@ -96,6 +97,8 @@ function* getTokenFromResponse(response) {
 
 export function* tokenRefresh() {
   try {
+    yield put({ type: TOKEN_REFRESH_START });
+
     const request = yield select(getRequest);
     const apsValues = request.auth.apsToken || {};
 
@@ -162,5 +165,5 @@ export function* transform({ headers }, { auth: { apsToken } }) {
 
 export default function* rootSaga() {
   yield takeLatest(BROWSER_DATA_RECEIVED, fillTokenFromBrowser);
-  yield takeLatest(TOKEN_REFRESH_START, tokenRefresh);
+  yield takeLatest(TOKEN_REFRESH_REQUESTED, tokenRefresh);
 }
