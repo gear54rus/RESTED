@@ -18,8 +18,8 @@
     "test:debugger": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
     "eslint": "eslint src test",
     "eslint:fix": "eslint --fix src test",
-    "start": "npm run dev",
-    "dev": "webpack --color --progress -w",
+    "start": "npm run dev -- -w",
+    "dev": "webpack --color --progress",
     "build": "webpack --color --progress --env.production",
     "precommit": "echo Please wait while tests run && npm run eslint && npm test"
   },
