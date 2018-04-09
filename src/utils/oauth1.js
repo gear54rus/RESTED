@@ -2,12 +2,16 @@ import crypto from 'crypto';
 
 export const signatureMethods = {}; // eslint-disable-line import/prefer-default-export
 
-signatureMethods['hmac-sha1'] = {
-  caption: 'HMAC-SHA1',
-  hashFunction(baseString, key) {
-    return crypto.createHmac('sha1', key).update(baseString).digest('base64');
-  },
-};
+['sha1', 'sha256'].forEach(hashName => {
+  const id = `hmac-${hashName}`;
+
+  signatureMethods[`hmac-${hashName}`] = {
+    caption: id.toUpperCase(),
+    hashFunction(baseString, key) {
+      return crypto.createHmac(hashName, key).update(baseString).digest('base64');
+    },
+  };
+});
 
 signatureMethods.plaintext = {
   caption: 'PLAINTEXT',

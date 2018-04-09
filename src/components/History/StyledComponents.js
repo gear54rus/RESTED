@@ -13,4 +13,5 @@ export const List = styled.ul`
 export const ListGroupItem = styled.li`
   border-radius: 0 !important;
   cursor: pointer;
+  word-break: break-all;
 `;

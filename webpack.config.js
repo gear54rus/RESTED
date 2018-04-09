@@ -1,6 +1,8 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
 
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
 module.exports = (env = {}) => {
   const rootDir = resolve(__dirname);
   const isProduction = Boolean(env.production);
@@ -12,14 +14,18 @@ module.exports = (env = {}) => {
   ];
 
   if (isProduction) {
-    plugins.push(new webpack.optimize.UglifyJsPlugin());
+    plugins.push(new UglifyJsPlugin({
+      uglifyOptions: {
+        compress: { inline:false }, // https://github.com/mishoo/UglifyJS2/issues/2842
+      },
+    }));
   }
 
   return {
     entry: {
       'dist/rested-aps': ['babel-polyfill', './src/index.js'],
-      'dist/background': './src/background.js',
-      'dist/content': './src/content.js',
+      'dist/background': './src/webExtension/background.js',
+      'dist/content': './src/webExtension/content.js',
     },
 
     output: {
@@ -38,15 +44,16 @@ module.exports = (env = {}) => {
             failOnWarning: isProduction,
             failOnError: isProduction,
             cache: false,
-          }
+          },
         },
         {
-          test: /\.js/,
+          test: /\.js$/,
           include: resolve(rootDir, 'src'),
+          exclude: resolve(rootDir, 'src', 'webExtension', 'inject.js'),
           loader: 'babel-loader',
           options: { cacheDirectory: !isProduction },
-        }
-      ]
+        },
+      ],
     },
 
     resolve: {

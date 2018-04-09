@@ -6,7 +6,7 @@
   "description": "A REST client for the rest of us, with APS features",
   "author": "Espen Henriksen",
   "license": "MIT",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "./main.js",
   "permissions": {
     "multiprocess": true
@@ -18,8 +18,8 @@
     "test:debugger": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
     "eslint": "eslint src test",
     "eslint:fix": "eslint --fix src test",
-    "start": "npm run dev",
-    "dev": "webpack --color --progress -w",
+    "start": "npm run dev -- -w",
+    "dev": "webpack --color --progress",
     "build": "webpack --color --progress --env.production",
     "precommit": "echo Please wait while tests run && npm run eslint && npm test"
   },
@@ -80,6 +80,7 @@
     "react-dnd-test-backend": "^2.5.4",
     "react-test-renderer": "^16.2.0",
     "remote-redux-devtools": "^0.5.12",
+    "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^3.11.0",
     "whatwg-fetch": "^2.0.3"
   }

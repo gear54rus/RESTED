@@ -1,45 +1,16 @@
 {
   presets: [
     ['env', {
+      shippedProposals: true,
       targets: {
-        firefox: 47,
-        useBuiltIns: true,
+        browsers: ['chrome >= 60', 'firefox >= 52'],
       },
-      modules: false,
     }],
     'react'
   ],
   plugins: [
-    'transform-object-assign',
-    'transform-es2015-destructuring',
     'transform-object-rest-spread',
     'transform-class-properties',
-    'transform-exponentiation-operator',
-  ],
-  env: {
-    test: {
-      presets: [
-        'env',
-        'react'
-      ],
-      plugins: [
-        'transform-object-assign',
-        'transform-es2015-destructuring',
-        'transform-object-rest-spread',
-        'transform-class-properties',
-        'transform-exponentiation-operator',
-      ],
-    },
-    production: {
-      plugins: [
-        'transform-react-remove-prop-types',
-        'transform-object-assign',
-        'transform-es2015-destructuring',
-        'transform-object-rest-spread',
-        'transform-class-properties',
-        'transform-exponentiation-operator',
-      ]
-    }
-  }
+  ]
 }
 
