@@ -1,6 +1,8 @@
 ![RESTED APS logo](./doc/images/rested-aps-logo-full.png)
 
-# What is this?
+# What is this? 
+
+[![Build Status](https://semaphoreci.com/api/v1/gear54rus/rested-aps/branches/next/badge.svg)](https://semaphoreci.com/gear54rus/rested-aps)
 
 A REST HTTP client for the rest of us, with [APS features](https://doc.apsstandard.org/). Forked from [RESTED](../../../../RESTEDClient/RESTED) client. This extension replaces the old [RESTClient APS](../../../../odin-public/RESTClient-APS), RIP ⚰️.
 
