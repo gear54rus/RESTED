@@ -1,7 +1,11 @@
 #!/bin/bash
 # Execute from the root of the git repo
+# Must be kept up-to-date with .gitignore
 
-rm -rf node_modules RESTED-APS.* dist/rested-aps* coverage
-cd ..
-zip -r -9 RESTED-APS/RESTED-APS.src.zip RESTED-APS
-cd RESTED-APS
+OUT="RESTED-APS-src.zip"
+
+zip -qr $OUT . \
+  -x '.git/*' '.idea/*' 'node_modules/*' 'RESTED-APS.*' 'manifest.json' \
+  'dist/background.js' 'dist/content.js' 'dist/rested-aps.js' 'coverage/*'
+
+stat $OUT
