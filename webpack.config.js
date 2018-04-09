@@ -14,7 +14,11 @@ module.exports = (env = {}) => {
   ];
 
   if (isProduction) {
-    plugins.push(new UglifyJsPlugin());
+    plugins.push(new UglifyJsPlugin({
+      uglifyOptions: {
+        compress: { inline:false }, // https://github.com/mishoo/UglifyJS2/issues/2842
+      },
+    }));
   }
 
   return {
