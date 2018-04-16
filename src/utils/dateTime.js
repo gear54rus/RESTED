@@ -2,7 +2,7 @@ function padTime(number) {
   return String(number < 10 ? `0${number}` : number);
 }
 
-export function secondsToHM(seconds) {
+export function secondsToMMSS(seconds) {
   return `${padTime(Math.floor(seconds / 60))}:${padTime(seconds % 60)}`;
 }
 
