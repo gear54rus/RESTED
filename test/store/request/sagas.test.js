@@ -4,7 +4,7 @@ import { change } from 'redux-form';
 import 'whatwg-fetch';
 
 import { requestForm } from 'components/Request';
-import { fetchData, createResource, changeBodyTypeSaga, buildHeaders, addAuth, getParameters, getUrl, getBeforeTime, getMillisPassed } from 'store/request/sagas';
+import { fetchData, createResource, changeBodyTypeSaga, getMethod, buildHeaders, addAuth, getParameters, getUrl, getBeforeTime, getMillisPassed } from 'store/request/sagas';
 import { getIgnoreCache } from 'store/options/selectors';
 import { getPlaceholderUrl, getHeaders } from 'store/request/selectors';
 import { updateOption } from 'store/options/actions';
@@ -63,8 +63,14 @@ describe('fetchData saga', () => {
     }));
   });
 
-  it('should call createResource to build a URL', () => {
+  it('should call getMethod to build get method', () => {
     expect(iterator.next(true).value).toEqual(
+      call(getMethod, mockRequest),
+    );
+  });
+
+  it('should call createResource to build a URL', () => {
+    expect(iterator.next('POST').value).toEqual(
       call(createResource, mockRequest),
     );
   });

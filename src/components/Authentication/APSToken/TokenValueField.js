@@ -6,7 +6,7 @@ import { FormGroup, Col, FormControl } from 'react-bootstrap';
 import { getFetchedToken, getTokenChangedTime } from 'store/auth/apsToken/selectors';
 import * as actions from 'store/auth/apsToken/actions';
 import { timeHMS } from 'utils/dateTime';
-import { textFieldShape } from 'propTypes/field';
+import { fieldShape } from 'propTypes/field';
 import { fetchedTokenShape } from 'propTypes/auth/apsToken';
 import { tokenTypes } from 'utils/aps';
 
@@ -15,7 +15,7 @@ import TokenTTL from './TokenTTL';
 
 class TokenValueField extends React.Component {
   static propTypes = {
-    ...textFieldShape,
+    ...fieldShape,
     fetchedToken: PropTypes.shape(fetchedTokenShape),
     tokenChangedTime: PropTypes.number,
     tokenChanged: PropTypes.func.isRequired,

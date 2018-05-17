@@ -3,8 +3,8 @@ import { fieldPropTypes, fieldInputPropTypes, fieldMetaPropTypes } from 'redux-f
 
 const { shape } = PropTypes;
 
-export const textFieldShape = fieldPropTypes;
-export const selectFieldShape = {
+export const fieldShape = fieldPropTypes;
+export const fieldNoDragShape = {
   input: shape({
     checked: fieldInputPropTypes.checked,
     name: fieldInputPropTypes.name,

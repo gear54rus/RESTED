@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FormSection, Field } from 'redux-form';
 import { FormGroup, FormControl, Col, ControlLabel } from 'react-bootstrap';
 
-import { textFieldShape } from 'propTypes/field';
+import { fieldShape } from 'propTypes/field';
 import Collapsible from 'components/Collapsible';
 import { authTypes } from 'store/auth/sagas';
 import { getAuthType } from 'store/request/selectors';
@@ -44,7 +44,7 @@ function AuthTypeField({ input }) {
   );
 }
 
-AuthTypeField.propTypes = textFieldShape;
+AuthTypeField.propTypes = fieldShape;
 
 function Authentication({ authType }) {
   let authFields;

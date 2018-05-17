@@ -95,6 +95,6 @@ export function headersToHeaderString(headers) {
 }
 
 export function focusUrlField() {
-  document.getElementById('url').focus();
+  document.querySelector('input[type="text"][name="url"]').focus();
 }
 

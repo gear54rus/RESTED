@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { FormControl } from 'react-bootstrap';
 
 import { oaAPIURL } from 'utils/aps';
-import { textFieldShape } from 'propTypes/field';
+import { fieldShape } from 'propTypes/field';
 import { getURL } from 'store/request/selectors';
 
 class OAAPIURLField extends React.Component { // eslint-disable-line react/no-multi-comp
   static propTypes = {
-    ...textFieldShape,
+    ...fieldShape,
     requestURL: PropTypes.string,
   };
 

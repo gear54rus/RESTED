@@ -12,11 +12,21 @@ import { requestForm } from 'components/Request';
 import { updateOption } from 'store/options/actions';
 import { getIgnoreCache } from 'store/options/selectors';
 import { authTypes } from 'store/auth/sagas';
+import { DEFAULT_REQUEST } from 'constants/constants';
 
 import { getPlaceholderUrl, getHeaders } from './selectors';
 import { executeRequest, receiveResponse } from './actions';
 import { SEND_REQUEST, REQUEST_FAILED, SELECT_REQUESTED, CHANGE_BODY_TYPE } from './types';
 
+export function* getMethod({ method }) {
+  const result = method || DEFAULT_REQUEST.method;
+
+  if (result !== method) {
+    yield put(change(requestForm, 'method', result));
+  }
+
+  return result;
+}
 
 export function* getUrl({ url: requestURL }) {
   let url = String(requestURL || '').trim();
@@ -119,20 +129,21 @@ export function* fetchData({ request }) {
   try {
     yield put(executeRequest());
 
+    const method = yield call(getMethod, request);
     const resource = yield call(createResource, request);
     const headers = yield call(buildHeaders, request);
     const ignoreCache = yield select(getIgnoreCache);
 
     // Build body for requests that support it
     let body;
-    if (!['GET', 'HEAD'].includes(request.method)) {
+    if (!['GET', 'HEAD'].includes(method)) {
       body = request.bodyType !== 'custom'
         ? buildRequestData(request.bodyType, request.formData)
         : request.data;
     }
 
     const fetchInput = {
-      method: request.method,
+      method,
       url: resource,
       redirect: 'follow',
       body,
@@ -144,6 +155,7 @@ export function* fetchData({ request }) {
     yield call(addAuth, fetchInput, request);
 
     const historyEntry = Immutable.fromJS(request)
+      .set('method', method)
       .set('url', resource)
       .set('id', createUUID());
 
@@ -162,7 +174,7 @@ export function* fetchData({ request }) {
       statusText: response.statusText,
       body: responseBody,
       headers: responseHeaders,
-      method: request.method,
+      method,
       totalTime: millisPassed,
     }));
   } catch (error) {

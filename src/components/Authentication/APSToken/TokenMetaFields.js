@@ -7,7 +7,7 @@ import { FormControl, Row, Col } from 'react-bootstrap';
 import TextFieldCol from 'components/TextFieldCol';
 import { tokenTypes } from 'utils/aps';
 import { getAPSTokenType } from 'store/request/selectors';
-import { selectFieldShape } from 'propTypes/field';
+import { fieldNoDragShape } from 'propTypes/field';
 
 const tokenTypeKeys = Object.keys(tokenTypes);
 
@@ -30,7 +30,7 @@ function renderTokenTypeField({ input }) {
   );
 }
 
-renderTokenTypeField.propTypes = selectFieldShape;
+renderTokenTypeField.propTypes = fieldNoDragShape;
 
 function TokenMetaFields({ tokenType }) {
   const tokenTypeData = tokenTypes[tokenType || tokenTypeKeys[0]];

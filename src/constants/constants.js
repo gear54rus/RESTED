@@ -60,12 +60,26 @@ export const DEFAULT_HISTORY_SIZE = 10;
 export const DEFAULT_APS_TOKEN_TTL = 25;
 
 /**
+ * Holds the different types of requests
+ * that this client supports
+ */
+export const REQUEST_METHODS = [
+  'GET',
+  'POST',
+  'PUT',
+  'DELETE',
+  'PATCH',
+  'HEAD',
+  'JSONP',
+];
+
+/**
  * This is the request used to initialize the
  * request panel. This can be either on
  * application load or on request reset.
  */
 export const DEFAULT_REQUEST = {
-  method: 'GET',
+  method: REQUEST_METHODS[0],
   headers: [{
     name: '',
     value: '',
@@ -89,23 +103,6 @@ export const BASIC_AUTH_HEADER = 'Authorization';
  * APS token header name
  */
 export const APS_TOKEN_HEADER = 'APS-Token';
-
-/**
- * Holds the different types of requests
- * that this client supports
- */
-export const REQUEST_METHODS = [
-  'GET',
-  'POST',
-  'PUT',
-  'DELETE',
-  'PATCH',
-  'HEAD',
-  'JSONP',
-  'CUSTOM',
-];
-
-export const DEFAULT_REQUEST_METHOD = 'GET';
 
 /**
  * The milliseconds we delay showing spinners
