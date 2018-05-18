@@ -7,6 +7,7 @@ import {
   CLEAR_RESPONSE,
   CHANGE_BODY_TYPE,
   SELECT_REQUESTED,
+  COPY_CURL,
 } from './types';
 
 export function executeRequest() {
@@ -41,3 +42,6 @@ export function sendRequest(request) {
   return { type: SEND_REQUEST, request };
 }
 
+export function copyCurl() {
+  return { type: COPY_CURL };
+}

@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 import UUID from 'uuid-js';
 import { initialize, change } from 'redux-form';
 import { call, apply, put, select, takeLatest, takeEvery } from 'redux-saga/effects';
+import clipboard from 'clipboard-polyfill';
 
 import buildRequestData from 'utils/buildRequestData';
 import { reMapHeaders, focusUrlField } from 'utils/requestUtils';
@@ -13,10 +14,11 @@ import { updateOption } from 'store/options/actions';
 import { getIgnoreCache } from 'store/options/selectors';
 import { authTypes } from 'store/auth/sagas';
 import { DEFAULT_REQUEST } from 'constants/constants';
+import fetchToCurl from 'utils/fetchToCurl';
 
-import { getPlaceholderUrl, getHeaders } from './selectors';
+import { getRequest, getPlaceholderUrl, getHeaders } from './selectors';
 import { executeRequest, receiveResponse } from './actions';
-import { SEND_REQUEST, REQUEST_FAILED, SELECT_REQUESTED, CHANGE_BODY_TYPE } from './types';
+import { SEND_REQUEST, REQUEST_FAILED, SELECT_REQUESTED, CHANGE_BODY_TYPE, COPY_CURL } from './types';
 
 export function* getMethod({ method }) {
   const result = method || DEFAULT_REQUEST.method;
@@ -123,6 +125,32 @@ export function* addAuth(fetchInput, fields) {
   if (type in authTypes) {
     yield call(authTypes[type].transform, fetchInput, fields);
   }
+}
+
+export function* copyCurl() {
+  const request = yield select(getRequest);
+  const method = yield call(getMethod, request);
+  const resource = yield call(createResource, request);
+  const headers = yield call(buildHeaders, request);
+
+  let body;
+  if (!['GET', 'HEAD'].includes(method)) {
+    body = request.bodyType !== 'custom'
+      ? buildRequestData(request.bodyType, request.formData)
+      : request.data;
+  }
+
+  const fetchInput = {
+    method,
+    url: resource,
+    redirect: 'follow',
+    body,
+    headers,
+  };
+
+  yield call(addAuth, fetchInput, request);
+
+  return clipboard.writeText(fetchToCurl(fetchInput));
 }
 
 export function* fetchData({ request }) {
@@ -240,6 +268,7 @@ export function* changeBodyTypeSaga({ bodyType }) {
 
 export default function* rootSaga() {
   yield takeLatest(SEND_REQUEST, fetchData);
+  yield takeLatest(COPY_CURL, copyCurl);
   yield takeEvery(SELECT_REQUESTED, selectRequest);
   yield takeEvery(CHANGE_BODY_TYPE, changeBodyTypeSaga);
 }

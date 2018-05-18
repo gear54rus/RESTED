@@ -97,7 +97,7 @@ export const DEFAULT_REQUEST = {
 /**
  * HTTP authorization header name
  */
-export const BASIC_AUTH_HEADER = 'Authorization';
+export const HTTP_AUTH_HEADER = 'Authorization';
 
 /**
  * APS token header name

@@ -26,6 +26,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.5",
+    "clipboard-polyfill": "^2.4.6",
     "fuzzysort": "^1.0.4",
     "immutable": "^3.8.2",
     "localforage": "^1.5.6",

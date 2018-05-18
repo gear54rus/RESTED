@@ -1,5 +1,6 @@
 import { change } from 'redux-form';
 import { call, apply, put, select, takeLatest } from 'redux-saga/effects';
+import clipboard from 'clipboard-polyfill';
 
 import { authCollapsibleID } from 'components/Authentication';
 import { expand } from 'store/config/actions';
@@ -9,6 +10,7 @@ import { getUrl } from 'store/request/sagas';
 import { APS_TOKEN_HEADER } from 'constants/constants';
 import { prependHttp } from 'utils/request';
 import { tokenTypes, oaAPIURL } from 'utils/aps';
+import fetchToCurl from 'utils/fetchToCurl';
 import { basicAuthTransform } from 'store/auth/sagas';
 
 import { getAutoRefresh, getTokenExpired } from './selectors';
@@ -18,6 +20,7 @@ import {
   TOKEN_REFRESH_START,
   TOKEN_REFRESH_ERROR,
   TOKEN_REFRESH_END,
+  COPY_CURL,
 } from './types';
 
 function* fillTokenFromBrowser({ form }) {
@@ -95,6 +98,36 @@ function* getTokenFromResponse(response) {
   }
 }
 
+export function* copyCurl() {
+  const request = yield select(getRequest);
+  const apsValues = request.auth.apsToken || {};
+
+  apsValues.api = Object.assign({
+    url: '',
+    username: '',
+    password: '',
+  }, apsValues.api);
+
+  apsValues.token = Object.assign({
+    value: '',
+    type: Object.keys(tokenTypes)[0],
+    params: [''],
+  }, apsValues.token);
+
+  const fetchInput = {
+    method: 'POST',
+    url: yield call(getAPIURL, apsValues.api, request),
+    credentials: 'omit',
+    redirect: 'error',
+    headers: new Headers(),
+    body: tokenTypes[apsValues.token.type].generator(...apsValues.token.params),
+  };
+
+  basicAuthTransform(fetchInput, { auth: { basic: apsValues.api } });
+
+  return clipboard.writeText(fetchToCurl(fetchInput));
+}
+
 export function* tokenRefresh() {
   try {
     yield put({ type: TOKEN_REFRESH_START });
@@ -166,4 +199,5 @@ export function* transform({ headers }, { auth: { apsToken } }) {
 export default function* rootSaga() {
   yield takeLatest(BROWSER_DATA_RECEIVED, fillTokenFromBrowser);
   yield takeLatest(TOKEN_REFRESH_REQUESTED, tokenRefresh);
+  yield takeLatest(COPY_CURL, copyCurl);
 }

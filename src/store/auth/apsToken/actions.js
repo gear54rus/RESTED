@@ -3,6 +3,7 @@ import {
   TOKEN_CHANGED,
   SET_TOKEN_EXPIRED,
   TOKEN_REFRESH_REQUESTED,
+  COPY_CURL,
 } from './types';
 
 export function setAutoRefresh(autoRefresh) {
@@ -19,4 +20,8 @@ export function setTokenExpired(tokenExpired) {
 
 export function refreshToken() {
   return { type: TOKEN_REFRESH_REQUESTED };
+}
+
+export function copyCurl() {
+  return { type: COPY_CURL };
 }

@@ -6,3 +6,4 @@ export const TOKEN_REFRESH_REQUESTED = 'auth/apsToken/TOKEN_REFRESH_REQUESTED';
 export const TOKEN_REFRESH_START = 'auth/apsToken/TOKEN_REFRESH_START';
 export const TOKEN_REFRESH_ERROR = 'auth/apsToken/TOKEN_REFRESH_ERROR';
 export const TOKEN_REFRESH_END = 'auth/apsToken/TOKEN_REFRESH_END';
+export const COPY_CURL = 'auth/apsToken/COPY_CURL';

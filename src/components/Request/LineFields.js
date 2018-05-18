@@ -1,14 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Col, FormGroup, Button, FormControl, InputGroup } from 'react-bootstrap';
+import { Col, FormGroup, Button, FormControl, InputGroup, MenuItem } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 
 import { REQUEST_METHODS } from 'constants/constants';
 import { fieldNoDragShape } from 'propTypes/field';
 import { isEditMode } from 'store/config/selectors';
+import * as actions from 'store/request/actions';
 
-function LineFields({ method, url, placeholderUrl, editMode }) {
+import { DropdownButtonLeft } from './StyledComponents';
+
+function LineFields({ method, url, placeholderUrl, copyCurl, editMode }) {
+  const btnCaption = editMode ? 'Update request' : 'Send request';
+  const btnStyle = editMode ? 'success' : 'primary';
+
   return (
     <FormGroup>
       <Col sm={2}>
@@ -30,17 +36,24 @@ function LineFields({ method, url, placeholderUrl, editMode }) {
             {...url.input}
           />
           <InputGroup.Button>
-            {editMode ?
-              (
-                <Button type="submit" bsStyle="success">
-                  Update request
-                </Button>
-              ) : (
-                <Button type="submit" bsStyle="primary">
-                  Send request
-                </Button>
-              )
-            }
+            <Button
+              bsStyle={btnStyle}
+              type="submit"
+            >
+              {btnCaption}
+            </Button>
+            <DropdownButtonLeft
+              bsStyle={btnStyle}
+              title=""
+              id="request-copy-curl"
+            >
+              <MenuItem
+                eventKey="1"
+                onClick={copyCurl}
+              >
+                Copy cURL
+              </MenuItem>
+            </DropdownButtonLeft>
           </InputGroup.Button>
         </InputGroup>
       </Col>
@@ -52,6 +65,7 @@ LineFields.propTypes = {
   method: PropTypes.shape(fieldNoDragShape).isRequired,
   url: PropTypes.shape(fieldNoDragShape).isRequired,
   placeholderUrl: PropTypes.string.isRequired,
+  copyCurl: PropTypes.func.isRequired,
   editMode: PropTypes.bool.isRequired,
 };
 
@@ -61,4 +75,4 @@ const mapStateToProps = state => ({
 });
 
 export { LineFields };
-export default connect(mapStateToProps)(LineFields);
+export default connect(mapStateToProps, { copyCurl: actions.copyCurl })(LineFields);

@@ -2,14 +2,17 @@ import oauth1 from 'oauth-1.0a';
 import { fork } from 'redux-saga/effects';
 
 import base64Encode from 'utils/base64';
-import { BASIC_AUTH_HEADER } from 'constants/constants';
+import { HTTP_AUTH_HEADER } from 'constants/constants';
 import { signatureMethods as oAuth1SignatureMethods } from 'utils/oauth1';
 
 import apsTokenSaga, { transform as apsTokenTransform } from './apsToken/sagas';
 
 export function basicAuthTransform(fetchInput, { auth: { basic } }) {
   if (basic && basic.username) {
-    fetchInput.headers.set(BASIC_AUTH_HEADER, `Basic ${base64Encode(`${basic.username}:${basic.password || ''}`)}`);
+    fetchInput.headers.set(
+      HTTP_AUTH_HEADER,
+      `Basic ${base64Encode(`${basic.username}:${basic.password || ''}`)}`,
+    );
   }
 }
 
@@ -81,7 +84,7 @@ function oAuth1Transform({ url, method, headers }, fields) {
   });
 
   headers.set(
-    BASIC_AUTH_HEADER,
+    HTTP_AUTH_HEADER,
     Object.values(oauth.toHeader(toHeader))[0],
   );
 }

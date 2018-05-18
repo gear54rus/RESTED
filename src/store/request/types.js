@@ -7,3 +7,4 @@ export const CLEAR_RESPONSE = 'request/CLEAR_RESPONSE';
 export const CHANGE_BODY_TYPE = 'request/CHANGE_BODY_TYPE';
 export const REQUEST_FAILED = 'request/RECEIVE_FAILED';
 export const SELECT_REQUESTED = 'request/SELECT_REQUESTED';
+export const COPY_CURL = 'request/COPY_CURL';

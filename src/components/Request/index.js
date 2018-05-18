@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { reduxForm, Fields, FieldArray, FormSection, getFormValues } from 'redux-form';
+import { reduxForm, Fields, FieldArray, FormSection } from 'redux-form';
 import { Panel, Form } from 'react-bootstrap';
 import flow from 'lodash.flow';
 
+import { getRequest } from 'store/request/selectors';
 import * as requestActions from 'store/request/actions';
 import * as collectionsActions from 'store/collections/actions';
 import { isEditMode } from 'store/config/selectors';
@@ -73,7 +74,7 @@ const formOptions = {
 const mapStateToProps = state => ({
   useFormData: state.request.useFormData,
   initialValues: DEFAULT_REQUEST,
-  formValues: getFormValues(requestForm)(state),
+  formValues: getRequest(state),
   editMode: isEditMode(state),
 });
 

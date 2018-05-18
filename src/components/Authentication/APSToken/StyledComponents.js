@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ProgressBar, HelpBlock } from 'react-bootstrap';
+import { ProgressBar, HelpBlock, ButtonGroup, DropdownButton } from 'react-bootstrap';
 
 import Fonticon from 'components/Fonticon';
 
@@ -22,4 +22,16 @@ export const SmallProgressWithOffsetText = styled(ProgressBar)`
 
 export const SmallHelpBlock = styled(HelpBlock)`
   margin-bottom: 5px;
+`;
+
+// Non-breaking
+export const ButtonGroupNB = styled(ButtonGroup)`
+   display: flex;
+`;
+
+export const DropdownButtonLeft = styled(DropdownButton)`
+   & + ul {
+     right: 0;
+     left: auto;
+   }
 `;
