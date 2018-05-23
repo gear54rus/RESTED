@@ -1,4 +1,4 @@
-import * as RequestUtils from './requestUtils';
+import * as RequestUtils from './request';
 
 function getPostData(entry) {
   if (!entry.data && !entry.formData) {

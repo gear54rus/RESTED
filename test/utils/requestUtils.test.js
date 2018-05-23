@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import * as RequestUtils from 'utils/requestUtils';
+import * as RequestUtils from 'utils/request';
 
 describe('Service: RequestUtils', () => {
   const object = {

@@ -5,8 +5,7 @@ import { call, apply, put, select, takeLatest, takeEvery } from 'redux-saga/effe
 import clipboard from 'clipboard-polyfill';
 
 import buildRequestData from 'utils/buildRequestData';
-import { reMapHeaders, focusUrlField } from 'utils/requestUtils';
-import { prependHttp, mapParameters } from 'utils/request';
+import { prependHttp, mapParameters, reMapHeaders, focusUrlField } from 'utils/request';
 import { pushHistory } from 'store/history/actions';
 import { getUrlVariables } from 'store/urlVariables/selectors';
 import { requestForm } from 'components/Request';

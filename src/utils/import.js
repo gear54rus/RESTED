@@ -1,6 +1,6 @@
 import UUID from 'uuid-js';
 
-import { formDataToFormString } from './requestUtils';
+import { formDataToFormString } from './request';
 
 const isTest = process.env.NODE_ENV === 'test';
 

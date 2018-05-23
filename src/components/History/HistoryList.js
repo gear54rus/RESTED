@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
-import { ListGroup } from 'react-bootstrap';
+import { Label, ListGroup } from 'react-bootstrap';
 
 import { immutableRequestShape } from 'propTypes/request';
 import IconButton from 'components/IconButton';

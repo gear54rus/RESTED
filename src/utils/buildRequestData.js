@@ -1,4 +1,4 @@
-import { reMapHeaders } from 'utils/requestUtils';
+import { reMapHeaders } from 'utils/request';
 
 /**
  * JSON values should be typed as their respective JSON types
