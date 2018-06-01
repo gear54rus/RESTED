@@ -1,4 +1,4 @@
-import { randomURL } from 'utils/requestUtils';
+import { randomURL } from 'utils/request';
 import {
   EXECUTE_REQUEST,
   RECEIVE_INTERCEPTED_RESPONSE,
@@ -6,6 +6,7 @@ import {
   RECEIVE_RESPONSE,
   CLEAR_RESPONSE,
   REQUEST_FAILED,
+  SELECT_REQUEST,
 } from './types';
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   redirectChain: [],
   lastRequestTime: null,
   loading: false,
+  selected: null,
 };
 
 export default function (state = initialState, action) {
@@ -61,6 +63,11 @@ export default function (state = initialState, action) {
     case REQUEST_FAILED:
       return Object.assign({}, state, {
         error: action.error,
+      });
+
+    case SELECT_REQUEST:
+      return Object.assign({}, state, {
+        selected: action.id,
       });
 
     default:

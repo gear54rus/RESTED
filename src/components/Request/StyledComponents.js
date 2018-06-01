@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import IconButton from 'components/IconButton';
-import { Clearfix, Button } from 'react-bootstrap';
+import { Clearfix, Button, DropdownButton } from 'react-bootstrap';
 
 export const StyledHeader = styled(Clearfix)`
   h2 {
@@ -78,4 +78,11 @@ export const Suggestion = styled.div`
   p {
     margin: 0;
   }
+`;
+
+export const DropdownButtonLeft = styled(DropdownButton)`
+   & + ul {
+     right: 0;
+     left: auto;
+   }
 `;

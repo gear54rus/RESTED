@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import * as actions from 'store/auth/apsToken/actions';
 import { getAPSTokenTTL as getTokenTTL } from 'store/options/selectors';
-import { secondsToHM } from 'utils/dateTime';
+import { secondsToMMSS } from 'utils/dateTime';
 import { rgbaStringToArray, isColorDark } from 'utils/color';
 
 import { SmallProgressWithOffsetText } from './StyledComponents';
@@ -52,7 +52,7 @@ class TokenTTL extends React.Component {
     if (secondsLeft > 0) {
       this.setState({
         now: (secondsLeft / ttlSeconds) * 100,
-        label: secondsToHM(secondsLeft),
+        label: secondsToMMSS(secondsLeft),
       });
     } else {
       clearInterval(this.timer);

@@ -204,11 +204,11 @@ class Collection extends React.Component {
 
   state = {};
 
-  handleInputChange = name => {
+  handleInputChange(name) {
     this.setState({ name });
   }
 
-  renameCollection = e => {
+  renameCollection(e) {
     e.preventDefault();
     const { collectionIndex, renameCollection } = this.props;
 
@@ -245,8 +245,8 @@ class Collection extends React.Component {
             toggleCollapsed={toggleCollapsed}
             minimized={minimized}
             toggleEdit={toggleEdit}
-            onChange={this.handleInputChange}
-            renameCollection={this.renameCollection}
+            onChange={e => this.handleInputChange(e)}
+            renameCollection={e => this.renameCollection(e)}
             setModalData={setModalData}
             removeModal={removeModal}
             edit={edit}

@@ -1,3 +1,5 @@
+import { timeHMS } from 'utils/dateTime';
+
 const {
   browserAction,
   runtime,
@@ -40,8 +42,7 @@ function setTitleFromData(tabID, tabData) {
   if ('runtime' in versions) title += `- UI runtime version: ${versions.runtime}\n`;
 
   if ('apsToken' in data) {
-    const time = new Date(data.apsToken.receivedAt);
-    title += `- APS token, received at ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}\n`;
+    title += `- APS token, received at ${timeHMS(new Date(data.apsToken.receivedAt))}\n`;
   }
 
   if ('accountID' in data) title += `- Account ID: ${data.accountID}\n`;
@@ -67,10 +68,7 @@ runtime.onConnect.addListener(port => {
       setOADataTitle(null, tabID);
     }
 
-    browserAction.setBadgeText({
-      tabId: tabID,
-      text,
-    });
+    browserAction.setBadgeText({ tabId: tabID, text });
   });
 });
 

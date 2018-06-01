@@ -1,5 +1,6 @@
 import * as actions from 'store/request/actions';
 import * as types from 'store/request/types';
+import { requestID } from 'utils/request';
 
 describe('actions', () => {
   let request;
@@ -11,6 +12,7 @@ describe('actions', () => {
       headers: [{ name: 'test', value: 'blah' }],
       cache: false,
       url: 'http://www.aperturescience.com',
+      id: requestID(),
     };
     response = {
       method: 'GET',
@@ -80,16 +82,16 @@ describe('actions', () => {
     expect(actions.changeBodyType('custom')).toEqual(expectedAction);
   });
 
-  it('should an action to select a request', () => {
+  it('should create an action to select a request', () => {
     const expectedAction = {
-      type: types.SELECT_REQUESTED,
-      request,
+      type: types.FIND_SELECT_REQUEST,
+      id: request.id,
     };
 
-    expect(actions.selectRequest(request)).toEqual(expectedAction);
+    expect(actions.selectRequest(request.id)).toEqual(expectedAction);
   });
 
-  it('should an action to send a request', () => {
+  it('should create an action to send a request', () => {
     const expectedAction = {
       type: types.SEND_REQUEST,
       request,

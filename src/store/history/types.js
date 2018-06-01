@@ -8,4 +8,3 @@ export const DELETE_REQUESTED = 'history/DELETE_REQUESTED';
 export const DELETE_ITEM = 'history/DELETE_ITEM';
 export const CLEAR_REQUESTED = 'history/CLEAR_REQUESTED';
 export const CLEAR_HISTORY = 'history/CLEAR_HISTORY';
-

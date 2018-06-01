@@ -4,7 +4,7 @@ import { Row, Col, FormControl, FormGroup } from 'react-bootstrap';
 
 import TextFieldCol from 'components/TextFieldCol';
 import { signatureMethods } from 'utils/oauth1';
-import { selectFieldShape } from 'propTypes/field';
+import { fieldNoDragShape } from 'propTypes/field';
 
 function renderSignatureMethod({ input }) {
   return (
@@ -25,7 +25,7 @@ function renderSignatureMethod({ input }) {
   );
 }
 
-renderSignatureMethod.propTypes = selectFieldShape;
+renderSignatureMethod.propTypes = fieldNoDragShape;
 
 function renderConsumerFields() {
   return (

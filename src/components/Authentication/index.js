@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FormSection, Field } from 'redux-form';
 import { FormGroup, FormControl, Col, ControlLabel } from 'react-bootstrap';
 
-import { textFieldShape } from 'propTypes/field';
+import { fieldShape } from 'propTypes/field';
 import Collapsible from 'components/Collapsible';
 import { authTypes } from 'store/auth/sagas';
 import { getAuthType } from 'store/request/selectors';
@@ -12,8 +12,6 @@ import { getAuthType } from 'store/request/selectors';
 import BasicFields from './Basic';
 import APSTokenFields from './APSToken';
 import OAuth1Fields from './OAuth1';
-
-export const authCollapsibleID = 'auth';
 
 function AuthTypeField({ input }) {
   return (
@@ -44,7 +42,9 @@ function AuthTypeField({ input }) {
   );
 }
 
-AuthTypeField.propTypes = textFieldShape;
+AuthTypeField.propTypes = fieldShape;
+
+export const collapsibleID = 'auth';
 
 function Authentication({ authType }) {
   let authFields;
@@ -66,7 +66,7 @@ function Authentication({ authType }) {
   return (
     <Collapsible
       title="Authentication"
-      id={authCollapsibleID}
+      id={collapsibleID}
     >
       <Field
         name="type"

@@ -1,22 +1,45 @@
 import Immutable from 'immutable';
-import UUID from 'uuid-js';
 import { initialize, change } from 'redux-form';
 import { call, apply, put, select, takeLatest, takeEvery } from 'redux-saga/effects';
+import clipboard from 'clipboard-polyfill';
 
 import buildRequestData from 'utils/buildRequestData';
-import { reMapHeaders, focusUrlField } from 'utils/requestUtils';
-import { prependHttp, mapParameters } from 'utils/request';
+import { setLocationHash, focusUrlField, prependHttp, mapParameters, reMapHeaders, requestID } from 'utils/request';
 import { pushHistory } from 'store/history/actions';
 import { getUrlVariables } from 'store/urlVariables/selectors';
 import { requestForm } from 'components/Request';
+import { collapsibleID as headersCollapsibleID } from 'components/Request/HeadersField';
+import { collapsibleID as authCollapsibleID } from 'components/Authentication';
+import { collapsibleID as bodyCollapsibleID } from 'components/Request/BodyField';
 import { updateOption } from 'store/options/actions';
+import { expand } from 'store/config/actions';
 import { getIgnoreCache } from 'store/options/selectors';
 import { authTypes } from 'store/auth/sagas';
+import fetchToCurl from 'utils/fetchToCurl';
+import { getCollections } from 'store/collections/selectors';
+import { getHistory } from 'store/history/selectors';
+import { DEFAULT_REQUEST, PAGE_TITLE } from 'constants/constants';
 
-import { getPlaceholderUrl, getHeaders } from './selectors';
+import { getRequest, getPlaceholderUrl, getHeaders } from './selectors';
 import { executeRequest, receiveResponse } from './actions';
-import { SEND_REQUEST, REQUEST_FAILED, SELECT_REQUESTED, CHANGE_BODY_TYPE } from './types';
+import {
+  SEND_REQUEST,
+  REQUEST_FAILED,
+  CHANGE_BODY_TYPE,
+  COPY_CURL,
+  FIND_SELECT_REQUEST,
+  SELECT_REQUEST,
+} from './types';
 
+export function* getMethod({ method }) {
+  const result = method || DEFAULT_REQUEST.method;
+
+  if (result !== method) {
+    yield put(change(requestForm, 'method', result));
+  }
+
+  return result;
+}
 
 export function* getUrl({ url: requestURL }) {
   let url = String(requestURL || '').trim();
@@ -68,7 +91,7 @@ export function* createResource(request) {
   return mapParameters(url, parameters);
 }
 
-export function* buildHeaders({ headers }) {
+function* buildHeaders({ headers }) {
   const parameters = yield call(getParameters);
   const requestHeaders = new Headers(reMapHeaders(headers, parameters));
 
@@ -99,14 +122,6 @@ function buildResponseHeaders(response) {
   return headers;
 }
 
-function createUUID() {
-  if (process.env.NODE_ENV === 'test') {
-    return 'test-UUID';
-  }
-
-  return UUID.create().toString();
-}
-
 export function* addAuth(fetchInput, fields) {
   const { type } = fields.auth;
 
@@ -115,28 +130,44 @@ export function* addAuth(fetchInput, fields) {
   }
 }
 
+export function* normalize(request) {
+  const method = yield call(getMethod, request);
+  const url = yield call(createResource, request);
+  const headers = yield call(buildHeaders, request);
+
+  let body;
+  if (!['GET', 'HEAD'].includes(method)) {
+    body = request.bodyType !== 'custom'
+      ? buildRequestData(request.bodyType, request.formData)
+      : request.data;
+  }
+
+  return { method, url, headers, body };
+}
+
+export function* copyCurl() {
+  const request = yield select(getRequest);
+
+  const fetchInput = {
+    redirect: 'follow',
+    ...yield call(normalize, request),
+  };
+
+  yield call(addAuth, fetchInput, request);
+
+  return clipboard.writeText(fetchToCurl(fetchInput));
+}
+
 export function* fetchData({ request }) {
   try {
     yield put(executeRequest());
 
-    const resource = yield call(createResource, request);
-    const headers = yield call(buildHeaders, request);
+    const normalized = yield call(normalize, request);
     const ignoreCache = yield select(getIgnoreCache);
 
-    // Build body for requests that support it
-    let body;
-    if (!['GET', 'HEAD'].includes(request.method)) {
-      body = request.bodyType !== 'custom'
-        ? buildRequestData(request.bodyType, request.formData)
-        : request.data;
-    }
-
     const fetchInput = {
-      method: request.method,
-      url: resource,
+      ...normalized,
       redirect: 'follow',
-      body,
-      headers,
       credentials: 'include', // Include cookies
       cache: ignoreCache ? 'no-store' : 'default',
     };
@@ -144,8 +175,9 @@ export function* fetchData({ request }) {
     yield call(addAuth, fetchInput, request);
 
     const historyEntry = Immutable.fromJS(request)
-      .set('url', resource)
-      .set('id', createUUID());
+      .set('method', normalized.method)
+      .set('url', normalized.url)
+      .set('id', requestID());
 
     yield put(pushHistory(historyEntry));
 
@@ -162,17 +194,12 @@ export function* fetchData({ request }) {
       statusText: response.statusText,
       body: responseBody,
       headers: responseHeaders,
-      method: request.method,
+      method: normalized.method,
       totalTime: millisPassed,
     }));
   } catch (error) {
     yield put({ type: REQUEST_FAILED, error });
   }
-}
-
-function* selectRequest({ request }) {
-  yield put(initialize(requestForm, request));
-  yield call(focusUrlField);
 }
 
 function setContentType(array, value) {
@@ -226,9 +253,54 @@ export function* changeBodyTypeSaga({ bodyType }) {
   yield put(updateOption('bodyType', bodyType));
 }
 
-export default function* rootSaga() {
-  yield takeLatest(SEND_REQUEST, fetchData);
-  yield takeEvery(SELECT_REQUESTED, selectRequest);
-  yield takeEvery(CHANGE_BODY_TYPE, changeBodyTypeSaga);
+window.document.title = PAGE_TITLE;
+
+function* findSelectRequest({ id, noFormInit }) {
+  let foundID = null;
+
+  if (id) {
+    const history = (yield select(getHistory)).toJS();
+    const collections = (yield select(getCollections)).toJS();
+
+    const found = history.find(request => request.id === id)
+      || collections.reduce((acc, collection) => (
+        acc || collection.requests.find(request => request.id === id)
+      ), null);
+
+    if (found) {
+      foundID = found.id;
+      delete found.id;
+
+      if (!noFormInit) {
+        yield put(initialize(requestForm, found));
+        yield call(focusUrlField);
+
+        const { method, headers, auth, formData, data } = found;
+
+        if (headers.find(header => (header.name || header.value))) {
+          yield put(expand(headersCollapsibleID));
+        }
+
+        if (auth.type !== 'disabled') {
+          yield put(expand(authCollapsibleID));
+        }
+
+        if (!['GET', 'HEAD'].includes(method) && ((formData.length) > 0 || data)) {
+          yield put(expand(bodyCollapsibleID));
+        }
+      }
+    }
+  }
+
+  yield put({ type: SELECT_REQUEST, id: foundID });
+
+  setLocationHash(foundID, !foundID);
+  window.document.title = `${PAGE_TITLE}${foundID ? `: #${foundID}` : ''}`;
 }
 
+export default function* rootSaga() {
+  yield takeLatest(SEND_REQUEST, fetchData);
+  yield takeEvery(COPY_CURL, copyCurl);
+  yield takeEvery(CHANGE_BODY_TYPE, changeBodyTypeSaga);
+  yield takeEvery(FIND_SELECT_REQUEST, findSelectRequest);
+}

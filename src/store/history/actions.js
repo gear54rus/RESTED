@@ -15,4 +15,3 @@ export function removeFromHistory(index) {
 export function clearHistory() {
   return { type: CLEAR_REQUESTED };
 }
-

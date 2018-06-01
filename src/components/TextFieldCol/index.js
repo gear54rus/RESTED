@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Col, FormControl } from 'react-bootstrap';
 
-import { textFieldShape } from 'propTypes/field';
+import { fieldShape } from 'propTypes/field';
 
 /* eslint-disable no-unused-vars */
 function renderFormControl({ input, meta, type, placeholder, ...other }) {
@@ -19,7 +19,7 @@ function renderFormControl({ input, meta, type, placeholder, ...other }) {
 }
 
 renderFormControl.propTypes = {
-  ...textFieldShape,
+  ...fieldShape,
   placeholder: PropTypes.string,
 };
 

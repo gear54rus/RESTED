@@ -113,7 +113,7 @@ describe('reducer', () => {
       isFetching: false,
       collections: [{
         name: 'Collection',
-        id: 'test-id',
+        id: 'tstREQID',
         minimized: false,
         requests: [],
       }],

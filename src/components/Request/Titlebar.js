@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
+import { Badge } from 'react-bootstrap';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { getFormValues, isInvalid, isPristine, touch } from 'redux-form';
-import UUID from 'uuid-js';
 
 import { immutableCollectionShape } from 'propTypes/collection';
 import IconButton from 'components/IconButton';
@@ -12,6 +11,7 @@ import { showChooseCollectionModal, showOptionsModal } from 'utils/modal';
 import { getCollections } from 'store/collections/selectors';
 import { getCollectionsMinimized } from 'store/options/selectors';
 import { getEditingRequest, isEditMode } from 'store/config/selectors';
+import { getSelected } from 'store/request/selectors';
 import * as collectionsActions from 'store/collections/actions';
 import * as modalActions from 'store/modal/actions';
 import * as optionsActions from 'store/options/actions';
@@ -19,11 +19,7 @@ import * as optionsActions from 'store/options/actions';
 import { StyledHeader } from './StyledComponents';
 
 function handleSubmit(props, collectionIndex = 0) {
-  const addableRequest = Object.assign({}, props.request, {
-    id: UUID.create().toString(),
-  });
-
-  props.addRequest(Immutable.fromJS(addableRequest), collectionIndex);
+  props.addRequest(props.request, collectionIndex);
   props.removeModal();
 }
 
@@ -40,6 +36,7 @@ function Titlebar(props) {
     collectionsMinimized,
     isEditing,
     editingRequest,
+    selected,
   } = props;
 
   return (
@@ -50,6 +47,8 @@ function Titlebar(props) {
               ? `- ${editingRequest.name}` : ''}`
           : 'Request'
         }
+        {' '}
+        <Badge>{selected}</Badge>
       </h2>
       <IconButton
         onClick={() => {
@@ -113,6 +112,7 @@ Titlebar.propTypes = {
   editingRequest: PropTypes.shape({
     name: PropTypes.string,
   }),
+  selected: PropTypes.string,
   /* eslint-disable react/no-unused-prop-types */
   touch: PropTypes.func.isRequired,
   addCollection: PropTypes.func.isRequired,
@@ -131,6 +131,7 @@ const mapStateToProps = state => ({
   collectionsMinimized: getCollectionsMinimized(state),
   isEditing: isEditMode(state),
   editingRequest: getEditingRequest(state),
+  selected: getSelected(state),
 });
 
 export default connect(mapStateToProps, {

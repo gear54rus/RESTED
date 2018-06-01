@@ -24,11 +24,13 @@ renderValueField.propTypes = {
   placeholder: PropTypes.string.isRequired,
 };
 
+export const collapsibleID = 'headers';
+
 function HeadersField({ meta, fields }) {
   return (
     <Collapsible
       title="Headers"
-      id="headers"
+      id={collapsibleID}
     >
       {fields.map((field, key) => (
         <FormGroup

@@ -1,5 +1,6 @@
 import { getFormValues } from 'redux-form';
 
+export const getSelected = state => state.request.selected;
 export const getPlaceholderUrl = state => state.request.placeholderUrl;
 export const getResponse = state => state.request.response;
 export const getInterceptedResponse = state => state.request.interceptedResponse;

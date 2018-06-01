@@ -3,11 +3,6 @@ import { DARK_THEMES, DEFAULT_HISTORY_SIZE, DEFAULT_APS_TOKEN_TTL } from 'consta
 
 export const getOptions = state => state.options;
 
-export const getURLHash = createSelector(
-  [getOptions],
-  options => options && options.get('urlHash'),
-);
-
 export const getActiveTab = createSelector(
   [getOptions],
   options => options && options.getIn(['options', 'activeTab'], 'collections'),

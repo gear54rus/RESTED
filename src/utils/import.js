@@ -1,8 +1,4 @@
-import UUID from 'uuid-js';
-
-import { formDataToFormString } from './requestUtils';
-
-const isTest = process.env.NODE_ENV === 'test';
+import { formDataToFormString, requestID } from './request';
 
 function stringHeadersToObject(string) {
   const result = [];
@@ -51,7 +47,7 @@ export function fromPostman(json) {
 
     // Trim away fluff
     return {
-      id: isTest ? 'UUID' : UUID.create().toString(),
+      id: requestID(),
       method: result.method,
       url: result.url,
       headers: result.headers,
@@ -80,7 +76,7 @@ export function fromHAR(har) {
   entries.forEach(entry => {
     // Trim away fluff
     result.push({
-      id: isTest ? 'UUID' : UUID.create().toString(),
+      id: requestID(),
       method: entry.request.method,
       url: entry.request.url,
       headers: entry.request.headers,

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
-import { REQUEST_METHODS } from 'constants/constants';
 
-const { string, oneOf, shape, arrayOf, number } = PropTypes;
+const { string, shape, arrayOf, number } = PropTypes;
 
 export const responseShape = {
   url: string.isRequired,
@@ -9,7 +8,7 @@ export const responseShape = {
   status: number.isRequired,
   statusText: string.isRequired,
   totalTime: number.isRequired,
-  method: oneOf(REQUEST_METHODS).isRequired,
+  method: string.isRequired,
   headers: arrayOf(
     shape({
       name: string.isRequired,

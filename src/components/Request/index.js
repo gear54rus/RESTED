@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { reduxForm, Field, FieldArray, FormSection, getFormValues } from 'redux-form';
+import { reduxForm, Fields, FieldArray, FormSection } from 'redux-form';
 import { Panel, Form } from 'react-bootstrap';
 import flow from 'lodash.flow';
 
+import { getRequest } from 'store/request/selectors';
 import * as requestActions from 'store/request/actions';
 import * as collectionsActions from 'store/collections/actions';
 import { isEditMode } from 'store/config/selectors';
@@ -12,8 +13,7 @@ import { DEFAULT_REQUEST } from 'constants/constants';
 import AuthField from 'components/Authentication';
 
 import Titlebar from './Titlebar';
-import URLField from './URLField';
-import MethodField from './MethodField';
+import LineFields from './LineFields';
 import HeadersField from './HeadersField';
 import BodyField from './BodyField';
 
@@ -22,11 +22,10 @@ export const requestForm = 'request';
 function Request(props) {
   const {
     formValues = {},
-    placeholderUrl,
     handleSubmit,
+    editMode,
     sendRequest,
     updateRequest,
-    editMode,
   } = props;
 
   return (
@@ -39,14 +38,9 @@ function Request(props) {
           horizontal
           onSubmit={handleSubmit(editMode ? updateRequest : sendRequest)}
         >
-          <Field
-            name="url"
-            component={URLField}
-            placeholderUrl={placeholderUrl}
-          />
-          <Field
-            name="method"
-            component={MethodField}
+          <Fields
+            names={['method', 'url']}
+            component={LineFields}
           />
           <FieldArray
             name="headers"
@@ -66,23 +60,26 @@ function Request(props) {
 }
 
 Request.propTypes = {
-  placeholderUrl: PropTypes.string,
   formValues: PropTypes.shape({}),
   handleSubmit: PropTypes.func.isRequired,
+  editMode: PropTypes.bool.isRequired,
   sendRequest: PropTypes.func.isRequired,
   updateRequest: PropTypes.func.isRequired,
-  editMode: PropTypes.bool.isRequired,
 };
 
 const formOptions = {
   form: requestForm,
+  onChange(_, dispatch, props) {
+    if (props.anyTouched) { // means that this is not an initialize() call
+      dispatch(requestActions.selectRequest(null));
+    }
+  },
 };
 
 const mapStateToProps = state => ({
   useFormData: state.request.useFormData,
-  placeholderUrl: state.request.placeholderUrl,
   initialValues: DEFAULT_REQUEST,
-  formValues: getFormValues(requestForm)(state),
+  formValues: getRequest(state),
   editMode: isEditMode(state),
 });
 
@@ -94,4 +91,3 @@ export default flow(
     ...collectionsActions,
   }),
 )(Request);
-

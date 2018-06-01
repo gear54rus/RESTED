@@ -7,7 +7,7 @@ describe('Service: Import', () => {
   beforeEach(() => {
     expectedResult = [
       {
-        id: 'UUID',
+        id: 'tstREQID',
         url: 'www.vg.no',
         method: 'GET',
         data: undefined,

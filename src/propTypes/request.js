@@ -1,13 +1,12 @@
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
-import { REQUEST_METHODS } from 'constants/constants';
 
-const { string, oneOf, shape, arrayOf, bool } = PropTypes;
+const { string, shape, arrayOf, bool } = PropTypes;
 
 export const requestShape = {
   id: string.isRequired,
   url: string.isRequired,
-  method: oneOf(REQUEST_METHODS).isRequired,
+  method: string.isRequired,
   data: string,
   useFormData: bool,
   formData: arrayOf(

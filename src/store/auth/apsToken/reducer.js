@@ -1,5 +1,5 @@
 import {
-  BROWSER_DATA_RECEIVED,
+  TOKEN_FROM_HASH,
   SET_AUTO_REFRESH,
   TOKEN_CHANGED,
   SET_TOKEN_EXPIRED,
@@ -19,8 +19,8 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case BROWSER_DATA_RECEIVED:
-      return action.token ? Object.assign({}, state, {
+    case TOKEN_FROM_HASH:
+      return Object.assign({}, state, {
         fetchedToken: {
           time: action.token.time,
           value: action.token.value,
@@ -30,7 +30,7 @@ export default function (state = initialState, action) {
           url: action.token.url,
         },
         tokenChangedTime: action.token.time,
-      }) : state;
+      });
 
     case SET_AUTO_REFRESH:
       return Object.assign({}, state, {
