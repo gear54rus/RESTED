@@ -71,7 +71,7 @@ exports[`Collection component should match the previous snapshot 1`] = `
             className="list-group"
           >
             <div
-              className="list-group-item"
+              className="list-group-item "
             >
               <div
                 className="sc-gzVnrw bBTGUh"
@@ -131,6 +131,20 @@ exports[`Collection component should match the previous snapshot 1`] = `
                 <div>
                   <h4>
                     POST
+                    <div
+                      className="pull-right"
+                    >
+                      <span
+                        className="badge"
+                        onBlur={[Function]}
+                        onClick={null}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                      >
+                        some-request-UUID1
+                      </span>
+                    </div>
                   </h4>
                   www.foo.no
                 </div>
@@ -255,7 +269,7 @@ exports[`Collections component should match the previous snapshot 1`] = `
                   className="list-group"
                 >
                   <div
-                    className="list-group-item"
+                    className="list-group-item "
                   >
                     <div
                       className="sc-gzVnrw bBTGUh"
@@ -315,6 +329,20 @@ exports[`Collections component should match the previous snapshot 1`] = `
                       <div>
                         <h4>
                           POST
+                          <div
+                            className="pull-right"
+                          >
+                            <span
+                              className="badge"
+                              onBlur={[Function]}
+                              onClick={null}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                            >
+                              some-request-UUID1
+                            </span>
+                          </div>
                         </h4>
                         www.foo.no
                       </div>
@@ -398,7 +426,7 @@ exports[`Collections component should match the previous snapshot 1`] = `
                   className="list-group"
                 >
                   <div
-                    className="list-group-item"
+                    className="list-group-item "
                   >
                     <div
                       className="sc-gzVnrw bBTGUh"
@@ -458,6 +486,20 @@ exports[`Collections component should match the previous snapshot 1`] = `
                       <div>
                         <h4>
                           POST
+                          <div
+                            className="pull-right"
+                          >
+                            <span
+                              className="badge"
+                              onBlur={[Function]}
+                              onClick={null}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                            >
+                              some-request-UUID2
+                            </span>
+                          </div>
                         </h4>
                         www.foo.no
                       </div>
@@ -474,7 +516,7 @@ exports[`Collections component should match the previous snapshot 1`] = `
                   className="list-group"
                 >
                   <div
-                    className="list-group-item"
+                    className="list-group-item "
                   >
                     <div
                       className="sc-gzVnrw bBTGUh"
@@ -534,6 +576,20 @@ exports[`Collections component should match the previous snapshot 1`] = `
                       <div>
                         <h4>
                           POST
+                          <div
+                            className="pull-right"
+                          >
+                            <span
+                              className="badge"
+                              onBlur={[Function]}
+                              onClick={null}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                            >
+                              some-request-UUID3
+                            </span>
+                          </div>
                         </h4>
                         www.bar.no
                       </div>
@@ -550,7 +606,7 @@ exports[`Collections component should match the previous snapshot 1`] = `
                   className="list-group"
                 >
                   <div
-                    className="list-group-item"
+                    className="list-group-item "
                   >
                     <div
                       className="sc-gzVnrw bBTGUh"
@@ -610,6 +666,20 @@ exports[`Collections component should match the previous snapshot 1`] = `
                       <div>
                         <h4>
                           POST
+                          <div
+                            className="pull-right"
+                          >
+                            <span
+                              className="badge"
+                              onBlur={[Function]}
+                              onClick={null}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                            >
+                              some-request-UUID4
+                            </span>
+                          </div>
                         </h4>
                         www.baz.no
                       </div>

@@ -13,8 +13,6 @@ import BasicFields from './Basic';
 import APSTokenFields from './APSToken';
 import OAuth1Fields from './OAuth1';
 
-export const authCollapsibleID = 'auth';
-
 function AuthTypeField({ input }) {
   return (
     <FormGroup controlId="auth">
@@ -46,6 +44,8 @@ function AuthTypeField({ input }) {
 
 AuthTypeField.propTypes = fieldShape;
 
+export const collapsibleID = 'auth';
+
 function Authentication({ authType }) {
   let authFields;
 
@@ -66,7 +66,7 @@ function Authentication({ authType }) {
   return (
     <Collapsible
       title="Authentication"
-      id={authCollapsibleID}
+      id={collapsibleID}
     >
       <Field
         name="type"

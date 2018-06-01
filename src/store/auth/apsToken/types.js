@@ -1,4 +1,5 @@
-export const BROWSER_DATA_RECEIVED = 'auth/apsToken/BROWSER_TOKEN_RECEIVED';
+export const INIT_FROM_HASH = 'auth/apsToken/INIT_FROM_HASH';
+export const TOKEN_FROM_HASH = 'auth/apsToken/TOKEN_FROM_HASH';
 export const SET_AUTO_REFRESH = 'auth/apsToken/SET_AUTO_REFRESH';
 export const TOKEN_CHANGED = 'auth/apsToken/TOKEN_CHANGED';
 export const SET_TOKEN_EXPIRED = 'auth/apsToken/SET_TOKEN_EXPIRED';

@@ -1,19 +1,11 @@
 import Immutable from 'immutable';
-import UUID from 'uuid-js';
+import { requestID } from 'utils/request';
 
 // Checks whether the collection name is taken
 function isUnique(name, collections) {
   return collections.every(item => (
     item.name.trim() !== name.trim()
   ));
-}
-
-function createId() {
-  if (process.env.NODE_ENV === 'test') {
-    return 'test-id';
-  }
-
-  return UUID.create().toString();
 }
 
 /**
@@ -31,7 +23,7 @@ export default function newCollection(collections, requests = []) {
 
   return Immutable.fromJS({
     name,
-    id: createId(),
+    id: requestID(),
     minimized: false,
     requests,
   });

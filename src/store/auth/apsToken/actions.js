@@ -1,10 +1,15 @@
 import {
+  INIT_FROM_HASH,
   SET_AUTO_REFRESH,
   TOKEN_CHANGED,
   SET_TOKEN_EXPIRED,
   TOKEN_REFRESH_REQUESTED,
   COPY_CURL,
 } from './types';
+
+export function initFromURLHash(hashObject) {
+  return { type: INIT_FROM_HASH, hashObject };
+}
 
 export function setAutoRefresh(autoRefresh) {
   return { type: SET_AUTO_REFRESH, autoRefresh: Boolean(autoRefresh) };

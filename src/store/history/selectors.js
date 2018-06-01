@@ -7,4 +7,3 @@ export const getHistory = createSelector(
   [historyFilter],
   history => history.get('data'),
 );
-

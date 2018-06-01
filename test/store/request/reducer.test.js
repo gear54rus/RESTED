@@ -18,6 +18,7 @@ describe('reducer', () => {
       redirectChain: [],
       lastRequestTime: null,
       loading: false,
+      selected: null,
     });
   });
 
@@ -35,6 +36,7 @@ describe('reducer', () => {
       redirectChain: [],
       lastRequestTime: 1482363367071,
       loading: true,
+      selected: null,
     });
   });
 
@@ -52,6 +54,7 @@ describe('reducer', () => {
       redirectChain: [],
       lastRequestTime: null,
       loading: false,
+      selected: null,
     });
   });
 
@@ -69,6 +72,7 @@ describe('reducer', () => {
       redirectChain: [],
       lastRequestTime: null,
       loading: false,
+      selected: null,
     });
   });
 
@@ -86,6 +90,7 @@ describe('reducer', () => {
       redirectChain: [response],
       lastRequestTime: 1482363367071, // Date.now mock
       loading: false,
+      selected: null,
     });
   });
 
@@ -102,6 +107,7 @@ describe('reducer', () => {
       redirectChain: [],
       lastRequestTime: null,
       loading: false,
+      selected: null,
     });
   });
 
@@ -122,6 +128,7 @@ describe('reducer', () => {
       lastRequestTime: null,
       loading: false,
       error,
+      selected: null,
     });
   });
 });

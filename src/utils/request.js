@@ -99,7 +99,8 @@ export function formDataToFormString(formData) {
   const result = formData
     .filter(item => item && item.name)
     .reduce((prev, item, i) => (
-      `${prev}${i !== 0 ? '&' : ''}${fixedEncodeURIComponent(item.name)}=${item.value ? fixedEncodeURIComponent(item.value) : ''}`
+      `${prev}${i !== 0 ? '&' : ''}` +
+      `${fixedEncodeURIComponent(item.name)}=${item.value ? fixedEncodeURIComponent(item.value) : ''}`
     ), '');
 
   return result.replace(/%20/g, '+');
@@ -124,6 +125,59 @@ export function headersToHeaderString(headers) {
   return `${result}\n`;
 }
 
+export function setLocationHash(value, replace) {
+  const normalized = value || '';
+  const { location, history, URL } = window;
+  const { pushState, replaceState } = history;
+  const url = new URL(location);
+
+  if (normalized === url.hash.slice(1)) {
+    return;
+  }
+
+  url.hash = normalized;
+  (replace ? replaceState : pushState).call(history, null, '', url.toString());
+}
+
 export function focusUrlField() {
   document.querySelector('input[type="text"][name="url"]').focus();
+}
+
+export function isRequestID(string) {
+  return /^[a-z0-9]{8}$/i.test(string);
+}
+
+function enumRange(start, end) {
+  const result = [];
+
+  for (
+    let i = String(start).charCodeAt(0);
+    i <= String(end).charCodeAt(0);
+    i += 1
+  ) {
+    result.push(String.fromCharCode(i));
+  }
+
+  return result;
+}
+
+export function requestID() {
+  if (process.env.NODE_ENV === 'test') {
+    return 'tstREQID';
+  }
+
+  const range = enumRange('0', '9').concat(
+    enumRange('a', 'z'),
+    enumRange('A', 'Z'),
+  );
+
+  const result = [];
+
+  for (let i = 0; i < 8; i += 1) {
+    result.push(
+      range[Math.floor(Math.random() * range.length)],
+    );
+  }
+
+  return result.join('');
 }

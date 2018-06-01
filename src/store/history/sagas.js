@@ -2,7 +2,11 @@ import Immutable from 'immutable';
 import localforage from 'localforage';
 import { select, put, call, takeEvery } from 'redux-saga/effects';
 
+import { selectRequest } from 'store/request/actions';
+import { getSelected } from 'store/request/selectors';
 import { getHistorySize } from 'store/options/selectors';
+import { isRequestID, requestID } from 'utils/request';
+
 import {
   FETCH_REQUESTED,
   PUSH_REQUESTED,
@@ -22,32 +26,39 @@ function* updateLocalStorage() {
   yield call(localforage.setItem, 'history', history);
 }
 
-function* fetchHistorySaga() {
+export function* fetchHistorySaga() {
   yield put({ type: FETCH_HISTORY });
-  let history = yield call(localforage.getItem, 'history');
+  let history = yield call(localforage.getItem, 'history') || [];
 
-  // v1 -> v2 migration
-  if (history && history.length && history[0].requests) {
-    history = history[0].requests;
-  }
+  const update = history.some(request => {
+    // Migrate to short IDs
+    if (!isRequestID(request.id)) {
+      request.id = requestID();
 
-  history = Immutable.fromJS(history) || Immutable.List();
+      return true;
+    }
+
+    return false;
+  });
+
+  history = Immutable.fromJS(history);
   yield put({ type: RECEIVE_HISTORY, history });
+
+  if (update) {
+    yield call(updateLocalStorage);
+  }
 }
 
 function* pushHistorySaga({ request }) {
   // Ensure history is loaded before fetching
   yield call(fetchHistorySaga);
-  const lastRequest = (yield select(getHistory)).first();
-
-  // Do not add the same request if sent several times
-  if (lastRequest
-  && lastRequest.get('url') === request.get('url')
-  && lastRequest.get('method') === request.get('method')) {
+  // Request was not edited, so it already is stored somewhere
+  if (yield select(getSelected)) {
     return;
   }
 
   yield put({ type: PUSH_HISTORY, request });
+  yield put(selectRequest(request.get('id'), true));
   const historySize = yield select(getHistorySize);
   yield put({ type: PRUNE_HISTORY, historySize });
   yield call(updateLocalStorage);

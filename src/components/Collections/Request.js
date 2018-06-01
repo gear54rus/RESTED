@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { DragSource, DropTarget } from 'react-dnd';
-import { ListGroup } from 'react-bootstrap';
+import { ListGroup, OverlayTrigger, Tooltip, Badge } from 'react-bootstrap';
 import flow from 'lodash.flow';
 
 import IconButton from 'components/IconButton';
@@ -11,6 +11,7 @@ import * as RequestActions from 'store/request/actions';
 import * as ConfigActions from 'store/config/actions';
 import { isDefaultCompact } from 'store/options/selectors';
 import { getEditingRequest } from 'store/config/selectors';
+import { getSelected } from 'store/request/selectors';
 import selectText from 'utils/selectText';
 
 import { StyledRequest, RequestButtons, MainContentDiv } from './StyledComponents';
@@ -86,21 +87,22 @@ class Request extends React.Component {
       method: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
     }).isRequired,
+    selected: PropTypes.string,
   };
 
   state = {
     compact: this.props.defaultCompact,
   };
 
-  toggleCompact = () => {
+  toggleCompact() {
     this.setState({ compact: !this.state.compact });
   }
 
-  toggleEdit = () => {
+  toggleEdit() {
     this.props.toggleEditMode(this.props.request);
   }
 
-  renameRequest = e => {
+  renameRequest(e) {
     const { collectionIndex, index, renameRequest } = this.props;
     e.preventDefault();
 
@@ -111,13 +113,35 @@ class Request extends React.Component {
   renderRequest() {
     const { compact } = this.state;
     const { request, index, collectionIndex, isEditing } = this.props;
-    const { method, name, url } = request;
+    const { id, method, name, url } = request;
 
     return (
       <div>
-        {!compact && <h4>{method}</h4>}
+        {!compact && (
+          <h4>
+            {method}
+            {!compact && (
+              <div className="pull-right">
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={(
+                    <Tooltip id="history-request-id-why">
+                      Selecting this collection item will set URL hash to this ID.
+                      That means you can create bookmarks and use browser history
+                      to access any request in history quickly.
+                    </Tooltip>
+                  )}
+                >
+                  <Badge>
+                    {id}
+                  </Badge>
+                </OverlayTrigger>
+              </div>
+            )}
+          </h4>
+        )}
         {isEditing ? (
-          <form onSubmit={this.renameRequest}>
+          <form onSubmit={e => this.renameRequest(e)}>
             <label
               className="sr-only"
               htmlFor={`${collectionIndex}.${index}.RequestName`}
@@ -152,6 +176,7 @@ class Request extends React.Component {
       request,
       collectionIndex,
       selectRequest,
+      selected,
       sendRequest,
       deleteRequest,
       isEditing,
@@ -161,20 +186,24 @@ class Request extends React.Component {
       <div>{/* Need a wrapper div for React DnD support */}
         <StyledRequest isDragging={isDragging}>
           <ListGroup componentClass="div">
-            <div className="list-group-item">
+            <div
+              className={
+                `list-group-item ${(request.id === selected) ? 'active' : ''}`
+              }
+            >
               <RequestButtons compact={compact}>
                 {!compact && (
                   <IconButton
                     tooltip="Toggle edit"
                     icon="pencil-alt"
-                    onClick={this.toggleEdit}
+                    onClick={() => this.toggleEdit()}
                   />
                 )}
                 {compact && (
                   <IconButton
                     tooltip="Expand"
                     icon="plus"
-                    onClick={this.toggleCompact}
+                    onClick={() => this.toggleCompact()}
                   />
                 )}
 
@@ -182,7 +211,7 @@ class Request extends React.Component {
                   <IconButton
                     tooltip="Minimize"
                     icon="minus"
-                    onClick={this.toggleCompact}
+                    onClick={() => this.toggleCompact()}
                   />
                 )}
                 {!compact && isEditing && (
@@ -201,7 +230,7 @@ class Request extends React.Component {
               ) : (
                 <MainContentDiv
                   compact={compact}
-                  onClick={() => selectRequest(request)}
+                  onClick={() => selectRequest(request.id)}
                   onDoubleClick={() => sendRequest(request)}
                 >
                   {this.renderRequest()}
@@ -220,6 +249,7 @@ const mapStateToProps = (state, props) => ({
     ? getEditingRequest(state).id === props.request.id
     : false,
   defaultCompact: isDefaultCompact(state),
+  selected: getSelected(state),
 });
 
 export default flow(

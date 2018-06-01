@@ -6,8 +6,8 @@ import {
   PUSH_REDIRECT_CHAIN,
   CLEAR_RESPONSE,
   CHANGE_BODY_TYPE,
-  SELECT_REQUESTED,
   COPY_CURL,
+  FIND_SELECT_REQUEST,
 } from './types';
 
 export function executeRequest() {
@@ -34,14 +34,14 @@ export function changeBodyType(bodyType) {
   return { type: CHANGE_BODY_TYPE, bodyType };
 }
 
-export function selectRequest(request) {
-  return { type: SELECT_REQUESTED, request };
-}
-
 export function sendRequest(request) {
   return { type: SEND_REQUEST, request };
 }
 
 export function copyCurl() {
   return { type: COPY_CURL };
+}
+
+export function selectRequest(id, noFormInit) {
+  return { type: FIND_SELECT_REQUEST, id, noFormInit };
 }

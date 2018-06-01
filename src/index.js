@@ -2,9 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import localforage from 'localforage';
+
 import localDriver from 'localforage-webextensionstorage-driver/local';
 import syncDriver from 'localforage-webextensionstorage-driver/sync';
 import { initializeInterceptors } from 'utils/requestInterceptors';
+import { initializeHashChangeListener } from 'store/options/sagas';
 
 const env = process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
 
@@ -29,6 +31,7 @@ Promise.all([
   .then(() => {
     const store = configureStore.default();
     initializeInterceptors(store);
+    initializeHashChangeListener(store);
 
     ReactDOM.render(
       <Provider store={store}>

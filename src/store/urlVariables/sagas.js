@@ -23,11 +23,6 @@ function* fetchUrlVariablesSaga() {
   yield put(startFetch());
   let urlVariables = yield call(localforage.getItem, 'urlVariables');
 
-  // v1 -> v2 migration
-  if (urlVariables && urlVariables.length && urlVariables[0].variables) {
-    urlVariables = urlVariables[0].variables;
-  }
-
   urlVariables = Immutable.fromJS(urlVariables) || Immutable.List();
   yield put(receiveUrlVariables(urlVariables));
 }

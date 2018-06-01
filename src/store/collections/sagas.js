@@ -5,6 +5,9 @@ import { select, put, call, takeEvery } from 'redux-saga/effects';
 import getRequestIndexes from 'utils/getRequestIndexes';
 import { TOGGLE_EDIT } from 'store/config/types';
 import { toggleEditSaga } from 'store/config/sagas';
+import { getMethod, getUrl } from 'store/request/sagas';
+import { isRequestID, requestID } from 'utils/request';
+
 import {
   FETCH_REQUESTED,
   ADD_COLLECTION,
@@ -36,13 +39,36 @@ export function* updateLocalStorage() {
   yield call(localforage.setItem, 'collections', collections);
 }
 
-function* fetchCollectionsSaga() {
+export function* fetchCollectionsSaga() {
   yield put(startFetch());
+  let collections = yield call(localforage.getItem, 'collections') || [];
 
-  let collections = yield call(localforage.getItem, 'collections');
+  const update = collections.some(collection => {
+    let updateCollection = false;
+
+    if (!isRequestID(collection.id)) {
+      collection.id = requestID(); // eslint-disable-line no-param-reassign
+      updateCollection = true;
+    }
+
+    return collection.requests.some(request => {
+      // Migrate to short IDs
+      if (!isRequestID(request.id)) {
+        request.id = requestID();
+
+        return true;
+      }
+
+      return false;
+    }) || updateCollection; // in this order or the second part does not run
+  });
+
   collections = Immutable.fromJS(collections) || Immutable.List();
-
   yield put(receiveCollections(collections));
+
+  if (update) {
+    yield call(updateLocalStorage);
+  }
 }
 
 function* addCollectionSaga({ requests }) {
@@ -67,7 +93,17 @@ function* toggleCollapsedSaga({ collectionIndex }) {
 }
 
 function* addRequestSaga({ request, collectionIndex }) {
-  yield put({ type: ADD_REQUEST, request, collectionIndex });
+  const normalized = Immutable.fromJS(request)
+    .set('method', yield call(getMethod, request))
+    .set('url', yield call(getUrl, request))
+    .set('id', requestID());
+
+  yield put({
+    type: ADD_REQUEST,
+    request: normalized,
+    collectionIndex,
+  });
+
   yield call(updateLocalStorage);
 }
 

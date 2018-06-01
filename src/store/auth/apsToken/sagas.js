@@ -1,5 +1,5 @@
 import { change } from 'redux-form';
-import { call, apply, put, select, takeLatest } from 'redux-saga/effects';
+import { call, apply, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import clipboard from 'clipboard-polyfill';
 
 import { authCollapsibleID } from 'components/Authentication';
@@ -7,15 +7,16 @@ import { expand } from 'store/config/actions';
 import { requestForm } from 'components/Request';
 import { getRequest } from 'store/request/selectors';
 import { getUrl } from 'store/request/sagas';
-import { APS_TOKEN_HEADER } from 'constants/constants';
-import { prependHttp } from 'utils/request';
+import { APS_TOKEN_HEADER, OA_CP_TYPES } from 'constants/constants';
+import { setLocationHash, prependHttp } from 'utils/request';
 import { tokenTypes, oaAPIURL } from 'utils/aps';
 import fetchToCurl from 'utils/fetchToCurl';
 import { basicAuthTransform } from 'store/auth/sagas';
 
 import { getAutoRefresh, getTokenExpired } from './selectors';
 import {
-  BROWSER_DATA_RECEIVED,
+  INIT_FROM_HASH,
+  TOKEN_FROM_HASH,
   TOKEN_REFRESH_REQUESTED,
   TOKEN_REFRESH_START,
   TOKEN_REFRESH_ERROR,
@@ -23,10 +24,67 @@ import {
   COPY_CURL,
 } from './types';
 
-function* fillTokenFromBrowser({ form }) {
-  yield put(change(requestForm, 'url', form.url));
-  yield put(change(requestForm, 'auth', form.auth));
-  yield put(expand(authCollapsibleID));
+function* fillTokenFromBrowser({ hashObject }) {
+  setLocationHash(null);
+
+  try {
+    const {
+      page,
+      url,
+      data,
+    } = hashObject;
+
+    const { URL } = window;
+    const apsBusURL = new URL(new URL(url).origin);
+
+    apsBusURL.pathname = '/aps/2/resources/';
+
+    yield put(change(requestForm, 'url', apsBusURL.toString()));
+
+    const token = {};
+
+    switch (page) {
+      case OA_CP_TYPES.PCP:
+      case OA_CP_TYPES.CCP1:
+      case OA_CP_TYPES.CCP2:
+        token.type = 'account';
+        token.params = [data.accountID];
+
+        if ('subscriptionID' in data) {
+          token.params.push(data.subscriptionID);
+        }
+
+        break;
+
+      case OA_CP_TYPES.MYCP1:
+      case OA_CP_TYPES.MYCP2:
+        token.type = 'user';
+        token.params = [data.userID];
+
+        break;
+
+      default:
+    }
+
+    if ('apsToken' in data) {
+      yield put({
+        type: TOKEN_FROM_HASH,
+        token: {
+          value: data.apsToken.value,
+          time: data.apsToken.receivedAt,
+          url,
+          ...token,
+        },
+      });
+
+      token.value = data.apsToken.value;
+    }
+
+    yield put(change(requestForm, 'auth', { type: 'apsToken', apsToken: { token } }));
+    yield put(expand(authCollapsibleID));
+  } catch (_) {
+    // ignore any errors
+  }
 }
 
 function* changeAPIURL(url) {
@@ -197,7 +255,7 @@ export function* transform({ headers }, { auth: { apsToken } }) {
 }
 
 export default function* rootSaga() {
-  yield takeLatest(BROWSER_DATA_RECEIVED, fillTokenFromBrowser);
+  yield takeLatest(INIT_FROM_HASH, fillTokenFromBrowser);
   yield takeLatest(TOKEN_REFRESH_REQUESTED, tokenRefresh);
-  yield takeLatest(COPY_CURL, copyCurl);
+  yield takeEvery(COPY_CURL, copyCurl);
 }

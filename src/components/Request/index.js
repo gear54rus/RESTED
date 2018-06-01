@@ -69,6 +69,11 @@ Request.propTypes = {
 
 const formOptions = {
   form: requestForm,
+  onChange(_, dispatch, props) {
+    if (props.anyTouched) { // means that this is not an initialize() call
+      dispatch(requestActions.selectRequest(null));
+    }
+  },
 };
 
 const mapStateToProps = state => ({

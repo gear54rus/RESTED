@@ -4,7 +4,17 @@ import { change } from 'redux-form';
 import 'whatwg-fetch';
 
 import { requestForm } from 'components/Request';
-import { fetchData, createResource, changeBodyTypeSaga, getMethod, buildHeaders, addAuth, getParameters, getUrl, getBeforeTime, getMillisPassed } from 'store/request/sagas';
+import {
+  fetchData,
+  createResource,
+  changeBodyTypeSaga,
+  normalize,
+  addAuth,
+  getParameters,
+  getUrl,
+  getBeforeTime,
+  getMillisPassed,
+} from 'store/request/sagas';
 import { getIgnoreCache } from 'store/options/selectors';
 import { getPlaceholderUrl, getHeaders } from 'store/request/selectors';
 import { updateOption } from 'store/options/actions';
@@ -63,26 +73,19 @@ describe('fetchData saga', () => {
     }));
   });
 
-  it('should call getMethod to build get method', () => {
+  it('should call normalize to normalize the request', () => {
     expect(iterator.next(true).value).toEqual(
-      call(getMethod, mockRequest),
-    );
-  });
-
-  it('should call createResource to build a URL', () => {
-    expect(iterator.next('POST').value).toEqual(
-      call(createResource, mockRequest),
-    );
-  });
-
-  it('should call buildHeaders to prepare the header set', () => {
-    expect(iterator.next('foo').value).toEqual(
-      call(buildHeaders, mockRequest),
+      call(normalize, mockRequest),
     );
   });
 
   it('should select the ignoreCache option from the store', () => {
-    expect(iterator.next(mockHeaders).value).toEqual(
+    expect(iterator.next({
+      method: 'POST',
+      url: 'foo',
+      headers: mockHeaders,
+      body,
+    }).value).toEqual(
       select(getIgnoreCache),
     );
   });
@@ -99,7 +102,7 @@ describe('fetchData saga', () => {
         pushHistory(
           Immutable.fromJS(mockRequest)
             .set('url', 'foo')
-            .set('id', 'test-UUID'),
+            .set('id', 'tstREQID'),
         ),
       ),
     );

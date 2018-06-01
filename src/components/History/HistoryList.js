@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
-import { Label, ListGroup } from 'react-bootstrap';
+import { Badge, Tooltip, OverlayTrigger, ListGroup } from 'react-bootstrap';
 
 import { immutableRequestShape } from 'propTypes/request';
 import IconButton from 'components/IconButton';
 import { getHistory } from 'store/history/selectors';
+import { getSelected } from 'store/request/selectors';
 import * as Actions from 'store/history/actions';
 import { selectRequest as selectRequestAction } from 'store/request/actions';
 
@@ -18,8 +19,21 @@ function ListGroupHeader({ index, request, removeFromHistory }) {
       {request.get('method')}
       <div
         className="pull-right"
-        id="removeRequest"
       >
+        <OverlayTrigger
+          placement="bottom"
+          overlay={(
+            <Tooltip id="history-request-id-why">
+              Selecting this history item will set URL hash to this ID.
+              That means you can create bookmarks and use browser history
+              to access any request in history quickly.
+            </Tooltip>
+          )}
+        >
+          <Badge>
+            {request.get('id')}
+          </Badge>
+        </OverlayTrigger>
         <IconButton
           tooltip="Remove from history"
           icon="trash"
@@ -45,15 +59,23 @@ class HistoryList extends React.Component {
   }
 
   render() {
-    const { history, removeFromHistory, selectRequest } = this.props;
+    const {
+      history,
+      removeFromHistory,
+      selectRequest,
+      selected,
+    } = this.props;
+
     return (
       <List>
         {history.map((request, index) => (
           <li key={index}>
             <ListGroup componentClass="ul">
               <ListGroupItem
-                className="list-group-item"
-                onClick={() => selectRequest(request.toJS())}
+                className={
+                  `list-group-item ${(request.get('id') === selected) ? 'active' : ''}`
+                }
+                onClick={() => selectRequest(request.get('id'))}
               >
                 <ListGroupHeader
                   request={request}
@@ -78,12 +100,14 @@ class HistoryList extends React.Component {
 HistoryList.propTypes = {
   history: ImmutablePropTypes.listOf(immutableRequestShape).isRequired,
   selectRequest: PropTypes.func.isRequired,
+  selected: PropTypes.string,
   fetchHistory: PropTypes.func.isRequired,
   removeFromHistory: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   history: getHistory(state),
+  selected: getSelected(state),
 });
 
 export default connect(mapStateToProps, {

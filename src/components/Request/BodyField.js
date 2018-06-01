@@ -161,9 +161,11 @@ function renderDataField(type) {
   }
 }
 
+export const collapsibleID = 'requestBody';
+
 export function BodyField({ bodyType, changeBodyType }) {
   return (
-    <Collapsible title="Request body" id="requestBody">
+    <Collapsible title="Request body" id={collapsibleID}>
       <Field
         name="bodyType"
         component={renderBodyType}
