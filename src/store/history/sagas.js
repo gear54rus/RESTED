@@ -28,7 +28,7 @@ function* updateLocalStorage() {
 
 export function* fetchHistorySaga() {
   yield put({ type: FETCH_HISTORY });
-  let history = yield call(localforage.getItem, 'history') || [];
+  let history = (yield call(localforage.getItem, 'history')) || [];
 
   const update = history.some(request => {
     // Migrate to short IDs

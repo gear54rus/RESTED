@@ -41,7 +41,7 @@ export function* updateLocalStorage() {
 
 export function* fetchCollectionsSaga() {
   yield put(startFetch());
-  let collections = yield call(localforage.getItem, 'collections') || [];
+  let collections = (yield call(localforage.getItem, 'collections')) || [];
 
   const update = collections.some(collection => {
     let updateCollection = false;
