@@ -156,13 +156,13 @@ tokenTypes.user = {
       <value>
         <struct>
           <member>
-            <name>subscription_id</name>
+            <name>user_id</name>
             <value>
               <i4>${userID}</i4>
             </value>
           </member>${subscriptionID ? `
           <member>
-            <name>user_id</name>
+            <name>subscription_id</name>
             <value>
               <i4>${subscriptionID}</i4>
             </value>
