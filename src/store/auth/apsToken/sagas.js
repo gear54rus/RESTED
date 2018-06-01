@@ -2,7 +2,7 @@ import { change } from 'redux-form';
 import { call, apply, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import clipboard from 'clipboard-polyfill';
 
-import { authCollapsibleID } from 'components/Authentication';
+import { collapsibleID as authCollapsibleID } from 'components/Authentication';
 import { expand } from 'store/config/actions';
 import { requestForm } from 'components/Request';
 import { getRequest } from 'store/request/selectors';
