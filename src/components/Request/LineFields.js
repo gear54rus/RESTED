@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Col, FormGroup, Button, FormControl, InputGroup, MenuItem } from 'react-bootstrap';
+import { Col, FormGroup, Button, DropdownButton, FormControl, InputGroup, MenuItem } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 
 import { REQUEST_METHODS } from 'constants/constants';
 import { fieldNoDragShape } from 'propTypes/field';
 import { isEditMode } from 'store/config/selectors';
 import * as actions from 'store/request/actions';
-
-import { DropdownButtonLeft } from './StyledComponents';
 
 function LineFields({ method, url, placeholderUrl, copyCurl, editMode }) {
   const btnCaption = editMode ? 'Update request' : 'Send request';
@@ -42,8 +40,9 @@ function LineFields({ method, url, placeholderUrl, copyCurl, editMode }) {
             >
               {btnCaption}
             </Button>
-            <DropdownButtonLeft
+            <DropdownButton
               bsStyle={btnStyle}
+              pullRight
               title=""
               id="request-copy-curl"
             >
@@ -53,7 +52,7 @@ function LineFields({ method, url, placeholderUrl, copyCurl, editMode }) {
               >
                 Copy cURL
               </MenuItem>
-            </DropdownButtonLeft>
+            </DropdownButton>
           </InputGroup.Button>
         </InputGroup>
       </Col>

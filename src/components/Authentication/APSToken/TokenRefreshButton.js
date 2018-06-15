@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, MenuItem } from 'react-bootstrap';
+import { Button, MenuItem, DropdownButton } from 'react-bootstrap';
 
 import * as actions from 'store/auth/apsToken/actions';
 import { getAutoRefresh, getTokenExpired, isLoading } from 'store/auth/apsToken/selectors';
 
-import { ButtonGroupNB, LoadingSpinner, DropdownButtonLeft } from './StyledComponents';
+import { ButtonGroupNB, LoadingSpinner } from './StyledComponents';
 
 function TokenRefreshButton({ loading, autoRefresh, tokenExpired, refreshToken, copyCurl }) {
   const btnStyle = (tokenExpired && autoRefresh) ? 'warning' : 'primary';
@@ -28,14 +28,15 @@ function TokenRefreshButton({ loading, autoRefresh, tokenExpired, refreshToken, 
           </span>
         )}
       </Button>
-      <DropdownButtonLeft
+      <DropdownButton
         bsStyle={btnStyle}
+        pullRight
         title=""
         id="aps-token-copy-curl"
         onClick={copyCurl}
       >
         <MenuItem eventKey="1">Copy cURL</MenuItem>
-      </DropdownButtonLeft>
+      </DropdownButton>
     </ButtonGroupNB>
   );
 }
