@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Badge } from 'react-bootstrap';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
-import { getFormValues, isInvalid, isPristine, touch } from 'redux-form';
+import { getFormValues } from 'redux-form';
 
 import { immutableCollectionShape } from 'propTypes/collection';
 import IconButton from 'components/IconButton';
@@ -31,8 +31,6 @@ function Titlebar(props) {
   const {
     collections,
     removeModal,
-    formPristine,
-    formInvalid,
     collectionsMinimized,
     isEditing,
     editingRequest,
@@ -52,21 +50,6 @@ function Titlebar(props) {
       </h2>
       <IconButton
         onClick={() => {
-          if (formPristine || formInvalid) {
-            /* eslint-disable */
-            // Debugging for #98
-            console.log(
-              'Not adding request because ' +
-              `formPristine=${formPristine} || formInvalid=${formInvalid}`,
-              props,
-            );
-            /* eslint-enable */
-
-            // Set URL as touched to give feedback to user
-            props.touch('request', 'url');
-            return;
-          }
-
           switch (collections.size) {
             case 0:
               props.addCollection();
@@ -105,28 +88,24 @@ function Titlebar(props) {
 Titlebar.propTypes = {
   collections: ImmutablePropTypes.listOf(immutableCollectionShape),
   removeModal: PropTypes.func.isRequired,
-  formPristine: PropTypes.bool.isRequired,
-  formInvalid: PropTypes.bool.isRequired,
   collectionsMinimized: PropTypes.bool,
   isEditing: PropTypes.bool.isRequired,
   editingRequest: PropTypes.shape({
     name: PropTypes.string,
   }),
   selected: PropTypes.string,
-  /* eslint-disable react/no-unused-prop-types */
-  touch: PropTypes.func.isRequired,
   addCollection: PropTypes.func.isRequired,
+  /* eslint-disable react/no-unused-prop-types */
   request: PropTypes.shape({
     url: PropTypes.string,
   }).isRequired,
   addRequest: PropTypes.func.isRequired,
   setModalData: PropTypes.func.isRequired,
+  /* eslint-enable react/no-unused-prop-types */
 };
 
 const mapStateToProps = state => ({
   request: getFormValues('request')(state),
-  formPristine: isPristine('request')(state),
-  formInvalid: isInvalid('request')(state),
   collections: getCollections(state),
   collectionsMinimized: getCollectionsMinimized(state),
   isEditing: isEditMode(state),
@@ -138,6 +117,5 @@ export default connect(mapStateToProps, {
   ...collectionsActions,
   ...modalActions,
   ...optionsActions,
-  touch,
 })(Titlebar);
 

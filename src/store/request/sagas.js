@@ -277,7 +277,7 @@ function* findSelectRequest({ id, noFormInit }) {
 
         const { method, headers, auth, formData, data } = found;
 
-        if (headers.find(header => (header.name || header.value))) {
+        if (headers.some(header => (header.name || header.value))) {
           yield put(expand(headersCollapsibleID));
         }
 

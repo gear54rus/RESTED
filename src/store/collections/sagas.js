@@ -5,6 +5,7 @@ import { select, put, call, takeEvery } from 'redux-saga/effects';
 import getRequestIndexes from 'utils/getRequestIndexes';
 import { TOGGLE_EDIT } from 'store/config/types';
 import { toggleEditSaga } from 'store/config/sagas';
+import { selectRequest } from 'store/request/actions';
 import { getMethod, getUrl } from 'store/request/sagas';
 import { isRequestID, requestID } from 'utils/request';
 
@@ -93,10 +94,11 @@ function* toggleCollapsedSaga({ collectionIndex }) {
 }
 
 function* addRequestSaga({ request, collectionIndex }) {
+  const id = requestID();
   const normalized = Immutable.fromJS(request)
     .set('method', yield call(getMethod, request))
     .set('url', yield call(getUrl, request))
-    .set('id', requestID());
+    .set('id', id);
 
   yield put({
     type: ADD_REQUEST,
@@ -104,6 +106,7 @@ function* addRequestSaga({ request, collectionIndex }) {
     collectionIndex,
   });
 
+  yield put(selectRequest(id, true));
   yield call(updateLocalStorage);
 }
 

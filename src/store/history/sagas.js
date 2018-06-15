@@ -52,6 +52,7 @@ export function* fetchHistorySaga() {
 function* pushHistorySaga({ request }) {
   // Ensure history is loaded before fetching
   yield call(fetchHistorySaga);
+
   // Request was not edited, so it already is stored somewhere
   if (yield select(getSelected)) {
     return;
